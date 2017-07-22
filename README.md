@@ -40,7 +40,7 @@ docker build -t izone/freecad:0.17 ./0.17/
 docker build -t izone/freecad:0.16 ./0.16/
 ```
 
-### NVIDIA VirtualGL
+### NVIDIA VirtualGL (https://github.com/NVIDIA/nvidia-docker)
 ##### Install nvidia-docker and nvidia-docker-plugin
 ```
 wget -P /tmp https://github.com/NVIDIA/nvidia-docker/releases/download/v1.0.1/nvidia-docker_1.0.1_amd64.tar.xz
