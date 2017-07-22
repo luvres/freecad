@@ -21,16 +21,9 @@ izone/freecad:0.16 freecad
 
 ##### Building
 ```
-
-
-docker build -t izone/freecad:0.16 ./0.16/
-
-### Runing
+git clone https://github.com/luvres/freecad.git
 ```
-docker run -ti --rm --name FreeCAD \
---net=host \
--e DISPLAY=unix$DISPLAY \
--v /tmp/.X11-unix \
--v $HOME/.Xauthority:/root/.Xauthority \
-izone/freecad:daily freecad-daily
+```
+docker build -t izone/freecad:0.17 ./0.17/
+docker build -t izone/freecad:0.16 ./0.16/
 ```
