@@ -63,6 +63,7 @@ izone/freecad:0.16 freecad
 
 
 ### Building
+##### Reference: (https://hub.docker.com/r/plumbee/nvidia-virtualgl/)
 -----
 ```
 docker build -t izone/freecad:nvidia ./nvidia/
