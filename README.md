@@ -1,5 +1,6 @@
 # FreeCAD with Netgen and Calculix
-## In Docker image for any Linux 
+## In Docker image for any Linux
+## NVIDIA Docker and VirtualGL
 -----
 ### FreeCAD 0.17
 ```
@@ -40,7 +41,7 @@ docker build -t izone/freecad:0.17 ./0.17/
 docker build -t izone/freecad:0.16 ./0.16/
 ```
 
-### NVIDIA VirtualGL (https://github.com/NVIDIA/nvidia-docker)
+### NVIDIA Docker (https://github.com/NVIDIA/nvidia-docker)
 -----
 ##### Install nvidia-docker and nvidia-docker-plugin
 ```
@@ -63,10 +64,7 @@ docker build -t izone/freecad:nvidia ./nvidia/
 
 ### FreeCAD 0.17
 ```
-nvidia-docker pull izone/freecad:0.17
-```
-```
-docker run -ti --rm --name FreeCAD \
+nvidia-docker run -ti --rm --name FreeCAD \
 --net=host \
 -e DISPLAY=unix$DISPLAY \
 -v /tmp/.X11-unix \
@@ -74,9 +72,6 @@ docker run -ti --rm --name FreeCAD \
 izone/freecad:0.17 freecad-daily
 ```
 ### FreeCAD 0.16
-```
-docker pull izone/freecad:0.16
-```
 ```
 nvidia-docker run -ti --rm --name FreeCAD \
 --net=host \
