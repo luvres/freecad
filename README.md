@@ -41,6 +41,7 @@ docker build -t izone/freecad:0.16 ./0.16/
 ```
 
 ### NVIDIA VirtualGL (https://github.com/NVIDIA/nvidia-docker)
+-----
 ##### Install nvidia-docker and nvidia-docker-plugin
 ```
 wget -P /tmp https://github.com/NVIDIA/nvidia-docker/releases/download/v1.0.1/nvidia-docker_1.0.1_amd64.tar.xz
@@ -60,3 +61,27 @@ nvidia-docker run --rm nvidia/cuda nvidia-smi
 docker build -t izone/freecad:nvidia ./nvidia/
 ```
 
+### FreeCAD 0.17
+```
+nvidia-docker pull izone/freecad:0.17
+```
+```
+docker run -ti --rm --name FreeCAD \
+--net=host \
+-e DISPLAY=unix$DISPLAY \
+-v /tmp/.X11-unix \
+-v $HOME/.Xauthority:/root/.Xauthority \
+izone/freecad:0.17 freecad-daily
+```
+### FreeCAD 0.16
+```
+docker pull izone/freecad:0.16
+```
+```
+nvidia-docker run -ti --rm --name FreeCAD \
+--net=host \
+-e DISPLAY=unix$DISPLAY \
+-v /tmp/.X11-unix \
+-v $HOME/.Xauthority:/root/.Xauthority \
+izone/freecad:0.16 freecad
+```
