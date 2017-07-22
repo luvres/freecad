@@ -1,5 +1,5 @@
 # FreeCAD with Netgen and Calculix
-## In Docker image Ubuntu Xenial for any Linux 
+## In Docker image for any Linux 
 -----
 ### FreeCAD 0.17
 ```
