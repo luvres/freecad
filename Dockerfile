@@ -1,4 +1,4 @@
-FROM virtualgl
+FROM izone/freecad:nvidia
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 RUN apt update \
