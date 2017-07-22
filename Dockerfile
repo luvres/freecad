@@ -1,4 +1,4 @@
-FROM ubuntu:xenial
+FROM ubuntu:zesty
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 RUN apt update \
