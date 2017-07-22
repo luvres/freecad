@@ -27,19 +27,6 @@ docker run -ti --rm --name FreeCAD \
 izone/freecad:0.16 freecad
 ```
 
-### Building
-```
-git clone https://github.com/luvres/freecad.git
-cd freecad
-```
-##### FreeCAD 0.17
-```
-docker build -t izone/freecad:0.17 ./0.17/
-```
-##### FreeCAD 0.16
-```
-docker build -t izone/freecad:0.16 ./0.16/
-```
 
 ### NVIDIA Docker (https://github.com/NVIDIA/nvidia-docker)
 -----
@@ -55,11 +42,6 @@ sudo -b nohup nvidia-docker-plugin > /tmp/nvidia-docker.log
 ##### Test nvidia-smi
 ```
 nvidia-docker run --rm nvidia/cuda nvidia-smi
-```
-
-### Building
-```
-docker build -t izone/freecad:nvidia ./nvidia/
 ```
 
 ### FreeCAD 0.17
@@ -79,4 +61,22 @@ nvidia-docker run -ti --rm --name FreeCAD \
 -v /tmp/.X11-unix \
 -v $HOME/.Xauthority:/root/.Xauthority \
 izone/freecad:0.16 freecad
+```
+
+
+### Building
+```
+docker build -t izone/freecad:nvidia ./nvidia/
+```
+```
+git clone https://github.com/luvres/freecad.git
+cd freecad
+```
+##### FreeCAD 0.17
+```
+docker build -t izone/freecad:0.17 ./0.17/
+```
+##### FreeCAD 0.16
+```
+docker build -t izone/freecad:0.16 ./0.16/
 ```
