@@ -22,6 +22,7 @@ izone/freecad:0.16 freecad
 ##### Building
 ```
 git clone https://github.com/luvres/freecad.git
+cd freecad
 ```
 ```
 docker build -t izone/freecad:0.17 ./0.17/
