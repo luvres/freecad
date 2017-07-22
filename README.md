@@ -54,3 +54,9 @@ sudo -b nohup nvidia-docker-plugin > /tmp/nvidia-docker.log
 ```
 nvidia-docker run --rm nvidia/cuda nvidia-smi
 ```
+
+### Building
+```
+docker build -t izone/freecad:nvidia ./nvidia/
+```
+
