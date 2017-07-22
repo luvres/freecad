@@ -1,4 +1,4 @@
-FROM ubuntu:xenial
+FROM ubuntu:trusty
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 RUN apt update \
