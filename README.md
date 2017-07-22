@@ -19,12 +19,16 @@ docker run -ti --rm --name FreeCAD \
 izone/freecad:0.16 freecad
 ```
 
-##### Building
+### Building
 ```
 git clone https://github.com/luvres/freecad.git
 cd freecad
 ```
+##### FreeCAD 0.17
 ```
 docker build -t izone/freecad:0.17 ./0.17/
+```
+##### FreeCAD 0.16
+```
 docker build -t izone/freecad:0.16 ./0.16/
 ```
