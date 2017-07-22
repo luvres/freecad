@@ -14,6 +14,9 @@ izone/freecad:0.17 freecad-daily
 ```
 ### FreeCAD 0.16
 ```
+docker pull izone/freecad:0.16
+```
+```
 docker run -ti --rm --name FreeCAD \
 --net=host \
 -e DISPLAY=unix$DISPLAY \
