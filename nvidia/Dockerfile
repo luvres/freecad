@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 
 ENV VIRTUALGL_VERSION 2.5.2
 

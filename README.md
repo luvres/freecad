@@ -2,8 +2,10 @@
 ## In Docker image for any Linux
 ## NVIDIA Docker and VirtualGL
 -----
-### FreeCAD 0.17
+### FreeCAD 0.17 (latest)
 ```
+docker pull izone/freecad
+
 docker pull izone/freecad:0.17
 ```
 ```
@@ -68,7 +70,7 @@ izone/freecad:0.16 freecad
 ```
 docker build -t izone/freecad:nvidia ./nvidia/
 
-docker build -t izone/freecad:nvidia-xenial ./nvidia/xenial/
+docker build -t izone/freecad:nvidia-trusty ./nvidia/trusty/
 ```
 ```
 git clone https://github.com/luvres/freecad.git
