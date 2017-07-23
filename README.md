@@ -19,7 +19,7 @@ docker run -ti --rm --name FreeCAD \
 -e DISPLAY=unix$DISPLAY \
 -v /tmp/.X11-unix \
 -v $HOME/.Xauthority:/root/.Xauthority \
-izone/freecad:0.16 freecad
+izone/freecad:stable freecad
 ```
 ```
 ```
@@ -38,7 +38,7 @@ docker run -ti --rm --name FreeCAD \
 -e DISPLAY=unix$DISPLAY \
 -v /tmp/.X11-unix \
 -v $HOME/.Xauthority:/root/.Xauthority \
-izone/freecad:0.17 freecad-daily
+izone/freecad:daily freecad-daily
 ```
 ```
 ```
