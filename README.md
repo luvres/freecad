@@ -76,9 +76,11 @@ docker build -t izone/freecad:nvidia-trusty ./nvidia/trusty/
 git clone https://github.com/luvres/freecad.git
 cd freecad
 ```
-##### FreeCAD 0.17
+##### FreeCAD latest (0.17)
 ```
-docker build -t izone/freecad:0.17 ./0.17/
+docker build -t izone/freecad .
+
+docker build -t izone/freecad:0.17 .
 ```
 ##### FreeCAD 0.16
 ```
