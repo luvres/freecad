@@ -1,4 +1,4 @@
-# FreeCAD with Netgen and Calculix
+## FreeCAD with Netgen and Calculix
 ## In Docker image for any Linux
 ## NVIDIA Docker and VirtualGL
 -----
@@ -35,7 +35,8 @@ izone/freecad:0.16 freecad
 ```
 
 
-### NVIDIA Docker (https://github.com/NVIDIA/nvidia-docker)
+### NVIDIA
+#### Docker (https://github.com/NVIDIA/nvidia-docker)
 -----
 ```
 # Install nvidia-docker and nvidia-docker-plugin
