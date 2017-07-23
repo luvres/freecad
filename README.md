@@ -4,14 +4,14 @@
 -----
 
 ### FreeCAD 0.17 (Daily)
-
 ##### Pull image
 ```
 docker pull izone/freecad:daily
 
 docker pull izone/freecad:0.17
 ```
-
+```
+```
 ##### Run
 ```
 docker run -ti --rm --name FreeCAD \
@@ -22,7 +22,10 @@ docker run -ti --rm --name FreeCAD \
 izone/freecad:0.17 freecad-daily
 ```
 
+```
+```
 ### FreeCAD 0.16 (Stable)
+##### Pull image
 ```
 docker pull izone/freecad
 
@@ -30,6 +33,7 @@ docker pull izone/freecad:stable
 
 docker pull izone/freecad:0.16
 ```
+##### Run
 ```
 docker run -ti --rm --name FreeCAD \
 --net=host \
