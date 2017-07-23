@@ -2,12 +2,17 @@
 ## In Docker image for any Linux
 ## NVIDIA Docker and VirtualGL
 -----
+
 ### FreeCAD 0.17 (Daily)
+
+##### Pull image
 ```
 docker pull izone/freecad:daily
 
 docker pull izone/freecad:0.17
 ```
+
+##### Run
 ```
 docker run -ti --rm --name FreeCAD \
 --net=host \
