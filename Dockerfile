@@ -50,13 +50,12 @@ RUN apt-get update \
     libvtk6-dev \
     libproj-dev
     
-RUN cd \
-    && git clone https://github.com/FreeCAD/FreeCAD.git \
-    && mkdir freecad-build && cd freecad-build \
-    && cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_FEM_NETGEN=ON ../FreeCAD \
-    && make -j$(grep "model name" /proc/cpuinfo | wc -l)
-    
-RUN ln -s $HOME/freecad-build/bin/FreeCAD /usr/bin/freecad-daily
+#RUN cd \
+#    && git clone https://github.com/FreeCAD/FreeCAD.git \
+#    && mkdir freecad-build && cd freecad-build \
+#    && cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_FEM_NETGEN=ON ../FreeCAD \
+#    && make -j$(grep "model name" /proc/cpuinfo | wc -l)
+#RUN ln -s $HOME/freecad-build/bin/FreeCAD /usr/bin/freecad-daily
 
 #RUN apt install -y gfortran xorg-dev wget cpio \
 #    && cd \
