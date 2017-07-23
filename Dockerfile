@@ -1,4 +1,4 @@
-FROM izone/freecad:nvidia
+FROM izone/freecad:nvidia-xenial
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 #RUN apt update \
@@ -8,47 +8,47 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 RUN apt-get update \
     && apt install -y \
     git \
+    build-essential \
     cmake \
-    doxygen \
-    libboost1.55-dev \
-    libboost-filesystem1.55-dev \
-    libboost-program-options1.55-dev \
-    libboost-python1.55-dev \
-    libboost-regex1.55-dev \
-    libboost-signals1.55-dev \
-    libboost-system1.55-dev \
-    libboost-thread1.55-dev \
-    libcoin80 \
+    python \
+    python-matplotlib \
+    libtool \
     libcoin80-dev \
-    liboce-foundation-dev \
-    liboce-modeling-dev \
-    liboce-ocaf-dev \
-    liboce-ocaf-lite-dev \
-    liboce-visualization-dev \
-    libpyside-dev \
-    libqtcore4 \
-    libshiboken-dev \
+    libsoqt4-dev \
     libxerces-c-dev \
-    libxmu-dev \
-    libxmu-headers \
-    libxmu6 \
-    libxmuu-dev \
-    libxmuu1 \
-    netgen-headers \
-    oce-draw \
-    pyside-tools \
+    libboost-dev \
+    libboost-filesystem-dev \
+    libboost-regex-dev \
+    libboost-program-options-dev \
+    libboost-signals-dev \
+    libboost-thread-dev \
+    libboost-python-dev \
+    libqt4-dev \
+    libqt4-opengl-dev \
+    qt4-dev-tools \
     python-dev \
     python-pyside \
-    python-matplotlib \
-    qt4-dev-tools \
-    qt4-qmake \
-    shiboken \
+    pyside-tools \
+    python-pivy \
+    liboce-modeling-dev \
+    liboce-visualization-dev \
+    liboce-foundation-dev \
+    liboce-ocaf-lite-dev \
+    liboce-ocaf-dev \
+    oce-draw \
+    libeigen3-dev \
+    libqtwebkit-dev \
+    libshiboken-dev \
+    libpyside-dev \
+    libode-dev \
     swig \
-    libvtk6-dev \
-    libmed-dev \
+    libzipios++-dev \
+    libfreetype6 \
+    libfreetype6-dev \
+    netgen-headers \
     libmedc-dev \
-    \
-    libeigen3-dev
+    libvtk6-dev \
+    libproj-dev
     
 RUN cd \
     && git clone https://github.com/FreeCAD/FreeCAD.git \
@@ -64,4 +64,5 @@ RUN apt install -y gfortran xorg-dev wget \
     && cd graphics/calculix-2.12/ \
     && ./install \
     && cp $HOME/CalculiX-2.12/bin/ccx_2.12 /usr/bin/ccx \
-    && cp $HOME/CalculiX-2.12/bin/cgx /usr/bin/cgx
+    && cp $HOME/CalculiX-2.12/bin/cgx /usr/bin/cgx \
+    && cd && rm CalculiX-2.12 graphics -fR

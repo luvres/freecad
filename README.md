@@ -67,6 +67,8 @@ izone/freecad:0.16 freecad
 -----
 ```
 docker build -t izone/freecad:nvidia ./nvidia/
+
+docker build -t izone/freecad:nvidia-xenial ./nvidia/xenial/
 ```
 ```
 git clone https://github.com/luvres/freecad.git
