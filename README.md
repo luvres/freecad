@@ -1,29 +1,9 @@
 ## FreeCAD with Netgen and Calculix
-## In Docker image for any Linux
-## NVIDIA Docker and VirtualGL
+### Docker image for any Linux
+### NVIDIA Docker and VirtualGL
 -----
 
-### FreeCAD 0.17 (Daily)
-##### Pull image
-```
-docker pull izone/freecad:daily
-docker pull izone/freecad:0.17
-```
-```
-```
-##### Run
-```
-docker run -ti --rm --name FreeCAD \
---net=host \
--e DISPLAY=unix$DISPLAY \
--v /tmp/.X11-unix \
--v $HOME/.Xauthority:/root/.Xauthority \
-izone/freecad:0.17 freecad-daily
-```
-
-```
-```
-### FreeCAD 0.16 (Stable)
+#### FreeCAD Stable (0.16)
 ##### Pull image
 ```
 docker pull izone/freecad
@@ -43,6 +23,25 @@ izone/freecad:0.16 freecad
 ```
 ```
 ```
+#### FreeCAD Daily (0.17)
+##### Pull image
+```
+docker pull izone/freecad:daily
+docker pull izone/freecad:0.17
+```
+```
+```
+##### Run
+```
+docker run -ti --rm --name FreeCAD \
+--net=host \
+-e DISPLAY=unix$DISPLAY \
+-v /tmp/.X11-unix \
+-v $HOME/.Xauthority:/root/.Xauthority \
+izone/freecad:0.17 freecad-daily
+```
+```
+```
 -----
 #### NVIDIA Docker (https://github.com/NVIDIA/nvidia-docker)
 ```
@@ -58,18 +57,7 @@ nvidia-docker run --rm nvidia/cuda nvidia-smi
 ```
 ```
 ```
-##### FreeCAD 0.17
-```
-nvidia-docker run -ti --rm --name FreeCAD \
---net=host \
--e DISPLAY=unix$DISPLAY \
--v /tmp/.X11-unix \
--v $HOME/.Xauthority:/root/.Xauthority \
-izone/freecad:0.17 freecad-daily
-```
-```
-```
-##### FreeCAD 0.16
+#### FreeCAD Stable (0.16)
 ```
 nvidia-docker run -ti --rm --name FreeCAD \
 --net=host \
@@ -78,6 +66,18 @@ nvidia-docker run -ti --rm --name FreeCAD \
 -v $HOME/.Xauthority:/root/.Xauthority \
 izone/freecad:0.16 freecad
 ```
+```
+```
+#### FreeCAD Daily (0.17)
+```
+nvidia-docker run -ti --rm --name FreeCAD \
+--net=host \
+-e DISPLAY=unix$DISPLAY \
+-v /tmp/.X11-unix \
+-v $HOME/.Xauthority:/root/.Xauthority \
+izone/freecad:0.17 freecad-daily
+```
+
 ```
 ```
 -----
@@ -93,14 +93,14 @@ docker build -t izone/freecad:nvidia-trusty ./nvidia/trusty/
 ```
 ```
 ```
-##### FreeCAD latest (0.17)
+#### FreeCAD Daily (0.17)
 ```
 docker build -t izone/freecad:daily ./0.17/
 docker build -t izone/freecad:0.17 ./0.17/
 ```
 ```
 ```
-##### FreeCAD 0.16
+#### FreeCAD Stable (0.16)
 ```
 docker build -t izone/freecad ./0.16/
 docker build -t izone/freecad:stable ./0.16/
