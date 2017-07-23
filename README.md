@@ -7,7 +7,6 @@
 ##### Pull image
 ```
 docker pull izone/freecad:daily
-
 docker pull izone/freecad:0.17
 ```
 ```
@@ -28,10 +27,10 @@ izone/freecad:0.17 freecad-daily
 ##### Pull image
 ```
 docker pull izone/freecad
-
 docker pull izone/freecad:stable
-
 docker pull izone/freecad:0.16
+```
+```
 ```
 ##### Run
 ```
@@ -57,7 +56,8 @@ sudo -b nohup nvidia-docker-plugin > /tmp/nvidia-docker.log
 # Test nvidia-smi
 nvidia-docker run --rm nvidia/cuda nvidia-smi
 ```
-
+```
+```
 ##### FreeCAD 0.17
 ```
 nvidia-docker run -ti --rm --name FreeCAD \
@@ -67,7 +67,8 @@ nvidia-docker run -ti --rm --name FreeCAD \
 -v $HOME/.Xauthority:/root/.Xauthority \
 izone/freecad:0.17 freecad-daily
 ```
-
+```
+```
 ##### FreeCAD 0.16
 ```
 nvidia-docker run -ti --rm --name FreeCAD \
@@ -80,27 +81,27 @@ izone/freecad:0.16 freecad
 
 -----
 ### Building
-##### Reference: (https://hub.docker.com/r/plumbee/nvidia-virtualgl/)
-```
-docker build -t izone/freecad:nvidia ./nvidia/
-
-docker build -t izone/freecad:nvidia-trusty ./nvidia/trusty/
-```
 ```
 git clone https://github.com/luvres/freecad.git
 cd freecad
 ```
+##### Reference: (https://hub.docker.com/r/plumbee/nvidia-virtualgl/)
+```
+docker build -t izone/freecad:nvidia ./nvidia/
+docker build -t izone/freecad:nvidia-trusty ./nvidia/trusty/
+```
+```
+```
 ##### FreeCAD latest (0.17)
 ```
 docker build -t izone/freecad:daily ./0.17/
-
 docker build -t izone/freecad:0.17 ./0.17/
+```
+```
 ```
 ##### FreeCAD 0.16
 ```
 docker build -t izone/freecad ./0.16/
-
 docker build -t izone/freecad:stable ./0.16/
-
 docker build -t izone/freecad:0.16 ./0.16/
 ```
