@@ -1,4 +1,5 @@
-## FreeCAD with Netgen and Calculix
+## FreeCAD
+### FEM Module with Netgen and Calculix
 ### Docker image for any Linux
 ### NVIDIA Docker and VirtualGL
 -----
