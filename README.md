@@ -81,12 +81,11 @@ izone/freecad:daily freecad-daily
 ```
 ```
 -----
-### Building
+#### Building (https://hub.docker.com/r/plumbee/nvidia-virtualgl/)
 ```
 git clone https://github.com/luvres/freecad.git
 cd freecad
 ```
-##### Reference: (https://hub.docker.com/r/plumbee/nvidia-virtualgl/)
 ```
 docker build -t izone/freecad:nvidia ./nvidia/
 docker build -t izone/freecad:nvidia-trusty ./nvidia/trusty/
