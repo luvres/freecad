@@ -15,4 +15,4 @@ RUN apt update \
           /usr/share/doc/* \
           usr/share/locale/* \
           usr/share/man/* \
-          usr/share/info/* -fR  
+          usr/share/info/* -fR
