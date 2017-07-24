@@ -87,6 +87,8 @@ git clone https://github.com/luvres/freecad.git
 cd freecad
 ```
 ```
+```
+```
 docker build -t izone/freecad:nvidia ./nvidia/
 docker build -t izone/freecad:nvidia-trusty ./nvidia/trusty/
 docker build -t izone/freecad:nvidia-sid ./nvidia/sid/
