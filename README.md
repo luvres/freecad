@@ -76,6 +76,17 @@ nvidia-docker run --rm nvidia/cuda nvidia-smi
 ```
 ```
 ```
+#### FreeCAD Latest (Build 0.17 Git)
+```
+nvidia-docker run -ti --rm --name FreeCAD \
+--net=host \
+-e DISPLAY=unix$DISPLAY \
+-v /tmp/.X11-unix \
+-v $HOME/.Xauthority:/root/.Xauthority \
+izone/freecad freecad-git
+```
+```
+```
 #### FreeCAD Stable (0.16)
 ```
 nvidia-docker run -ti --rm --name FreeCAD \
