@@ -8,7 +8,7 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 ENV FREECAD=/opt/local/FreeCAD-0.17
 RUN cd \
-    && mkdir $FREECAD \
+    && mkdir -p $FREECAD \
     && rm -rf build_FreeCAD \
     && mkdir build_FreeCAD \
     && cd build_FreeCAD \
