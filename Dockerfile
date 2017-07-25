@@ -69,3 +69,10 @@ RUN apt install -y gfortran xorg-dev wget cpio \
     && cp $HOME/CalculiX-2.12/bin/ccx_2.12 /usr/bin/ccx \
     && cp $HOME/CalculiX-2.12/bin/cgx /usr/bin/cgx \
     && cd && rm CalculiX-2.12 graphics -fR
+    
+RUN apt clean \
+    && rm /var/lib/apt/lists/* \
+          /usr/share/doc/* \
+          usr/share/locale/* \
+          usr/share/man/* \
+          usr/share/info/* -fR    
