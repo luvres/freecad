@@ -8,7 +8,7 @@ RUN apt update \
     && apt update \
     && apt install -y \
   \
-    freecad-daily \
+    freecad-daily gmsh \
   \
     && apt clean \
     && rm /var/lib/apt/lists/* \
