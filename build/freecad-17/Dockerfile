@@ -6,8 +6,9 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 # based on script for vagrant box from FreeCAD source, https://github.com/FreeCAD/FreeCAD/blob/master/vagrant/FreeCAD.sh
 # tested on Ubuntu Xenial = 16.04
 
-ENV FREECAD=FreeCAD-0.17
+ENV FREECAD=/opt/local/FreeCAD-0.17
 RUN cd \
+    && mkdir $FREECAD \
     && rm -rf build_FreeCAD \
     && mkdir build_FreeCAD \
     && cd build_FreeCAD \
@@ -70,7 +71,7 @@ RUN cd $base_dir \
   # building MED
     && mkdir build \
     && cd build \
-    && cmake ../libMED -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/$FREECAD \
+    && cmake ../libMED -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
     && make -j$(nproc) \
     && make install
 
@@ -87,7 +88,7 @@ RUN cd $base_dir \
     && cd build \
   \
     && cmake ../VTK-7.0.0 \
-            -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/$FREECAD \
+            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
             -DVTK_Group_Rendering:BOOL=OFF \
             -DVTK_Group_StandAlone:BOOL=ON \
             -DVTK_RENDERING_BACKEND=None \
@@ -116,7 +117,7 @@ RUN cd $base_dir \
   \
     && cmake \
         ../occt-89aebde \
-        -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/$FREECAD \
+        -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
         -DUSE_VTK:BOOL=OFF \
   \
     && make -j$(nproc) \
@@ -131,11 +132,11 @@ RUN cd $base_dir \
     && cd Netgen/netgen-5.3.1 \
   \
     && ./configure \
-            --prefix=/opt/local/$FREECAD \
+            --prefix=$FREECAD \
             --with-tcl=/usr/lib/tcl8.5 \
             --with-tk=/usr/lib/tk8.5 \
             --enable-occ \
-            --with-occ=/opt/local/$FREECAD \
+            --with-occ=$FREECAD \
             --enable-shared \
             --enable-nglib CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
    && make -j$(nproc)
@@ -143,7 +144,7 @@ RUN cd $base_dir \
 #    # copy libsrc, FreeCAD needs it
 #    && cd $base_dir \
 #    && cd netgen \
-#    && cp -rf Netgen/netgen-5.3.1/libsrc  /opt/local/$FREECAD/libsrc
+#    && cp -rf Netgen/netgen-5.3.1/libsrc  $FREECAD/libsrc
 
 
 
@@ -157,41 +158,41 @@ RUN cd $base_dir \
 #     && cd build
 # # with oce-dev installed, with netgen
 # RUN cmake ../FreeCAD  \
-#     -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/$FREECAD  \
+#     -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD  \
 #     -DBUILD_FEM_NETGEN=1  \
 #     -DCMAKE_CXX_FLAGS="-DNETGEN_V5"  \
-#     -DNETGEN_ROOT=/opt/local/$FREECAD  \
+#     -DNETGEN_ROOT=$FREECAD  \
 #     -DFREECAD_USE_OCC_VARIANT="Official Version"  \
-#     -DOCC_INCLUDE_DIR=/opt/local/$FREECAD/include/opencascade  \
-#     -DOCC_LIBRARY=/opt/local/$FREECAD/lib/libTKernel.so
+#     -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade  \
+#     -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so
 # RUN make 
 # RUN make install
 
 # start FreeCAD
-# /opt/local/$FREECAD/bin/FreeCAD
+# $FREECAD/bin/FreeCAD
 
 
 #----------------------------------#
 # # no oce-dev packages, no netgen
 # # cmake \
 #     ../FreeCAD \
-#     -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/$FREECAD \
-#     -DOCC_INCLUDE_DIR=/opt/local/$FREECAD/include/opencascade
+#     -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+#     -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade
 # 
 # # with oce-dev installed, no netgen
 # # cmake \
 #     ../FreeCAD \
-#     -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/$FREECAD \
+#     -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
 #     -DFREECAD_USE_OCC_VARIANT="Official Version" \
-#     -DOCC_INCLUDE_DIR=/opt/local/$FREECAD/include/opencascade \
-#     -DOCC_LIBRARY=/opt/local/$FREECAD/lib/libTKernel.so
+#     -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
+#     -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so
 # 
 # # no oce-dev packages, with netgen
 # # cmake \
 #     ../FreeCAD \
-#     -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/$FREECAD \
+#     -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
 #     -DBUILD_FEM_NETGEN=1 \
 #     -DCMAKE_CXX_FLAGS="-DNETGEN_V5" \
-#     -DNETGEN_ROOT=/opt/local/$FREECAD \
-#     -DOCC_INCLUDE_DIR=/opt/local/$FREECAD/include/opencascade
+#     -DNETGEN_ROOT=$FREECAD \
+#     -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade
 #----------------------------------#
