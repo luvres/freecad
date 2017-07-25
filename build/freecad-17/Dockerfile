@@ -61,7 +61,7 @@ RUN cd \
         tk8.5-dev \
         automake \
         # netgen
-        libtogl-dev libhdf5-dev libmedc-dev
+        libtogl-dev libhdf5-dev
 
 # get MED
 RUN cd \
