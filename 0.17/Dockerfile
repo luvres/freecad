@@ -13,6 +13,6 @@ RUN apt update \
     && apt clean \
     && rm /var/lib/apt/lists/* \
           /usr/share/doc/* \
-          usr/share/locale/* \
-          usr/share/man/* \
-          usr/share/info/* -fR
+          /usr/share/locale/* \
+          /usr/share/man/* \
+          /usr/share/info/* -fR

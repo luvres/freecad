@@ -59,7 +59,7 @@ RUN cd \
     && make install \
     && cd \
     && rm FreeCAD/ freecad-build/ -fR \
-    && ln -s /usr/local/bin/FreeCAD /usr/bin/freecad-daily
+    && ln -s /usr/local/bin/FreeCAD /usr/bin/freecad-git
 
 RUN apt-get install -y gfortran xorg-dev wget cpio \
     && cd \
@@ -73,6 +73,6 @@ RUN apt-get install -y gfortran xorg-dev wget cpio \
 RUN apt-get clean \
     && rm /var/lib/apt/lists/* \
           /usr/share/doc/* \
-          usr/share/locale/* \
-          usr/share/man/* \
-          usr/share/info/* -fR    
+          /usr/share/locale/* \
+          /usr/share/man/* \
+          /usr/share/info/* -fR    

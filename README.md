@@ -4,10 +4,28 @@
 ### NVIDIA Docker and VirtualGL
 -----
 
-#### FreeCAD Stable (0.16)
+#### FreeCAD Latest (Build 0.17 Git)
+#### Calculix 2.12
 ##### Pull image
 ```
 docker pull izone/freecad
+```
+```
+```
+##### Run
+```
+docker run -ti --rm --name FreeCAD \
+--net=host \
+-e DISPLAY=unix$DISPLAY \
+-v /tmp/.X11-unix \
+-v $HOME/.Xauthority:/root/.Xauthority \
+izone/freecad freecad-git
+```
+```
+```
+#### FreeCAD Stable (0.16)
+##### Pull image
+```
 docker pull izone/freecad:stable
 docker pull izone/freecad:0.16
 ```
@@ -95,6 +113,12 @@ docker build -t izone/freecad:nvidia-trusty ./nvidia/trusty/
 docker build -t izone/freecad:nvidia-sid ./nvidia/sid/
 docker build -t izone/freecad:nvidia-stretch ./nvidia/stretch/
 docker build -t izone/freecad:nvidia-jessie ./nvidia/jessie/
+```
+```
+```
+#### FreeCAD Latest (0.17 Git)
+```
+docker build -t izone/freecad .
 ```
 ```
 ```
