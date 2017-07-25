@@ -9,10 +9,10 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 ENV FREECAD=/opt/local/FreeCAD-0.17
 RUN cd \
     && mkdir -p $FREECAD \
-    && rm -rf build_FreeCAD \
-    && mkdir build_FreeCAD \
-    && cd build_FreeCAD \
-    && base_dir=`pwd` \
+#    && rm -rf build_FreeCAD
+#    && mkdir build_FreeCAD
+#    && cd build_FreeCAD
+#    && base_dir=`pwd`
     \
     && package_list=" doxygen \
                       libboost1.58-dev \
@@ -64,7 +64,8 @@ RUN cd \
         libtogl-dev libhdf5-dev
 
 # get MED
-RUN cd $base_dir \
+RUN cd \
+#    && cd $base_dir
     && mkdir med \
     && cd med \
     && git clone https://github.com/berndhahnebach/libMED.git \
@@ -76,7 +77,8 @@ RUN cd $base_dir \
     && make install
 
 # get VTK 7.0.0
-RUN cd $base_dir \
+RUN cd \
+#    && cd $base_dir
     && mkdir vtk \
     && cd vtk \
     && wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz \
@@ -97,7 +99,8 @@ RUN cd $base_dir \
     && make install
 
 # get OCCT 7.1.0
-RUN cd $base_dir \
+RUN cd \
+#    && cd $base_dir
     && mkdir occt \
     && cd occt \
 #   && wget "http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz" -O occt.tgz
@@ -124,7 +127,8 @@ RUN cd $base_dir \
     && make install
 
 # get Netgen 5.3.1
-RUN cd $base_dir \
+RUN cd \
+#    && cd $base_dir
     && mkdir netgen \
     && cd netgen \
     && git clone https://github.com/berndhahnebach/Netgen \
@@ -138,8 +142,8 @@ RUN cd $base_dir \
             --enable-occ \
             --with-occ=$FREECAD \
             --enable-shared \
-            --enable-nglib CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
-   && make -j$(nproc)
+            --enable-nglib CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11"
+#   && make -j$(nproc)
 #    && make install \
 #    # copy libsrc, FreeCAD needs it
 #    && cd $base_dir \
