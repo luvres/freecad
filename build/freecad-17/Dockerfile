@@ -6,8 +6,8 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 # based on script for vagrant box from FreeCAD source, https://github.com/FreeCAD/FreeCAD/blob/master/vagrant/FreeCAD.sh
 # tested on Ubuntu Xenial = 16.04
 
-RUN FREECAD=FreeCAD-0.17 \
-    && cd \
+ENV FREECAD=FreeCAD-0.17
+RUN cd \
     && rm -rf build_FreeCAD \
     && mkdir build_FreeCAD \
     && cd build_FreeCAD \
