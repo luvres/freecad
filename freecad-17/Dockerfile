@@ -6,9 +6,10 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 # based on script for vagrant box from FreeCAD source, https://github.com/FreeCAD/FreeCAD/blob/master/vagrant/FreeCAD.sh
 # tested on Ubuntu Xenial = 16.04
 
-ENV FREECAD FreeCAD-0.17
+ENV 
 
-RUN cd \
+RUN FREECAD=FreeCAD-0.17 \
+    && cd \
     && rm -rf build_FreeCAD \
     && mkdir build_FreeCAD \
     && cd build_FreeCAD \
@@ -174,26 +175,26 @@ RUN cd $base_dir \
 
 
 #----------------------------------#
-# no oce-dev packages, no netgen
-# cmake \
-    ../FreeCAD \
-    -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/$FREECAD \
-    -DOCC_INCLUDE_DIR=/opt/local/$FREECAD/include/opencascade
-
-# with oce-dev installed, no netgen
-# cmake \
-    ../FreeCAD \
-    -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/$FREECAD \
-    -DFREECAD_USE_OCC_VARIANT="Official Version" \
-    -DOCC_INCLUDE_DIR=/opt/local/$FREECAD/include/opencascade \
-    -DOCC_LIBRARY=/opt/local/$FREECAD/lib/libTKernel.so
-
-# no oce-dev packages, with netgen
-# cmake \
-    ../FreeCAD \
-    -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/$FREECAD \
-    -DBUILD_FEM_NETGEN=1 \
-    -DCMAKE_CXX_FLAGS="-DNETGEN_V5" \
-    -DNETGEN_ROOT=/opt/local/$FREECAD \
-    -DOCC_INCLUDE_DIR=/opt/local/$FREECAD/include/opencascade
+# # no oce-dev packages, no netgen
+# # cmake \
+#     ../FreeCAD \
+#     -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/$FREECAD \
+#     -DOCC_INCLUDE_DIR=/opt/local/$FREECAD/include/opencascade
+# 
+# # with oce-dev installed, no netgen
+# # cmake \
+#     ../FreeCAD \
+#     -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/$FREECAD \
+#     -DFREECAD_USE_OCC_VARIANT="Official Version" \
+#     -DOCC_INCLUDE_DIR=/opt/local/$FREECAD/include/opencascade \
+#     -DOCC_LIBRARY=/opt/local/$FREECAD/lib/libTKernel.so
+# 
+# # no oce-dev packages, with netgen
+# # cmake \
+#     ../FreeCAD \
+#     -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/$FREECAD \
+#     -DBUILD_FEM_NETGEN=1 \
+#     -DCMAKE_CXX_FLAGS="-DNETGEN_V5" \
+#     -DNETGEN_ROOT=/opt/local/$FREECAD \
+#     -DOCC_INCLUDE_DIR=/opt/local/$FREECAD/include/opencascade
 #----------------------------------#
