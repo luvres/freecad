@@ -61,7 +61,7 @@ RUN cd \
     && rm FreeCAD/ freecad-build/ -fR \
     && ln -s /usr/local/bin/FreeCAD /usr/bin/freecad-daily
 
-RUN apt install -y gfortran xorg-dev wget cpio \
+RUN apt-get install -y gfortran xorg-dev wget cpio \
     && cd \
     && git clone https://github.com/luvres/graphics.git \
     && cd graphics/calculix-2.12/ \
@@ -70,7 +70,7 @@ RUN apt install -y gfortran xorg-dev wget cpio \
     && cp $HOME/CalculiX-2.12/bin/cgx /usr/bin/cgx \
     && cd && rm CalculiX-2.12 graphics -fR
     
-RUN apt clean \
+RUN apt-get clean \
     && rm /var/lib/apt/lists/* \
           /usr/share/doc/* \
           usr/share/locale/* \
