@@ -48,14 +48,18 @@ RUN apt-get update \
     netgen-headers \
     libmedc-dev \
     libvtk6-dev \
-    libproj-dev
+    libproj-dev \
+    gmsh
     
 RUN cd \
     && git clone https://github.com/FreeCAD/FreeCAD.git \
     && mkdir freecad-build && cd freecad-build \
     && cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_FEM_NETGEN=ON ../FreeCAD \
-    && make -j$(nproc)
-RUN ln -s $HOME/freecad-build/bin/FreeCAD /usr/bin/freecad-daily
+    && make -j$(nproc) \
+    && make install \
+    && cd \
+    && rm FreeCAD/ freecad-build/ -fR \
+    && ln -s /usr/local/bin/FreeCAD /usr/bin/freecad-daily
 
 RUN apt install -y gfortran xorg-dev wget cpio \
     && cd \
