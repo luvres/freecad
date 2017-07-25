@@ -137,9 +137,8 @@ RUN cd $base_dir \
             --enable-occ \
             --with-occ=/opt/local/$FREECAD \
             --enable-shared \
-            --enable-nglib CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11"
-  
-#    && make -j$(nproc)
+            --enable-nglib CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
+   && make -j$(nproc)
 #    && make install \
 #    # copy libsrc, FreeCAD needs it
 #    && cd $base_dir \
