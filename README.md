@@ -135,7 +135,6 @@ docker build -t izone/freecad .
 ```
 #### FreeCAD Stable (0.16)
 ```
-docker build -t izone/freecad ./0.16/
 docker build -t izone/freecad:stable ./0.16/
 docker build -t izone/freecad:0.16 ./0.16/
 ```
