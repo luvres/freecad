@@ -52,7 +52,7 @@ RUN \
     && apt install -y \
                 $pack_build \
                 gmsh
-    
+
 RUN \
   # get FreeCAD Git
     cd \
