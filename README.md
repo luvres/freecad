@@ -4,7 +4,7 @@
 ### NVIDIA Docker and VirtualGL
 -----
 
-#### FreeCAD Latest (Build 0.17r11659 Git)
+#### FreeCAD Latest - Build: 0.17R11659 (Git)
 #### FEM - Netgen, Gmsh and Calculix 2.12
 ##### Pull image
 ```
