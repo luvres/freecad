@@ -5,7 +5,7 @@
 -----
 
 #### FreeCAD Latest (Build 0.17 Git)
-#### Calculix 2.12
+#### FEM Module - Netgen, Gmsh and Calculix 2.12
 ##### Pull image
 ```
 docker pull izone/freecad
