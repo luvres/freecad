@@ -47,7 +47,9 @@ RUN apt-get update \
     netgen-headers \
     libmedc-dev \
     libvtk6-dev \
-    libproj-dev
+    libproj-dev \
+    gmsh
+
     
 RUN cd \
     && git clone https://github.com/FreeCAD/FreeCAD.git \
