@@ -7,7 +7,8 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 # tested on Ubuntu Xenial = 16.04
 
 ENV FREECAD=/opt/local/FreeCAD-0.17
-RUN cd \
+RUN \
+    cd \
     && mkdir -p $FREECAD \
 #    && rm -rf build_FreeCAD
 #    && mkdir build_FreeCAD
