@@ -141,8 +141,14 @@ RUN cd \
             --with-tk=/usr/lib/tk8.5 \
             --enable-occ \
             --with-occ=$FREECAD \
+            --disable-gui \
+            --disable-dependency-tracking \
+            \
             --enable-shared \
-            --enable-nglib CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11"
+            --enable-nglib \
+            CPPFLAGS="-I$FREECAD/include/opencascade/" \
+            CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11"
+
 #   && make -j$(nproc)
 #    && make install \
 #    # copy libsrc, FreeCAD needs it
