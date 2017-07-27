@@ -7,65 +7,66 @@
 # tested on Debian Jessie = 8.0
 # username on my vagrant box = vagrant
 
-cd ~             # use if start on a local machine or inside a virtual machine
-# cd /home/vagrant   # use with a vagrant box, because cd ~ returns  /root
-
-cd Documents
-sudo rm -rf build_FreeCAD
-mkdir build_FreeCAD
-cd build_FreeCAD
-base_dir=`pwd`
-
-
-
-package_list="                 doxygen                          \
-                               libboost1.55-dev                 \
-                               libboost-filesystem1.55-dev      \
-                               libboost-program-options1.55-dev \
-                               libboost-python1.55-dev          \
-                               libboost-regex1.55-dev           \
-                               libboost-signals1.55-dev         \
-                               libboost-system1.55-dev          \
-                               libboost-thread1.55-dev          \
-                               libcoin80                        \
-                               libcoin80-dev                    \
-                               libeigen3-dev                    \
-                               libpyside-dev                    \
-                               libqtcore4                       \
-                               libshiboken-dev                  \
-                               libxerces-c-dev                  \
-                               libxmu-dev                       \
-                               libxmu-headers                   \
-                               libxmu6                          \
-                               libxmuu-dev                      \
-                               libxmuu1                         \
-                               pyside-tools                     \
-                               python-dev                       \
-                               python-pyside                    \
-                               python-matplotlib                \
-                               qt4-dev-tools                    \
-                               qt4-qmake                        \
-                               shiboken                         \
-                               gmsh                             \
-                               swig                             "
-
-sudo apt-get update
-sudo apt-get install -y dictionaries-common
-sudo apt-get install -y $package_list
-sudo apt-get install -y python-pivy
-sudo apt-get install -y git
-sudo apt-get install -y cmake
-sudo apt-get install -y g++
-sudo apt-get install -y libfreetype6-dev
-# sudo apt-get install -y tcl8.5  # to run DRAWEXE of occt, but it does not run either
-sudo apt-get install -y tcl8.5-dev tk8.5-dev
-sudo apt-get install -y automake  # netgen
-sudo apt-get install -y libtogl-dev
-sudo apt-get install -y libhdf5-dev
-sudo apt-get install -y libmed
-sudo apt-get install -y libmedc
-sudo apt-get install -y libmed-dev
-sudo apt-get install -y libmedc-dev
+ENV FREECAD=/opt/local/FreeCAD-0.17
+RUN \
+    cd \
+    && mkdir -p $FREECAD \
+#    && rm -rf build_FreeCAD
+#    && mkdir build_FreeCAD
+#    && cd build_FreeCAD
+#    && base_dir=`pwd`
+    \
+    && package_list=" doxygen \
+                      libboost1.55-dev \
+                      libboost-filesystem1.55-dev \
+                      libboost-program-options1.55-dev \
+                      libboost-python1.55-dev \
+                      libboost-regex1.55-dev \
+                      libboost-signals1.55-dev \
+                      libboost-system1.55-dev \
+                      libboost-thread1.55-dev \
+                      libcoin80 \
+                      libcoin80-dev \
+                      libeigen3-dev \
+                      libpyside-dev \
+                      libqtcore4 \
+                      libshiboken-dev \
+                      libxerces-c-dev \
+                      libxmu-dev \
+                      libxmu-headers \
+                      libxmu6 \
+                      libxmuu-dev \
+                      libxmuu1 \
+                      pyside-tools \
+                      python-dev \
+                      python-pyside \
+                      python-matplotlib \
+                      qt4-dev-tools \
+                      qt4-qmake \
+                      shiboken \
+                      gmsh \
+                      swig " \
+    \
+    && apt-get update \
+    && apt-get install -y \
+        dictionaries-common wget \
+        $package_list \
+        python-pivy \
+        git \
+        cmake \
+        g++ \
+        libfreetype6-dev \
+        # sudo apt-get install -y tcl8.5  # to run DRAWEXE of occt, but it does not run either
+        tcl8.5-dev \
+        tk8.5-dev \
+        automake \
+        # netgen
+        libtogl-dev \
+        libhdf5-dev \
+        libmed \
+        libmedc \
+        libmed-dev \
+        libmedc-dev
 
 
 
