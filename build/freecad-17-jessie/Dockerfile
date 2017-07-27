@@ -131,7 +131,7 @@ RUN cd \
     && cd Netgen/netgen-5.3.1 \
   \
     && ./configure \
-            --prefix=$FREECAD \
+        --prefix=$FREECAD \
         --with-tcl=/usr/lib/tcl8.5 \
         --with-tk=/usr/lib/tk8.5 \
         --enable-occ  \
