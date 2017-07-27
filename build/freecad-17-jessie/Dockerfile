@@ -1,4 +1,5 @@
-#!/bin/bash
+FROM debian:jessie
+MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 # Released under GPL v2.0
 # bernd@bimstatik.org
@@ -68,105 +69,104 @@ RUN \
         libmed-dev \
         libmedc-dev
 
-
-
 # get VTK 7.0.0
-cd $base_dir
-mkdir vtk
-cd vtk
-wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz
-gunzip VTK-7.0.0.tar.gz
-tar xf VTK-7.0.0.tar
-rm VTK-7.0.0.tar
+RUN cd \
+#    && cd $base_dir
+    && mkdir vtk \
+    && cd vtk \
+    && wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz \
+    && gunzip VTK-7.0.0.tar.gz \
+    && tar xf VTK-7.0.0.tar \
+    && rm VTK-7.0.0.tar \
+  # building VTK
+    && mkdir build \
+    && cd build \
+  \
+    && cmake ../VTK-7.0.0 \
+            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+            -DVTK_Group_Rendering:BOOL=OFF \
+            -DVTK_Group_StandAlone:BOOL=ON \
+            -DVTK_RENDERING_BACKEND=None \
+  \
+    && make -j$(nproc) \
+    && make install
 
 
 # get OCCT 7.1.0
-cd $base_dir
-mkdir occt
-cd occt
-wget "http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz"
-mv "index.html?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz" occt.tgz
-gunzip occt.tgz
-tar xf occt.tar
-rm occt.tar
-cd occt-89aebde
-grep -v vtkRenderingFreeTypeOpenGL src/TKIVtk/EXTERNLIB >& /tmp/EXTERNLIB
-\cp /tmp/EXTERNLIB src/TKIVtk/EXTERNLIB
-grep -v vtkRenderingFreeTypeOpenGL src/TKIVtkDraw/EXTERNLIB >& /tmp/EXTERNLIB
-\cp /tmp/EXTERNLIB src/TKIVtkDraw/EXTERNLIB
+RUN cd \
+#    && cd $base_dir
+    && mkdir occt \
+    && cd occt \
+#   && wget "http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz" -O occt.tgz
+    && wget -c "http://desktop/Workstation/index.html%3fp%3docct.git%3ba%3dsnapshot%3bh%3d89aebdea8d6f4d15cfc50e9458cd8e2e25022326%3bsf%3dtgz" -O occt.tgz \
+    && gunzip occt.tgz \
+    && tar xf occt.tar \
+    && rm occt.tar \
+    && cd occt-89aebde \
+    && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtk/EXTERNLIB >& /tmp/EXTERNLIB" \
+    && cp /tmp/EXTERNLIB src/TKIVtk/EXTERNLIB \
+    && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtkDraw/EXTERNLIB >& /tmp/EXTERNLIB" \
+    && cp /tmp/EXTERNLIB src/TKIVtkDraw/EXTERNLIB \
+  # building OCCT
+    && cd .. \
+    && mkdir build \
+    && cd build \
+  \
+    && cmake \
+        ../occt-89aebde \
+        -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+        -DUSE_VTK:BOOL=OFF \
+  \
+    && make -j$(nproc) \
+    && make install
 
 
-# get Netgenn 5.3.1
-cd $base_dir
-mkdir netgen
-cd netgen
-git clone https://github.com/berndhahnebach/Netgen
+# get Netgen 5.3.1
+RUN cd \
+#    && cd $base_dir
+    && mkdir netgen \
+    && cd netgen \
+    && git clone https://github.com/berndhahnebach/Netgen \
+  # building Netgen
+    && cd Netgen/netgen-5.3.1 \
+  \
+    && ./configure \
+            --prefix=$FREECAD \
+        --with-tcl=/usr/lib/tcl8.5 \
+        --with-tk=/usr/lib/tk8.5 \
+        --enable-occ  \
+        --with-occ=$FREECAD \
+        --enable-shared \
+        --enable-nglib \
+        CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11"
+
+#   && make -j$(nproc)
+#    && make install \
+#    # copy libsrc, FreeCAD needs it
+#    && cd $base_dir \
+#    && cd netgen \
+#    && cp -rf Netgen/netgen-5.3.1/libsrc  $FREECAD/libsrc
 
 
 # get FreeCAD latest Github commit
-cd $base_dir
-mkdir freecad
-cd freecad
-git clone https://github.com/FreeCAD/FreeCAD
-
-
-
-#  building VTK
-cd $base_dir
-cd vtk
-mkdir build
-cd build
-cmake ../VTK-7.0.0  -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/FreeCAD-0.17 -DVTK_Group_Rendering:BOOL=OFF -DVTK_Group_StandAlone:BOOL=ON -DVTK_RENDERING_BACKEND=None
-make -j 2
-sudo make install
-
-
-# building OCCT
-cd $base_dir
-cd occt
-mkdir build
-cd build
-cmake ../occt-89aebde  -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/FreeCAD-0.17 -DUSE_VTK:BOOL=OFF
-make -j 2
-sudo make install
-
-
-# building Netgen
-cd $base_dir
-cd netgen
-cd Netgen/netgen-5.3.1
-./configure --prefix=/opt/local/FreeCAD-0.17  --with-tcl=/usr/lib/tcl8.5  --with-tk=/usr/lib/tk8.5  --enable-occ  --with-occ=/opt/local/FreeCAD-0.17  --enable-shared  --enable-nglib  CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11"
-make -j 2
-sudo make install
-# copy libsrc, FreeCAD needs it
-cd $base_dir
-cd netgen
-sudo cp -rf Netgen/netgen-5.3.1/libsrc  /opt/local/FreeCAD-0.17/libsrc
-
-
-# building FreeCAD
-cd $base_dir
-cd freecad
-mkdir build
-cd build
-
-# no oce-dev packages, no netgen
-# cmake ../FreeCAD -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/FreeCAD-0.17 -DOCC_INCLUDE_DIR=/opt/local/FreeCAD-0.17/include/opencascade
-
-# with oce-dev installed, no netgen
-# cmake ../FreeCAD  -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/FreeCAD-0.17  -DFREECAD_USE_OCC_VARIANT="Official Version"  -DOCC_INCLUDE_DIR=/opt/local/FreeCAD-0.17/include/opencascade  -DOCC_LIBRARY=/opt/local/FreeCAD-0.17/lib/libTKernel.so
-
-# no oce-dev packages, with netgen
-# cmake ../FreeCAD  -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/FreeCAD-0.17  -DBUILD_FEM_NETGEN=1  -DCMAKE_CXX_FLAGS="-DNETGEN_V5"  -DNETGEN_ROOT=/opt/local/FreeCAD-0.17  -DOCC_INCLUDE_DIR=/opt/local/FreeCAD-0.17/include/opencascade
-
-# with oce-dev installed, with netgen
-cmake ../FreeCAD  -DCMAKE_INSTALL_PREFIX:PATH=/opt/local/FreeCAD-0.17  -DBUILD_FEM_NETGEN=1  -DCMAKE_CXX_FLAGS="-DNETGEN_V5"  -DNETGEN_ROOT=/opt/local/FreeCAD-0.17  -DFREECAD_USE_OCC_VARIANT="Official Version"  -DOCC_INCLUDE_DIR=/opt/local/FreeCAD-0.17/include/opencascade  -DOCC_LIBRARY=/opt/local/FreeCAD-0.17/lib/libTKernel.so
-
-make -j 2
-sudo make install
-
-
+# RUN cd $base_dir \
+#     && mkdir freecad \
+#     && cd freecad \
+#     && git clone https://github.com/FreeCAD/FreeCAD \
+# # building FreeCAD
+#     && mkdir build \
+#     && cd build
+# # with oce-dev installed, with netgen
+# RUN cmake ../FreeCAD  \
+#     -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD  \
+#     -DBUILD_FEM_NETGEN=1  \
+#     -DCMAKE_CXX_FLAGS="-DNETGEN_V5"  \
+#     -DNETGEN_ROOT=$FREECAD  \
+#     -DFREECAD_USE_OCC_VARIANT="Official Version"  \
+#     -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade  \
+#     -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so
+# RUN make 
+# RUN make install
 
 # start FreeCAD
-# cd ~
-# /opt/local/FreeCAD-0.17/bin/FreeCAD 
+# $FREECAD/bin/FreeCAD
