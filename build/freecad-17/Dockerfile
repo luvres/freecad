@@ -158,6 +158,33 @@ RUN cd \
 #    && cp -rf Netgen/netgen-5.3.1/libsrc  $FREECAD/libsrc
 
 
+### Eigen
+#---------
+# # https://forum.freecadweb.org/viewtopic.php?p=171028#p171028
+# # https://forum.freecadweb.org/viewtopic.php?t=5745
+# #---------
+# apt-get update && apt-get install cmake mercurial build-essential 
+# hg clone https://bitbucket.org/eigen/eigen
+# mkdir build && cd build
+#   \
+# cmake \
+#     #-DCMAKE_INSTALL_PREFIX=$FREECAD
+#     -DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
+#     -DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
+#     -DCMAKE_BUILD_TYPE=Release \
+#     -DCMAKE_VERBOSE_MAKEFILE=ON \
+#     ../eigen
+#   \
+# make install
+
+
+### Z88Aurora
+# #-------------
+# wget http://download.z88.de/z88aurora/V4/Z88AuroraV4_en.tar.gz
+# gunzip Z88AuroraV4_en.tar.gz
+# tar -xpf Z88AuroraV4_en.tar
+# ./Z88AuroraV4/bin/ubuntu64/aurorastart
+
 
 # get FreeCAD latest Github commit
 # RUN cd $base_dir \
