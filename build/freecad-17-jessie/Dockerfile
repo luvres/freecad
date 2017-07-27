@@ -64,8 +64,8 @@ RUN \
         # netgen
         libtogl-dev \
         libhdf5-dev \
-        libmed \
-        libmedc \
+        #libmed
+        #libmedc
         libmed-dev \
         libmedc-dev
 
