@@ -160,14 +160,11 @@ RUN cd \
             --disable-gui \
             --disable-dependency-tracking \
             CPPFLAGS="-I/usr/lib/openmpi/include/" \
-            CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11"
-
-#   && make -j$(nproc)
-#    && make install \
-#    # copy libsrc, FreeCAD needs it
-#    && cd $base_dir \
-#    && cd netgen \
-#    && cp -rf Netgen/netgen-5.3.1/libsrc  $FREECAD/libsrc
+            CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
+    && make -j$(nproc) \
+    && make install \
+  # copy libsrc, FreeCAD needs it
+    && cp -rf libsrc  $FREECAD/libsrc
 
 
 ### get FreeCAD latest Github commit

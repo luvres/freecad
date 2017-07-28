@@ -1,19 +1,15 @@
 FROM izone/freecad:nvidia
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
-# Released under GPL v2.0
-# bernd@bimstatik.org
-# based on script for vagrant box from FreeCAD source, https://github.com/FreeCAD/FreeCAD/blob/master/vagrant/FreeCAD.sh
-# tested on Ubuntu Xenial = 16.04
+# References:
+# https://gist.github.com/berndhahnebach/38d5bfe73134928c0a1ad001a94df05f
+# https://github.com/berndhahnebach/Netgen
+# https://sourceforge.net/p/netgen-mesher/wiki/Home/
 
 ENV FREECAD=/opt/local/FreeCAD-0.17
 RUN \
     cd \
     && mkdir -p $FREECAD \
-#    && rm -rf build_FreeCAD
-#    && mkdir build_FreeCAD
-#    && cd build_FreeCAD
-#    && base_dir=`pwd`
     \
     && package_list=" doxygen \
                       libboost1.58-dev \
@@ -65,7 +61,8 @@ RUN \
         libtogl-dev \
         libhdf5-dev
 
-# get MED
+### get MED
+#-----------
 RUN cd \
 #    && cd $base_dir
     && mkdir med \
@@ -78,9 +75,9 @@ RUN cd \
     && make -j$(nproc) \
     && make install
 
-# get VTK 7.0.0
+### get VTK 7.0.0
+#-----------------
 RUN cd \
-#    && cd $base_dir
     && mkdir vtk \
     && cd vtk \
     && wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz \
@@ -100,13 +97,13 @@ RUN cd \
     && make -j$(nproc) \
     && make install
 
-# get OCCT 7.1.0
+### get OCCT 7.1.0
+#------------------
 RUN cd \
-#    && cd $base_dir
     && mkdir occt \
     && cd occt \
-#   && wget "http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz" -O occt.tgz
-    && wget -c "http://desktop/Workstation/index.html%3fp%3docct.git%3ba%3dsnapshot%3bh%3d89aebdea8d6f4d15cfc50e9458cd8e2e25022326%3bsf%3dtgz" -O occt.tgz \
+    && wget "http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz" -O occt.tgz \
+    #&& wget -c "http://desktop/Workstation/index.html%3fp%3docct.git%3ba%3dsnapshot%3bh%3d89aebdea8d6f4d15cfc50e9458cd8e2e25022326%3bsf%3dtgz" -O occt.tgz
     && gunzip occt.tgz \
     && tar xf occt.tar \
     && rm occt.tar \
@@ -128,35 +125,15 @@ RUN cd \
     && make -j$(nproc) \
     && make install
 
-# get Netgen 5.3.1
+### get Netgen 5.3.1
+#--------------------
 RUN cd \
     && apt-get install -y \
     openmpi-bin libopenmpi-dev \
-    #metis libtogl-dev
-#    && cd $base_dir
-    && mkdir netgen \
+    && git clone https://github.com/luvres/netgen.git \
     && cd netgen \
-    && git clone https://github.com/berndhahnebach/Netgen \
+  \
   # building Netgen
-    && cd Netgen/netgen-5.3.1 \
-  \
-    ## sed -i '/DOCCGEOMETRY/s/\/usr\/local/$occdir/' configure
-    #
-    ## Netgen sourceforge
-    # apt-get install -y curl
-    # wget https://sourceforge.net/projects/netgen-mesher/files/netgen-mesher/5.3/netgen-5.3.1.tar.gz
-    # tar xvzf netgen-5.3.1.tar.gz
-    # cd netgen-5.3.1
-    # curl -L https://github.com/FreeCAD/homebrew-freecad/releases/download/0/nglib-occt7.patch | patch -p1
-    #
-    ## grep DOCCGEOMETRY configure
-    ## grep DOCCGEOMETRY configure.ac
-    #
-    ## sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure
-    ## sed -i '/DOCCGEOMETRY/s/inc/include/' configure
-    ## sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure.ac
-    ## sed -i '/DOCCGEOMETRY/s/inc/include/' configure.ac
-  \
     && ./configure \
             --prefix=$FREECAD \
             #--with-sysroot=/usr/lib/
@@ -171,17 +148,13 @@ RUN cd \
             --disable-gui \
             --disable-dependency-tracking \
             CPPFLAGS="-I/usr/lib/openmpi/include/" \
-            CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11"
+            CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
+    && make -j$(nproc) \
+    && make install \
+  # copy libsrc, FreeCAD needs it
+    && cp -rf libsrc $FREECAD/libsrc
 
-#   && make -j$(nproc)
-#    && make install \
-#    # copy libsrc, FreeCAD needs it
-#    && cd $base_dir \
-#    && cd netgen \
-#    && cp -rf Netgen/netgen-5.3.1/libsrc  $FREECAD/libsrc
-
-
-
+    
 ### Eigen
 #---------
 # # https://forum.freecadweb.org/viewtopic.php?p=171028#p171028
