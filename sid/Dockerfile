@@ -46,7 +46,8 @@ RUN \
     && apt-get update \
     && apt install -y \
                 $pack_build \
-                gmsh
+                gmsh \
+                libgl1-mesa-dri
 
 RUN \
   # get FreeCAD Git
