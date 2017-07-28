@@ -45,6 +45,7 @@ RUN \
                 libproj-dev " \
     && apt-get update \
     && apt install -y \
+                #xserver-xorg-video-intel
                 libgl1-mesa-dri \
                 $pack_build \
                 gmsh \
