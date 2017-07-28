@@ -45,9 +45,11 @@ RUN \
                 libproj-dev " \
     && apt-get update \
     && apt install -y \
+                libgl1-mesa-dri \
                 $pack_build \
                 gmsh \
-                libgl1-mesa-dri
+                calculix-cxx
+                
 
 RUN \
   # get FreeCAD Git
