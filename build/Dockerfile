@@ -131,8 +131,8 @@ RUN cd \
 #--------------------
 RUN cd \
     && apt-get install -y \
-    openmpi-bin libopenmpi-dev #metis libtogl-dev
-#    && cd $base_dir
+    openmpi-bin libopenmpi-dev \ 
+    #metis libtogl-dev
     && mkdir netgen \
     && cd netgen \
     && git clone https://github.com/berndhahnebach/Netgen \
