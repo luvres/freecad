@@ -143,6 +143,7 @@ RUN cd \
     ##&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure
     ##&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure.ac
     ##&& sed -i '/DOCCGEOMETRY/s/inc/include/' configure.ac
+    ## curl -L https://github.com/FreeCAD/homebrew-freecad/releases/download/0/nglib-occt7.patch | patch -p1
     && ./configure \
             --prefix=$FREECAD \
             #--with-sysroot=/usr/lib/
