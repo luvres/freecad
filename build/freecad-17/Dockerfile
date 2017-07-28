@@ -140,20 +140,23 @@ RUN cd \
   # building Netgen
     && cd Netgen/netgen-5.3.1 \
   \
-    ##&& sed -i '/DOCCGEOMETRY/s/\/usr\/local/$occdir/' configure
+    ## sed -i '/DOCCGEOMETRY/s/\/usr\/local/$occdir/' configure
     #
-    ## Netgen
+    ## Netgen sourceforge
+    # apt-get install -y curl
     # wget https://sourceforge.net/projects/netgen-mesher/files/netgen-mesher/5.3/netgen-5.3.1.tar.gz
     # tar xvzf netgen-5.3.1.tar.gz
     # cd netgen-5.3.1
     # curl -L https://github.com/FreeCAD/homebrew-freecad/releases/download/0/nglib-occt7.patch | patch -p1
     #
     ## grep DOCCGEOMETRY configure
+    ## grep DOCCGEOMETRY configure.ac
     #
-    ##&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure
-    ##&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure.ac
-    ##&& sed -i '/DOCCGEOMETRY/s/inc/include/' configure.ac
-    ## curl -L https://github.com/FreeCAD/homebrew-freecad/releases/download/0/nglib-occt7.patch | patch -p1
+    ## sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure
+    ## sed -i '/DOCCGEOMETRY/s/inc/include/' configure
+    ## sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure.ac
+    ## sed -i '/DOCCGEOMETRY/s/inc/include/' configure.ac
+  \
     && ./configure \
             --prefix=$FREECAD \
             #--with-sysroot=/usr/lib/

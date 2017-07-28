@@ -132,11 +132,13 @@ RUN cd \
     && apt-get install -y \
     openmpi-bin libopenmpi-dev \ 
     #metis libtogl-dev
-    && mkdir netgen \
-    && cd netgen \
-    && git clone https://github.com/berndhahnebach/Netgen \
+    #&& mkdir netgen
+    #&& cd netgen
+    #&& git clone https://github.com/berndhahnebach/Netgen
+    && git clone https://github.com/luvres/netgen.git \
   # building Netgen
-    && cd Netgen/netgen-5.3.1 \
+    #&& cd Netgen/netgen-5.3.1
+    && cd netgen \
   \
     ##&& sed -i '/DOCCGEOMETRY/s/\/usr\/local/$occdir/' configure
     ##&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure
