@@ -59,13 +59,15 @@ RUN \
         -DCMAKE_BUILD_TYPE=Release \
         -DBUILD_FEM_NETGEN=ON ../FreeCAD \
   \
-    && make -j$(nproc) \
-    && make install \
-    && cd \
-  \
-  # Clean
-    && rm FreeCAD/ freecad-build/ -fR \
-    && ln -s /usr/local/bin/FreeCAD /usr/bin/freecad-git
+    && make -j$(nproc)
+
+#     && make install \
+#     && cd \
+#   \
+#   # Clean
+#     && rm FreeCAD/ freecad-build/ -fR \
+#     && ln -s /usr/local/bin/FreeCAD /usr/bin/freecad-git
+
 
 # # Calculix
 # ENV CCX_VERSION=2.12

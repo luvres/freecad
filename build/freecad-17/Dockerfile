@@ -130,6 +130,8 @@ RUN cd \
 
 # get Netgen 5.3.1
 RUN cd \
+    && apt-get install -y \
+    openmpi-bin libopenmpi-dev #metis libtogl-dev
 #    && cd $base_dir
     && mkdir netgen \
     && cd netgen \
@@ -137,18 +139,24 @@ RUN cd \
   # building Netgen
     && cd Netgen/netgen-5.3.1 \
   \
+    ##&& sed -i '/DOCCGEOMETRY/s/\/usr\/local/$occdir/' configure
+    ##&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure
+    ##&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure.ac
+    ##&& sed -i '/DOCCGEOMETRY/s/inc/include/' configure.ac
     && ./configure \
             --prefix=$FREECAD \
+            #--with-sysroot=/usr/lib/
+            #--with-metis=/usr/lib/x86_64-linux-gnu/
+            #--with-togl=/usr/lib/
             --with-tcl=/usr/lib/tcl8.5 \
             --with-tk=/usr/lib/tk8.5 \
-            --enable-occ \
             --with-occ=$FREECAD \
-            --disable-gui \
-            --disable-dependency-tracking \
-            \
+            --enable-occ \
             --enable-shared \
             --enable-nglib \
-            CPPFLAGS="-I$FREECAD/include/opencascade/" \
+            --disable-gui \
+            --disable-dependency-tracking \
+            CPPFLAGS="-I/usr/lib/openmpi/include/" \
             CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11"
 
 #   && make -j$(nproc)
