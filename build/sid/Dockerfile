@@ -1,7 +1,6 @@
 FROM izone/freecad:nvidia-sid
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
-
 # References:
 # https://gist.github.com/berndhahnebach/38d5bfe73134928c0a1ad001a94df05f
 # https://github.com/berndhahnebach/Netgen
