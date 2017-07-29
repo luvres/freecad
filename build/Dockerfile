@@ -86,7 +86,7 @@ RUN \
     vtk_VERSION_MAJOR=7.1 && \
     vtk_VERSION_MINOR=7.1.1 && \
   \
-    && cd \
+    cd \
     && mkdir vtk \
     && cd vtk \
     && wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
@@ -121,7 +121,7 @@ RUN \
     #url_OCCT="http://desktop/Workstation/occt-2017_06_30.tgz" && 
     dir_OCCT=341910f && \
   \  
-    && cd \
+    cd \
     && mkdir occt \
     && cd occt \
   \
