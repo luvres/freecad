@@ -220,3 +220,15 @@ RUN \
 # gunzip Z88AuroraV4_en.tar.gz
 # tar -xpf Z88AuroraV4_en.tar
 # ./Z88AuroraV4/bin/ubuntu64/aurorastart
+
+
+# # Calculix
+# ENV CCX_VERSION=2.12
+# RUN apt-get install -y gfortran xorg-dev wget cpio \
+#     && cd \
+#     && git clone https://github.com/luvres/graphics.git \
+#     && cd graphics/calculix-$CCX_VERSION/ \
+#     && ./install \
+#     && cp $HOME/CalculiX-$CCX_VERSION/bin/ccx_$CCX_VERSION /usr/bin/ccx \
+#     && cp $HOME/CalculiX-$CCX_VERSION/bin/cgx /usr/bin/cgx \
+#     && cd && rm CalculiX-$CCX_VERSION graphics -fR
