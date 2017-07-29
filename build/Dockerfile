@@ -5,6 +5,7 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 # https://gist.github.com/berndhahnebach/38d5bfe73134928c0a1ad001a94df05f
 # https://github.com/berndhahnebach/Netgen
 # https://sourceforge.net/p/netgen-mesher/wiki/Home/
+# https://aur.archlinux.org/packages
 
 ENV FREECAD=/opt/local/FreeCAD-0.17
 RUN \
@@ -60,7 +61,7 @@ RUN \
         libhdf5-dev
 
 ### get libMED 3.2.0
-#-----------------
+#--------------------
 RUN \
     cd \
     && mkdir med \
