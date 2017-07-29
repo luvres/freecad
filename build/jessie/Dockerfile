@@ -158,24 +158,24 @@ RUN \
 
 ### get FreeCAD latest Github commit
 #------------------------------------
-# RUN \
-#     cd \
-#     && git clone https://github.com/FreeCAD/FreeCAD \
-#   # building FreeCAD
-#     && mkdir build \
-#     && cd build \
-#   \
-#   # with oce-dev installed, with netgen
-#     && cmake ../FreeCAD  \
-#             -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD  \
-#             -DBUILD_FEM_NETGEN=1  \
-#             -DCMAKE_CXX_FLAGS="-DNETGEN_V5"  \
-#             -DNETGEN_ROOT=$FREECAD  \
-#             -DFREECAD_USE_OCC_VARIANT="Official Version"  \
-#             -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade  \
-#             -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so \
-#   \
-#     && make -j$(nproc) 
+RUN \
+    cd \
+    && git clone https://github.com/FreeCAD/FreeCAD \
+  # building FreeCAD
+    && mkdir build \
+    && cd build \
+  \
+  # with oce-dev installed, with netgen
+    && cmake ../FreeCAD  \
+            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD  \
+            -DBUILD_FEM_NETGEN=1  \
+            -DCMAKE_CXX_FLAGS="-DNETGEN_V5"  \
+            -DNETGEN_ROOT=$FREECAD  \
+            -DFREECAD_USE_OCC_VARIANT="Official Version"  \
+            -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade  \
+            -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so \
+  \
+    && make -j$(nproc) 
 #     #&& make install
 # 
 # # start FreeCAD
