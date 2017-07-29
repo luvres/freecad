@@ -149,6 +149,7 @@ RUN cd \
             --disable-dependency-tracking \
             CPPFLAGS="-I/usr/lib/openmpi/include/" \
             CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
+  \
     && make -j$(nproc) \
     && make install \
   # copy libsrc, FreeCAD needs it
