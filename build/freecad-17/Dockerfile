@@ -81,6 +81,8 @@ RUN cd \
     && mkdir vtk \
     && cd vtk \
     && wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz \
+    #&& wget http://www.vtk.org/files/release/7.1/VTK-7.1.1.tar.gz
+    #&& wget http://www.vtk.org/files/release/8.0/VTK-8.0.0.tar.gz
     && gunzip VTK-7.0.0.tar.gz \
     && tar xf VTK-7.0.0.tar \
     && rm VTK-7.0.0.tar \
