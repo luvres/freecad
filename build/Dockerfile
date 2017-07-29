@@ -81,8 +81,8 @@ RUN \
 # 7.1 - 7.1.1
 # 8.0 - 8.0.0
 RUN \
-    vtk_VERSION_MAJOR=7.1 && \
-    vtk_VERSION_MINOR=7.1.1 && \
+    vtk_VERSION_MAJOR=8.0 && \
+    vtk_VERSION_MINOR=8.0.0 && \
   \
     cd \
     && mkdir vtk \
