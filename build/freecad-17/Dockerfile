@@ -155,7 +155,7 @@ RUN cd \
   # copy libsrc, FreeCAD needs it
     && cp -rf libsrc $FREECAD/libsrc
 
-    
+
 ### Eigen
 #---------
 # # https://forum.freecadweb.org/viewtopic.php?p=171028#p171028
