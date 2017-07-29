@@ -62,8 +62,8 @@ RUN \
         libmed-dev \
         libmedc-dev
 
-# ### get VTK 7.0.0
-# #-----------------
+### get VTK 7.0.0
+#-----------------
 # # 7.0 - 7.0.0
 # # 7.1 - 7.1.1
 # # 8.0 - 8.0.0
@@ -90,9 +90,9 @@ RUN \
 #   \
 #     && make -j$(nproc) \
 #     && make install
-# 
-# ### get OCCT 7.1.0
-# #------------------
+
+### get OCCT 7.1.0
+#------------------
 # RUN \
 #     #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz" && 
 #     url_OCCT="http://desktop/Workstation/occt-7.1.0.tgz" && \
@@ -124,9 +124,9 @@ RUN \
 #   \
 #     && make -j$(nproc) \
 #     && make install
-#     
-# ### get Netgen 5.3.1
-# #--------------------
+
+### get Netgen 5.3.1
+#--------------------
 # RUN \
 #     cd \
 #     && apt-get install -y \
@@ -154,11 +154,10 @@ RUN \
 #     && make -j$(nproc) \
 #     && make install \
 #     && cp -rf libsrc $FREECAD/libsrc
-# 
-# 
-# 
-# ### get FreeCAD latest Github commit
-# #------------------------------------
+
+
+### get FreeCAD latest Github commit
+#------------------------------------
 # RUN \
 #     cd \
 #     && git clone https://github.com/FreeCAD/FreeCAD \
