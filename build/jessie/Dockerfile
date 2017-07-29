@@ -64,66 +64,66 @@ RUN \
 
 ### get VTK 7.0.0
 #-----------------
-# # 7.0 - 7.0.0
-# # 7.1 - 7.1.1
-# # 8.0 - 8.0.0
-# RUN \
-#     vtk_VERSION_MAJOR=7.0 && \
-#     vtk_VERSION_MINOR=7.0.0 && \
-#   \
-#     cd \
-#     && mkdir vtk \
-#     && cd vtk \
-#     && wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
-#     && gunzip VTK-${vtk_VERSION_MINOR}.tar.gz \
-#     && tar xf VTK-${vtk_VERSION_MINOR}.tar \
-#     && rm VTK-${vtk_VERSION_MINOR}.tar \
-#   # building VTK
-#     && mkdir build \
-#     && cd build \
-#   \
-#     && cmake ../VTK-${vtk_VERSION_MINOR} \
-#             -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#             -DVTK_Group_Rendering:BOOL=OFF \
-#             -DVTK_Group_StandAlone:BOOL=ON \
-#             -DVTK_RENDERING_BACKEND=None \
-#   \
-#     && make -j$(nproc) \
-#     && make install
+# 7.0 - 7.0.0
+# 7.1 - 7.1.1
+# 8.0 - 8.0.0
+RUN \
+    vtk_VERSION_MAJOR=7.0 && \
+    vtk_VERSION_MINOR=7.0.0 && \
+  \
+    cd \
+    && mkdir vtk \
+    && cd vtk \
+    && wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
+    && gunzip VTK-${vtk_VERSION_MINOR}.tar.gz \
+    && tar xf VTK-${vtk_VERSION_MINOR}.tar \
+    && rm VTK-${vtk_VERSION_MINOR}.tar \
+  # building VTK
+    && mkdir build \
+    && cd build \
+  \
+    && cmake ../VTK-${vtk_VERSION_MINOR} \
+            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+            -DVTK_Group_Rendering:BOOL=OFF \
+            -DVTK_Group_StandAlone:BOOL=ON \
+            -DVTK_RENDERING_BACKEND=None \
+  \
+    && make -j$(nproc) \
+    && make install
 
 ### get OCCT 7.1.0
 #------------------
-# RUN \
-#     #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz" && 
-#     url_OCCT="http://desktop/Workstation/occt-7.1.0.tgz" && \
-#     dir_OCCT=89aebde && \
-#   \  
-#     cd \
-#     && mkdir occt \
-#     && cd occt \
-#   \
-#     && wget ${url_OCCT} -O occt.tgz \
-#     && gunzip occt.tgz \
-#     && tar xf occt.tar \
-#     && rm occt.tar \
-#     && cd occt-${dir_OCCT} \
-#   \
-#     && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtk/EXTERNLIB >& /tmp/EXTERNLIB" \
-#     && cp /tmp/EXTERNLIB src/TKIVtk/EXTERNLIB \
-#     && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtkDraw/EXTERNLIB >& /tmp/EXTERNLIB" \
-#     && cp /tmp/EXTERNLIB src/TKIVtkDraw/EXTERNLIB \
-#   # building OCCT
-#     && cd .. \
-#     && mkdir build \
-#     && cd build \
-#   \
-#     && cmake \
-#         ../occt-${dir_OCCT} \
-#         -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#         -DUSE_VTK:BOOL=OFF \
-#   \
-#     && make -j$(nproc) \
-#     && make install
+RUN \
+    #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz" && 
+    url_OCCT="http://desktop/Workstation/occt-7.1.0.tgz" && \
+    dir_OCCT=89aebde && \
+  \  
+    cd \
+    && mkdir occt \
+    && cd occt \
+  \
+    && wget ${url_OCCT} -O occt.tgz \
+    && gunzip occt.tgz \
+    && tar xf occt.tar \
+    && rm occt.tar \
+    && cd occt-${dir_OCCT} \
+  \
+    && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtk/EXTERNLIB >& /tmp/EXTERNLIB" \
+    && cp /tmp/EXTERNLIB src/TKIVtk/EXTERNLIB \
+    && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtkDraw/EXTERNLIB >& /tmp/EXTERNLIB" \
+    && cp /tmp/EXTERNLIB src/TKIVtkDraw/EXTERNLIB \
+  # building OCCT
+    && cd .. \
+    && mkdir build \
+    && cd build \
+  \
+    && cmake \
+        ../occt-${dir_OCCT} \
+        -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+        -DUSE_VTK:BOOL=OFF \
+  \
+    && make -j$(nproc) \
+    && make install
 
 ### get Netgen 5.3.1
 #--------------------
