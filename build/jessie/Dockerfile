@@ -57,7 +57,6 @@ RUN \
         cmake \
         g++ \
         libfreetype6-dev \
-        # sudo apt-get install -y tcl8.5  # to run DRAWEXE of occt, but it does not run either
         tcl8.5-dev \
         tk8.5-dev \
         automake \
