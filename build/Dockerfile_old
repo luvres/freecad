@@ -1,4 +1,4 @@
-FROM izone/freecad:nvidia
+FROM ubuntu:xenial
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 # References:
@@ -53,23 +53,21 @@ RUN \
         cmake \
         g++ \
         libfreetype6-dev \
+        # sudo apt-get install -y tcl8.5  # to run DRAWEXE of occt, but it does not run either
         tcl8.5-dev \
         tk8.5-dev \
         automake \
+        # netgen
         libtogl-dev \
         libhdf5-dev
 
-### get MED 3.2.0
-#-----------------
-RUN \
-    cd \
+### get MED
+#-----------
+RUN cd \
+#    && cd $base_dir
     && mkdir med \
     && cd med \
-  \
-    #&& git clone https://github.com/berndhahnebach/libMED.git 
-    #files.salome-platform.org/Salome/other/med-3.2.0.tar.gz
-    && git clone https://github.com/luvres/libMED.git \
-  \
+    && git clone https://github.com/berndhahnebach/libMED.git \
   # building MED
     && mkdir build \
     && cd build \
@@ -79,25 +77,19 @@ RUN \
 
 ### get VTK 7.0.0
 #-----------------
-# 7.0 - 7.0.0
-# 7.1 - 7.1.1
-# 8.0 - 8.0.0
-RUN \
-    vtk_VERSION_MAJOR=7.1 && \
-    vtk_VERSION_MINOR=7.1.1 && \
-  \
-    && cd \
+RUN cd \
+#    && cd $base_dir
     && mkdir vtk \
     && cd vtk \
-    && wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
-    && gunzip VTK-${vtk_VERSION_MINOR}.tar.gz \
-    && tar xf VTK-${vtk_VERSION_MINOR}.tar \
-    && rm VTK-${vtk_VERSION_MINOR}.tar \
+    && wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz \
+    && gunzip VTK-7.0.0.tar.gz \
+    && tar xf VTK-7.0.0.tar \
+    && rm VTK-7.0.0.tar \
   # building VTK
     && mkdir build \
     && cd build \
   \
-    && cmake ../VTK-${vtk_VERSION_MINOR} \
+    && cmake ../VTK-7.0.0 \
             -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
             -DVTK_Group_Rendering:BOOL=OFF \
             -DVTK_Group_StandAlone:BOOL=ON \
@@ -108,29 +100,15 @@ RUN \
 
 ### get OCCT 7.1.0
 #------------------
-RUN \
-#     url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz" && 
-#     #url_OCCT="http://desktop/Workstation/occt-7.1.0.tgz" && 
-#     dir_OCCT=89aebde && 
-#   
-#     url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && 
-#     #url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && 
-#     dir_OCCT=1780d6c && 
-#   
-    url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=341910f3cedbd31af13c0586de804f8995965d9c;sf=tgz" && \
-    #url_OCCT="http://desktop/Workstation/occt-2017_06_30.tgz" && 
-    dir_OCCT=341910f && \
-  \  
-    && cd \
+RUN cd \
+#    && cd $base_dir
     && mkdir occt \
     && cd occt \
-  \
-    && wget ${url_OCCT} -O occt.tgz \
+    && wget "http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz" -O occt.tgz \
     && gunzip occt.tgz \
     && tar xf occt.tar \
     && rm occt.tar \
-    && cd occt-${dir_OCCT} \
-  \
+    && cd occt-89aebde \
     && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtk/EXTERNLIB >& /tmp/EXTERNLIB" \
     && cp /tmp/EXTERNLIB src/TKIVtk/EXTERNLIB \
     && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtkDraw/EXTERNLIB >& /tmp/EXTERNLIB" \
@@ -141,7 +119,7 @@ RUN \
     && cd build \
   \
     && cmake \
-        ../occt-${dir_OCCT} \
+        ../occt-89aebde \
         -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
         -DUSE_VTK:BOOL=OFF \
   \
@@ -150,14 +128,24 @@ RUN \
 
 ### get Netgen 5.3.1
 #--------------------
-RUN \
-    cd \
+RUN cd \
     && apt-get install -y \
-    openmpi-bin libopenmpi-dev \
+    openmpi-bin libopenmpi-dev \ 
+    #metis libtogl-dev
+    #&& mkdir netgen
+    #&& cd netgen
+    #&& git clone https://github.com/berndhahnebach/Netgen
     && git clone https://github.com/luvres/netgen.git \
+  # building Netgen
+    #&& cd Netgen/netgen-5.3.1
     && cd netgen \
   \
-  # building Netgen
+    ##&& sed -i '/DOCCGEOMETRY/s/\/usr\/local/$occdir/' configure
+    ##&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure
+    ##&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure.ac
+    ##&& sed -i '/DOCCGEOMETRY/s/inc/include/' configure.ac
+    ## curl -L https://github.com/FreeCAD/homebrew-freecad/releases/download/0/nglib-occt7.patch | patch -p1
+  \
     && ./configure \
             --prefix=$FREECAD \
             #--with-sysroot=/usr/lib/
@@ -173,61 +161,35 @@ RUN \
             --disable-dependency-tracking \
             CPPFLAGS="-I/usr/lib/openmpi/include/" \
             CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
-  \
     && make -j$(nproc) \
     && make install \
-    && cp -rf libsrc $FREECAD/libsrc
+  # copy libsrc, FreeCAD needs it
+    && cp -rf libsrc  $FREECAD/libsrc
 
 
 ### get FreeCAD latest Github commit
 #------------------------------------
-RUN \
-    cd \
-    && git clone https://github.com/FreeCAD/FreeCAD \
-  # building FreeCAD
-    && mkdir build \
-    && cd build \
-  \
-  # with oce-dev installed, with netgen
-    && cmake ../FreeCAD  \
-            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD  \
-            -DBUILD_FEM_NETGEN=1  \
-            -DCMAKE_CXX_FLAGS="-DNETGEN_V5"  \
-            -DNETGEN_ROOT=$FREECAD  \
-            -DFREECAD_USE_OCC_VARIANT="Official Version"  \
-            -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade  \
-            -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so \
-  \
-    && make -j$(nproc) \
-    && make install
+# RUN cd \
+#     && mkdir freecad \
+#     && cd freecad \
+#     && git clone https://github.com/FreeCAD/FreeCAD \
+#   # building FreeCAD
+#     && mkdir build \
+#     && cd build
 
-# start FreeCAD
+# with oce-dev installed, with netgen
+# RUN cmake ../FreeCAD  \
+#     -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD  \
+#     -DBUILD_FEM_NETGEN=1  \
+#     -DCMAKE_CXX_FLAGS="-DNETGEN_V5"  \
+#     -DNETGEN_ROOT=$FREECAD  \
+#     -DFREECAD_USE_OCC_VARIANT="Official Version"  \
+#     -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade  \
+#     -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so
+# RUN make 
+# RUN make install
+
+
+### start FreeCAD
+#-----------------
 # $FREECAD/bin/FreeCAD
-
-
-### Eigen
-#---------
-# # https://forum.freecadweb.org/viewtopic.php?p=171028#p171028
-# # https://forum.freecadweb.org/viewtopic.php?t=5745
-# #---------
-# apt-get update && apt-get install cmake mercurial build-essential 
-# hg clone https://bitbucket.org/eigen/eigen
-# mkdir build && cd build
-#   \
-# cmake \
-#     #-DCMAKE_INSTALL_PREFIX=$FREECAD
-#     -DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
-#     -DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
-#     -DCMAKE_BUILD_TYPE=Release \
-#     -DCMAKE_VERBOSE_MAKEFILE=ON \
-#     ../eigen
-#   \
-# make install
-
-
-### Z88Aurora
-# #-------------
-# wget http://download.z88.de/z88aurora/V4/Z88AuroraV4_en.tar.gz
-# gunzip Z88AuroraV4_en.tar.gz
-# tar -xpf Z88AuroraV4_en.tar
-# ./Z88AuroraV4/bin/ubuntu64/aurorastart
