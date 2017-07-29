@@ -59,15 +59,12 @@ RUN \
         libtogl-dev \
         libhdf5-dev
 
-### get MED 3.2.0
+### get libMED 3.2.0
 #-----------------
 RUN \
     cd \
     && mkdir med \
     && cd med \
-  \
-    #&& git clone https://github.com/berndhahnebach/libMED.git 
-    #files.salome-platform.org/Salome/other/med-3.2.0.tar.gz
     && git clone https://github.com/luvres/libMED.git \
   \
   # building MED
@@ -83,8 +80,8 @@ RUN \
 # 7.1 - 7.1.1
 # 8.0 - 8.0.0
 RUN \
-    vtk_VERSION_MAJOR=7.1 && \
-    vtk_VERSION_MINOR=7.1.1 && \
+    vtk_VERSION_MAJOR=7.0 && \
+    vtk_VERSION_MINOR=7.0.0 && \
   \
     cd \
     && mkdir vtk \
@@ -109,17 +106,17 @@ RUN \
 ### get OCCT 7.1.0
 #------------------
 RUN \
-#     url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz" && 
-#     #url_OCCT="http://desktop/Workstation/occt-7.1.0.tgz" && 
-#     dir_OCCT=89aebde && 
+    #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz" && 
+    url_OCCT="http://desktop/Workstation/occt-7.1.0.tgz" && \
+    dir_OCCT=89aebde && \
 #   
-#     url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && 
-#     #url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && 
+#     #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && 
+#     url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && 
 #     dir_OCCT=1780d6c && 
 #   
-    url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=341910f3cedbd31af13c0586de804f8995965d9c;sf=tgz" && \
-    #url_OCCT="http://desktop/Workstation/occt-2017_06_30.tgz" && 
-    dir_OCCT=341910f && \
+#     #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=341910f3cedbd31af13c0586de804f8995965d9c;sf=tgz" && 
+#     url_OCCT="http://desktop/Workstation/occt-2017_06_30.tgz" && 
+#     dir_OCCT=341910f && 
   \  
     cd \
     && mkdir occt \
@@ -198,8 +195,8 @@ RUN \
             -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade  \
             -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so \
   \
-    && make -j$(nproc) \
-    && make install
+    && make -j$(nproc) 
+    #&& make install
 
 # start FreeCAD
 # $FREECAD/bin/FreeCAD
