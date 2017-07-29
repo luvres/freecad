@@ -226,7 +226,7 @@ RUN \
 
 # # Calculix
 # ENV CCX_VERSION=2.12
-# RUN apt-get install -y gfortran xorg-dev wget cpio \
+# RUN apt-get install -y gfortran xorg-dev cpio \
 #     && cd \
 #     && git clone https://github.com/luvres/graphics.git \
 #     && cd graphics/calculix-$CCX_VERSION/ \

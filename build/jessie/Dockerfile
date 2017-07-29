@@ -176,7 +176,19 @@ RUN \
             -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so \
   \
     && make -j$(nproc) 
-#     #&& make install
+#    #&& make install
 # 
 # # start FreeCAD
 # # $FREECAD/bin/FreeCAD
+
+
+# Calculix
+ENV CCX_VERSION=2.12
+RUN apt-get install -y gfortran xorg-dev cpio \
+    && cd \
+    && git clone https://github.com/luvres/graphics.git \
+    && cd graphics/calculix-$CCX_VERSION/ \
+    && ./install \
+    && cp $HOME/CalculiX-$CCX_VERSION/bin/ccx_$CCX_VERSION /usr/bin/ccx \
+    && cp $HOME/CalculiX-$CCX_VERSION/bin/cgx /usr/bin/cgx \
+    && cd && rm CalculiX-$CCX_VERSION graphics -fR
