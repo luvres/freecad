@@ -1,21 +1,16 @@
 FROM izone/freecad:nvidia-jessie
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
-# Released under GPL v2.0
-# bernd@bimstatik.org
-# based on script for vagrant box from FreeCAD source, https://github.com/FreeCAD/FreeCAD/blob/master/vagrant/FreeCAD.sh
-
-# tested on Debian Jessie = 8.0
-# username on my vagrant box = vagrant
+# References:
+# https://gist.github.com/berndhahnebach/38d5bfe73134928c0a1ad001a94df05f
+# https://github.com/berndhahnebach/Netgen
+# https://sourceforge.net/p/netgen-mesher/wiki/Home/
+# https://aur.archlinux.org/packages
 
 ENV FREECAD=/opt/local/FreeCAD-0.17
 RUN \
     cd \
     && mkdir -p $FREECAD \
-#    && rm -rf build_FreeCAD
-#    && mkdir build_FreeCAD
-#    && cd build_FreeCAD
-#    && base_dir=`pwd`
     \
     && package_list=" doxygen \
                       libboost1.55-dev \
