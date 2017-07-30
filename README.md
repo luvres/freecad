@@ -119,10 +119,10 @@ cd freecad
 ```
 ```
 ```
-docker build -t izone/freecad:nvidia ./nvidia/
-docker build -t izone/freecad:nvidia-trusty ./nvidia/trusty/
-docker build -t izone/freecad:nvidia-sid ./nvidia/sid/
-docker build -t izone/freecad:nvidia-stretch ./nvidia/stretch/
+docker build -t izone/freecad:nvidia ./nvidia/ && \
+docker build -t izone/freecad:nvidia-trusty ./nvidia/trusty/ && \
+docker build -t izone/freecad:nvidia-sid ./nvidia/sid/ && \
+docker build -t izone/freecad:nvidia-stretch ./nvidia/stretch/ && \
 docker build -t izone/freecad:nvidia-jessie ./nvidia/jessie/
 ```
 ```
@@ -135,13 +135,13 @@ docker build -t izone/freecad .
 ```
 #### FreeCAD Stable (0.16)
 ```
-docker build -t izone/freecad:stable ./0.16/
+docker build -t izone/freecad:stable ./0.16/ && \
 docker build -t izone/freecad:0.16 ./0.16/
 ```
 ```
 ```
 #### FreeCAD Daily (0.17)
 ```
-docker build -t izone/freecad:daily ./0.17/
+docker build -t izone/freecad:daily ./0.17/ && \
 docker build -t izone/freecad:0.17 ./0.17/
 ```
