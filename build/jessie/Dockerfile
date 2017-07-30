@@ -94,10 +94,10 @@ RUN \
 ### get OCCT 7.1.0
 #------------------
 RUN \
-    #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz" && 
-    url_OCCT="http://desktop/Workstation/occt-7.1.0.tgz" && \
-    dir_OCCT=89aebde && \
-  \  
+   #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && 
+   url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && \
+   dir_OCCT=1780d6c && \
+  \
     cd \
     && mkdir occt \
     && cd occt \
