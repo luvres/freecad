@@ -9,9 +9,7 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 ENV FREECAD=/opt/local/FreeCAD-0.17
 RUN \
-  # Backports to "cmake 3.3 or higher" required by VTK 8
-    echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/backports.list \
-    && cd \
+    cd \
     && mkdir -p $FREECAD \
     \
     && package_list=" doxygen \
@@ -52,15 +50,21 @@ RUN \
         $package_list \
         python-pivy \
         git \
-        cmake \
+        #cmake 
         g++ \
         libfreetype6-dev \
         tcl8.5-dev \
         tk8.5-dev \
         automake \
         libtogl-dev \
-        libhdf5-dev
-        
+        libhdf5-dev \
+      \
+      # Backports to "cmake 3.3 or higher" required by VTK 8
+        && echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/backports.list \
+        && apt-get update \
+        && apt-get -t jessie-backports install -y \
+        cmake
+
 ### libMED 3.0.6
 #----------------
 # RUN apt-get install -y \
