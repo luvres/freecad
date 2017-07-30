@@ -57,9 +57,9 @@ RUN \
         tk8.5-dev \
         automake \
         libtogl-dev \
-        libhdf5-dev \
-      \
-        calculix-ccx
+        libhdf5-dev 
+      
+        #calculix-ccx
 
 ### get libMED 3.2.0
 #--------------------
@@ -195,6 +195,18 @@ RUN \
 # start FreeCAD
 # $FREECAD/bin/FreeCAD
 
+### Calculix 2.12 and CGX
+#-------------------------
+# RUN \
+#     ccx_VERSION=2.12 && \
+#     apt-get install -y gfortran xorg-dev cpio \
+#     && cd \
+#     && git clone https://github.com/luvres/calculix.git \
+#     && cd calculix/ \
+#     && ./install \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+#     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
 
 
 ### Eigen
@@ -223,17 +235,3 @@ RUN \
 # gunzip Z88AuroraV4_en.tar.gz
 # tar -xpf Z88AuroraV4_en.tar
 # ./Z88AuroraV4/bin/ubuntu64/aurorastart
-
-
-### Calculix 2.12 and CGX
-#-------------------------
-# RUN \
-#     ccx_VERSION=2.12 && \
-#     apt-get install -y gfortran xorg-dev cpio \
-#     && cd \
-#     && git clone https://github.com/luvres/calculix.git \
-#     && cd calculix/ \
-#     && ./install \
-#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
-#     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
