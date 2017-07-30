@@ -9,6 +9,8 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 ENV FREECAD=/opt/local/FreeCAD-0.17
 RUN \
+  # Backports to cmake 3.3 or higher required by VTK 8
+    echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/backports.list \
     cd \
     && mkdir -p $FREECAD \
     \
