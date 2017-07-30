@@ -21,6 +21,7 @@ RUN \
                       libboost-signals1.63-dev \
                       libboost-system1.63-dev \
                       libboost-thread1.63-dev \
+                      libcoin80v5 \
                       libcoin80-dev \
                       libeigen3-dev \
                       libpyside-dev \
@@ -38,6 +39,7 @@ RUN \
                       python-matplotlib \
                       qt4-dev-tools \
                       qt4-qmake \
+                      libqtwebkit-dev \
                       shiboken \
                       gmsh \
                       swig " \
@@ -59,47 +61,47 @@ RUN \
 
 ### get libMED 3.2.0
 #--------------------
-# RUN \
-#     cd \
-#     && mkdir med \
-#     && cd med \
-#     && git clone https://github.com/luvres/libMED.git \
-#   \
-#   # building MED
-#     && mkdir build \
-#     && cd build \
-#     && cmake ../libMED -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#     && make -j$(nproc) \
-#     && make install
+RUN \
+    cd \
+    && mkdir med \
+    && cd med \
+    && git clone https://github.com/luvres/libMED.git \
+  \
+  # building MED
+    && mkdir build \
+    && cd build \
+    && cmake ../libMED -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+    && make -j$(nproc) \
+    && make install
 
 ### get VTK 7.0.0
 #-----------------
-# # 7.0 - 7.0.0
-# # 7.1 - 7.1.1
-# # 8.0 - 8.0.0
-# RUN \
-#     vtk_VERSION_MAJOR=7.0 && \
-#     vtk_VERSION_MINOR=7.0.0 && \
-#   \
-#     cd \
-#     && mkdir vtk \
-#     && cd vtk \
-#     && wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
-#     && gunzip VTK-${vtk_VERSION_MINOR}.tar.gz \
-#     && tar xf VTK-${vtk_VERSION_MINOR}.tar \
-#     && rm VTK-${vtk_VERSION_MINOR}.tar \
-#   # building VTK
-#     && mkdir build \
-#     && cd build \
-#   \
-#     && cmake ../VTK-${vtk_VERSION_MINOR} \
-#             -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#             -DVTK_Group_Rendering:BOOL=OFF \
-#             -DVTK_Group_StandAlone:BOOL=ON \
-#             -DVTK_RENDERING_BACKEND=None \
-#   \
-#     && make -j$(nproc) \
-#     && make install
+# 7.0 - 7.0.0
+# 7.1 - 7.1.1
+# 8.0 - 8.0.0
+RUN \
+    vtk_VERSION_MAJOR=7.0 && \
+    vtk_VERSION_MINOR=7.0.0 && \
+  \
+    cd \
+    && mkdir vtk \
+    && cd vtk \
+    && wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
+    && gunzip VTK-${vtk_VERSION_MINOR}.tar.gz \
+    && tar xf VTK-${vtk_VERSION_MINOR}.tar \
+    && rm VTK-${vtk_VERSION_MINOR}.tar \
+  # building VTK
+    && mkdir build \
+    && cd build \
+  \
+    && cmake ../VTK-${vtk_VERSION_MINOR} \
+            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+            -DVTK_Group_Rendering:BOOL=OFF \
+            -DVTK_Group_StandAlone:BOOL=ON \
+            -DVTK_RENDERING_BACKEND=None \
+  \
+    && make -j$(nproc) \
+    && make install
 
 ### get OCCT 7.1.0
 #------------------
