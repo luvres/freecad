@@ -39,6 +39,7 @@ RUN \
                       python-matplotlib \
                       qt4-dev-tools \
                       qt4-qmake \
+                      libqtwebkit-dev \
                       shiboken \
                       gmsh \
                       swig " \

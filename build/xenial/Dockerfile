@@ -5,6 +5,7 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 # https://gist.github.com/berndhahnebach/38d5bfe73134928c0a1ad001a94df05f
 # https://github.com/berndhahnebach/Netgen
 # https://sourceforge.net/p/netgen-mesher/wiki/Home/
+# https://aur.archlinux.org/packages
 
 ENV FREECAD=/opt/local/FreeCAD-0.17
 RUN \
@@ -40,7 +41,6 @@ RUN \
                       qt4-qmake \
                       libqtwebkit-dev \
                       shiboken \
-                      calculix-ccx \
                       gmsh \
                       swig " \
     \
@@ -53,21 +53,22 @@ RUN \
         cmake \
         g++ \
         libfreetype6-dev \
-        # sudo apt-get install -y tcl8.5  # to run DRAWEXE of occt, but it does not run either
         tcl8.5-dev \
         tk8.5-dev \
         automake \
-        # netgen
         libtogl-dev \
-        libhdf5-dev
+        libhdf5-dev \
+      \
+        calculix-ccx
 
-### get MED
-#-----------
-RUN cd \
-#    && cd $base_dir
+### get libMED 3.2.0
+#--------------------
+RUN \
+    cd \
     && mkdir med \
     && cd med \
-    && git clone https://github.com/berndhahnebach/libMED.git \
+    && git clone https://github.com/luvres/libMED.git \
+  \
   # building MED
     && mkdir build \
     && cd build \
@@ -75,22 +76,27 @@ RUN cd \
     && make -j$(nproc) \
     && make install
 
-### get VTK 7.0.0
+### get VTK 8.0.0
 #-----------------
-RUN cd \
+# 7.0 - 7.0.0
+# 7.1 - 7.1.1
+# 8.0 - 8.0.0
+RUN \
+    vtk_VERSION_MAJOR=8.0 && \
+    vtk_VERSION_MINOR=8.0.0 && \
+  \
+    cd \
     && mkdir vtk \
     && cd vtk \
-    && wget http://www.vtk.org/files/release/7.0/VTK-7.0.0.tar.gz \
-    #&& wget http://www.vtk.org/files/release/7.1/VTK-7.1.1.tar.gz
-    #&& wget http://www.vtk.org/files/release/8.0/VTK-8.0.0.tar.gz
-    && gunzip VTK-7.0.0.tar.gz \
-    && tar xf VTK-7.0.0.tar \
-    && rm VTK-7.0.0.tar \
+    && wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
+    && gunzip VTK-${vtk_VERSION_MINOR}.tar.gz \
+    && tar xf VTK-${vtk_VERSION_MINOR}.tar \
+    && rm VTK-${vtk_VERSION_MINOR}.tar \
   # building VTK
     && mkdir build \
     && cd build \
   \
-    && cmake ../VTK-7.0.0 \
+    && cmake ../VTK-${vtk_VERSION_MINOR} \
             -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
             -DVTK_Group_Rendering:BOOL=OFF \
             -DVTK_Group_StandAlone:BOOL=ON \
@@ -101,15 +107,21 @@ RUN cd \
 
 ### get OCCT 7.1.0
 #------------------
-RUN cd \
+RUN \
+    url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && \
+    #url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && 
+    dir_OCCT=1780d6c && \
+  \  
+    cd \
     && mkdir occt \
     && cd occt \
-    && wget "http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz" -O occt.tgz \
-    #&& wget -c "http://desktop/Workstation/index.html%3fp%3docct.git%3ba%3dsnapshot%3bh%3d89aebdea8d6f4d15cfc50e9458cd8e2e25022326%3bsf%3dtgz" -O occt.tgz
+  \
+    && wget ${url_OCCT} -O occt.tgz \
     && gunzip occt.tgz \
     && tar xf occt.tar \
     && rm occt.tar \
-    && cd occt-89aebde \
+    && cd occt-${dir_OCCT} \
+  \
     && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtk/EXTERNLIB >& /tmp/EXTERNLIB" \
     && cp /tmp/EXTERNLIB src/TKIVtk/EXTERNLIB \
     && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtkDraw/EXTERNLIB >& /tmp/EXTERNLIB" \
@@ -120,7 +132,7 @@ RUN cd \
     && cd build \
   \
     && cmake \
-        ../occt-89aebde \
+        ../occt-${dir_OCCT} \
         -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
         -DUSE_VTK:BOOL=OFF \
   \
@@ -129,7 +141,8 @@ RUN cd \
 
 ### get Netgen 5.3.1
 #--------------------
-RUN cd \
+RUN \
+    cd \
     && apt-get install -y \
     openmpi-bin libopenmpi-dev \
     && git clone https://github.com/luvres/netgen.git \
@@ -154,13 +167,13 @@ RUN cd \
   \
     && make -j$(nproc) \
     && make install \
-  # copy libsrc, FreeCAD needs it
     && cp -rf libsrc $FREECAD/libsrc
 
 
 ### get FreeCAD latest Github commit
 #------------------------------------
-RUN cd \
+RUN \
+    cd \
     && git clone https://github.com/FreeCAD/FreeCAD \
   # building FreeCAD
     && mkdir build \
@@ -176,38 +189,12 @@ RUN cd \
             -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade  \
             -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so \
   \
-    make -j$(nproc) \
-    && make install
-
+    && make -j$(nproc) 
+    #&& make install
 
 # start FreeCAD
 # $FREECAD/bin/FreeCAD
 
-
-#----------------------------------#
-# # no oce-dev packages, no netgen
-# # cmake \
-#     ../FreeCAD \
-#     -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#     -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade
-# 
-# # with oce-dev installed, no netgen
-# # cmake \
-#     ../FreeCAD \
-#     -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#     -DFREECAD_USE_OCC_VARIANT="Official Version" \
-#     -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
-#     -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so
-# 
-# # no oce-dev packages, with netgen
-# # cmake \
-#     ../FreeCAD \
-#     -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#     -DBUILD_FEM_NETGEN=1 \
-#     -DCMAKE_CXX_FLAGS="-DNETGEN_V5" \
-#     -DNETGEN_ROOT=$FREECAD \
-#     -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade
-#----------------------------------#
 
 
 ### Eigen
@@ -236,3 +223,17 @@ RUN cd \
 # gunzip Z88AuroraV4_en.tar.gz
 # tar -xpf Z88AuroraV4_en.tar
 # ./Z88AuroraV4/bin/ubuntu64/aurorastart
+
+
+### Calculix 2.12
+#-----------------
+# RUN \
+#     ccx_VERSION=2.12 && \
+#     apt-get install -y gfortran xorg-dev cpio \
+#     && cd \
+#     && git clone https://github.com/luvres/calculix.git \
+#     && cd calculix/ \
+#     && ./install \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+#     && cd && rm CalculiX-${ccx_VERSION} calculix -fR

@@ -5,6 +5,7 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 # https://gist.github.com/berndhahnebach/38d5bfe73134928c0a1ad001a94df05f
 # https://github.com/berndhahnebach/Netgen
 # https://sourceforge.net/p/netgen-mesher/wiki/Home/
+# https://aur.archlinux.org/packages
 
 ENV FREECAD=/opt/local/FreeCAD-0.17
 RUN \
@@ -205,3 +206,57 @@ RUN cd \
 ### start FreeCAD
 #-----------------
 # $FREECAD/bin/FreeCAD
+
+
+#----------------------------------#
+# # no oce-dev packages, no netgen
+# # cmake \
+#     ../FreeCAD \
+#     -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+#     -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade
+# 
+# # with oce-dev installed, no netgen
+# # cmake \
+#     ../FreeCAD \
+#     -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+#     -DFREECAD_USE_OCC_VARIANT="Official Version" \
+#     -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
+#     -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so
+# 
+# # no oce-dev packages, with netgen
+# # cmake \
+#     ../FreeCAD \
+#     -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+#     -DBUILD_FEM_NETGEN=1 \
+#     -DCMAKE_CXX_FLAGS="-DNETGEN_V5" \
+#     -DNETGEN_ROOT=$FREECAD \
+#     -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade
+#----------------------------------#
+
+
+### Eigen
+#---------
+# # https://forum.freecadweb.org/viewtopic.php?p=171028#p171028
+# # https://forum.freecadweb.org/viewtopic.php?t=5745
+# #---------
+# apt-get update && apt-get install cmake mercurial build-essential 
+# hg clone https://bitbucket.org/eigen/eigen
+# mkdir build && cd build
+#   \
+# cmake \
+#     #-DCMAKE_INSTALL_PREFIX=$FREECAD
+#     -DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
+#     -DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
+#     -DCMAKE_BUILD_TYPE=Release \
+#     -DCMAKE_VERBOSE_MAKEFILE=ON \
+#     ../eigen
+#   \
+# make install
+
+
+### Z88Aurora
+# #-------------
+# wget http://download.z88.de/z88aurora/V4/Z88AuroraV4_en.tar.gz
+# gunzip Z88AuroraV4_en.tar.gz
+# tar -xpf Z88AuroraV4_en.tar
+# ./Z88AuroraV4/bin/ubuntu64/aurorastart

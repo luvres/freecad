@@ -202,7 +202,7 @@ RUN \
 #-----------------
 RUN \
     ccx_VERSION=2.12 && \
-    apt-get install -y gfortran cpio \
+    apt-get install -y gfortran xorg-dev cpio \
     && cd \
     && git clone https://github.com/luvres/calculix.git \
     && cd calculix/ \
