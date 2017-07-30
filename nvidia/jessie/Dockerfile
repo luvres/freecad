@@ -1,5 +1,4 @@
-FROM debian:jessie-slim
-
+FROM debian:jessie-backports
 ENV VIRTUALGL_VERSION 2.5.2
 
 # install VirtualGL
@@ -11,8 +10,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rm virtualgl_*_amd64.deb && \
     apt-get clean && \
     apt-get remove -y curl ca-certificates && \
-    rm -rf /var/lib/apt/lists/*
-
+    rm -rf /var/lib/apt/lists/* \
+          /usr/share/doc/* \
+          /usr/share/locale/* \
+          /usr/share/man/* \
+          /usr/share/info/* -fR
+          
 # nvidia-docker links
 LABEL com.nvidia.volumes.needed="nvidia_driver"
 ENV PATH /usr/local/nvidia/bin:/opt/VirtualGL/bin:${PATH}
