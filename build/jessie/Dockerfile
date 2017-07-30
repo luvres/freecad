@@ -183,8 +183,8 @@ RUN \
 # # $FREECAD/bin/FreeCAD
 
 
-### Calculix 2.12
-#-----------------
+### Calculix 2.12 and CGX
+#-------------------------
 RUN \
     ccx_VERSION=2.12 && \
     apt-get install -y gfortran cpio \

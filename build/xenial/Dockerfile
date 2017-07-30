@@ -225,8 +225,8 @@ RUN \
 # ./Z88AuroraV4/bin/ubuntu64/aurorastart
 
 
-### Calculix 2.12
-#-----------------
+### Calculix 2.12 and CGX
+#-------------------------
 # RUN \
 #     ccx_VERSION=2.12 && \
 #     apt-get install -y gfortran xorg-dev cpio \
