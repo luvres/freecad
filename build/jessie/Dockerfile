@@ -183,7 +183,6 @@ RUN \
 
 
 ### Calculix 2.12
-
 #-----------------
 RUN \
     ccx_VERSION=2.12 && \
