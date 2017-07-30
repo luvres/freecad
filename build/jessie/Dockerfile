@@ -63,7 +63,7 @@ RUN \
         libmed-dev \
         libmedc-dev
 
-### get VTK 7.0.0
+### get VTK 7.1.1
 #-----------------
 # 7.0 - 7.0.0
 # 7.1 - 7.1.1
