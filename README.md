@@ -145,3 +145,13 @@ docker build -t izone/freecad:0.16 ./0.16/
 docker build -t izone/freecad:daily ./0.17/ && \
 docker build -t izone/freecad:0.17 ./0.17/
 ```
+```
+```
+#### libMED, VTK, OCCT, Netgen, calculix, etc
+```
+docker build -t freecad:build-xenial ./build/xenial/
+
+docker build -t freecad:build-jessie ./build/jessie/
+
+docker build -t freecad:build-sid ./build/sid/
+```
