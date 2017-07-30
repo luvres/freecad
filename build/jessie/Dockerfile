@@ -88,8 +88,8 @@ RUN \
 # 7.1 - 7.1.1
 # 8.0 - 8.0.0
 RUN \
-    vtk_VERSION_MAJOR=7.1 && \
-    vtk_VERSION_MINOR=7.1.1 && \
+    vtk_VERSION_MAJOR=8.0 && \
+    vtk_VERSION_MINOR=8.0.0 && \
   \
     cd \
     && mkdir vtk \
@@ -114,8 +114,8 @@ RUN \
 ### OCCT 7.1.0
 #--------------
 RUN \
-   url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && \
-   #url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && 
+   #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && 
+   url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && \
    dir_OCCT=1780d6c && \
   \
     cd \
