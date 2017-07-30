@@ -57,13 +57,30 @@ RUN \
         tk8.5-dev \
         automake \
         libtogl-dev \
-        libhdf5-dev \
-        #libmed
-        #libmedc
-        libmed-dev \
-        libmedc-dev
+        libhdf5-dev
+        
+### libMED 3.0.6
+#----------------
+# RUN apt-get install -y \
+#     libmed-dev \
+#     libmedc-dev
 
-### get VTK 7.1.1
+### libMED 3.2.0
+#--------------------
+RUN \
+    cd \
+    && mkdir med \
+    && cd med \
+    && git clone https://github.com/luvres/libMED.git \
+  \
+  # building MED
+    && mkdir build \
+    && cd build \
+    && cmake ../libMED -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+    && make -j$(nproc) \
+    && make install
+
+### VTK 7.1.1
 #-----------------
 # 7.0 - 7.0.0
 # 7.1 - 7.1.1
@@ -92,7 +109,7 @@ RUN \
     && make -j$(nproc) \
     && make install
 
-### get OCCT 7.1.0
+### OCCT 7.1.0
 #------------------
 RUN \
    url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && \
@@ -126,7 +143,7 @@ RUN \
     && make -j$(nproc) \
     && make install
 
-### get Netgen 5.3.1
+### Netgen 5.3.1
 #--------------------
 RUN \
     cd \
@@ -157,8 +174,8 @@ RUN \
     && cp -rf libsrc $FREECAD/libsrc
 
 
-### get FreeCAD latest Github commit
-#------------------------------------
+### FreeCAD latest Github commit
+#--------------------------------
 RUN \
     cd \
     && git clone https://github.com/FreeCAD/FreeCAD \
