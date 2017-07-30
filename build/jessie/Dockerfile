@@ -184,12 +184,13 @@ RUN \
 
 ### Calculix 2.12
 #-----------------
-ENV CCX_VERSION=2.12
-RUN apt-get install -y gfortran xorg-dev cpio \
+RUN \
+    ccx_VERSION=2.12 && \
+    apt-get install -y gfortran cpio \
     && cd \
     && git clone https://github.com/luvres/calculix.git \
     && cd calculix/ \
     && ./install \
-    && cp $HOME/CalculiX-$CCX_VERSION/bin/ccx_$CCX_VERSION /usr/bin/ccx \
-    && cp $HOME/CalculiX-$CCX_VERSION/bin/cgx /usr/bin/cgx \
-    && cd && rm CalculiX-$CCX_VERSION calculix -fR
+    && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+    && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+    && cd && rm CalculiX-${ccx_VERSION} calculix -fR
