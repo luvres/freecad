@@ -50,20 +50,24 @@ RUN \
         $package_list \
         python-pivy \
         git \
-        #cmake 
+      # Enable backports to build VTK 8
+        cmake \
         g++ \
         libfreetype6-dev \
         tcl8.5-dev \
         tk8.5-dev \
         automake \
         libtogl-dev \
-        libhdf5-dev \
-      \
-      # Backports to "cmake 3.3 or higher" required by VTK 8
-        && echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/backports.list \
-        && apt-get update \
-        && apt-get -t jessie-backports install -y \
-        cmake
+        libhdf5-dev
+
+### cmake -> Enable backports to "cmake 3.3 or higher" required by VTK 8
+#---------
+# RUN \
+#     echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/backports.list \
+#     && apt-get update \
+#     && apt-get -t jessie-backports install -y \
+#   \
+#     cmake
 
 ### libMED 3.0.6
 #----------------
@@ -92,8 +96,8 @@ RUN \
 # 7.1 - 7.1.1
 # 8.0 - 8.0.0
 RUN \
-    vtk_VERSION_MAJOR=8.0 && \
-    vtk_VERSION_MINOR=8.0.0 && \
+    vtk_VERSION_MAJOR=7.1 && \
+    vtk_VERSION_MINOR=7.1.1 && \
   \
     cd \
     && mkdir vtk \

@@ -148,17 +148,6 @@ docker build -t izone/freecad:0.17 ./0.17/
 ```
 ```
 -----
-#### Ubuntu Xenial(16.04)
-##### libMED 3.2.0
-##### VTK 8.0.0
-##### OCCT 7.1.0p1
-##### Netgen 5.3.1
-##### CalculiX 2.12
-```
-docker build -t freecad:build-xenial ./build/xenial/
-```
-```
-```
 #### Debian Jessie (8.9)
 ##### libMED 3.2.0
 ##### VTK 7.1.1
@@ -170,11 +159,22 @@ docker build -t freecad:build-jessie ./build/jessie/
 ```
 ```
 ```
-#### Debian Sid
+#### Ubuntu Xenial(16.04)
 ##### libMED 3.2.0
-##### VTK 7.1.1
+##### VTK 8.0.0
+##### OCCT 7.1.0p1
+##### Netgen 5.3.1
+##### CalculiX 2.12
+```
+docker build -t freecad:build-xenial ./build/xenial/
+```
+```
+```
+#### Debian Stretch
+##### libMED 3.2.0
+##### VTK 8.0.0
 ##### OCCT 7.1.0p1
 ##### Netgen 5.3.1
 ```
-docker build -t freecad:build-sid ./build/sid/
+docker build -t freecad:build-stretch ./build/stretch/
 ```

@@ -1,4 +1,4 @@
-FROM izone/freecad:nvidia
+FROM izone/freecad:nvidia-stretch
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 # References:
@@ -13,14 +13,14 @@ RUN \
     && mkdir -p $FREECAD \
     \
     && package_list=" doxygen \
-                      libboost1.58-dev \
-                      libboost-filesystem1.58-dev \
-                      libboost-program-options1.58-dev \
-                      libboost-python1.58-dev \
-                      libboost-regex1.58-dev \
-                      libboost-signals1.58-dev \
-                      libboost-system1.58-dev \
-                      libboost-thread1.58-dev \
+                      libboost1.62-dev \
+                      libboost-filesystem1.62-dev \
+                      libboost-program-options1.62-dev \
+                      libboost-python1.62-dev \
+                      libboost-regex1.62-dev \
+                      libboost-signals1.62-dev \
+                      libboost-system1.62-dev \
+                      libboost-thread1.62-dev \
                       libcoin80v5 \
                       libcoin80-dev \
                       libeigen3-dev \
@@ -57,11 +57,12 @@ RUN \
         tk8.5-dev \
         automake \
         libtogl-dev \
-        libhdf5-dev 
-        #calculix-ccx
+        libhdf5-dev \
+      \
+        calculix-ccx
 
-### libMED 3.2.0
-#----------------
+### get libMED 3.2.0
+#--------------------
 RUN \
     cd \
     && mkdir med \
@@ -75,8 +76,8 @@ RUN \
     && make -j$(nproc) \
     && make install
 
-### VTK 8.0.0
-#-------------
+### get VTK 8.0.0
+#-----------------
 # 7.0 - 7.0.0
 # 7.1 - 7.1.1
 # 8.0 - 8.0.0
@@ -104,13 +105,17 @@ RUN \
     && make -j$(nproc) \
     && make install
 
-### OCCT 7.1.0
-#--------------
+### get OCCT 7.1.0
+#------------------
 RUN \
-    url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && \
-    #url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && 
-    dir_OCCT=1780d6c && \
-  \  
+    url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz" && \
+    #url_OCCT="http://desktop/Workstation/occt-7.1.0.tgz" && 
+    dir_OCCT=89aebde && \
+  \
+#     #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && 
+#     url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && 
+#     dir_OCCT=1780d6c && 
+  \
     cd \
     && mkdir occt \
     && cd occt \
@@ -138,8 +143,8 @@ RUN \
     && make -j$(nproc) \
     && make install
 
-### Netgen 5.3.1
-#----------------
+### get Netgen 5.3.1
+#--------------------
 RUN \
     cd \
     && apt-get install -y \
@@ -169,8 +174,8 @@ RUN \
     && cp -rf libsrc $FREECAD/libsrc
 
 
-### FreeCAD latest Github commit
-#--------------------------------
+### get FreeCAD latest Github commit
+#------------------------------------
 RUN \
     cd \
     && git clone https://github.com/FreeCAD/FreeCAD \
@@ -189,48 +194,21 @@ RUN \
             -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so \
   \
     && make -j$(nproc) 
-    #&& make install
+#    #&& make install
+# 
+# # start FreeCAD
+# # $FREECAD/bin/FreeCAD
 
-# start FreeCAD
-# $FREECAD/bin/FreeCAD
 
 ### Calculix 2.12 and CGX
 #-------------------------
-RUN \
-    ccx_VERSION=2.12 && \
-    apt-get install -y gfortran cpio \
-    && cd \
-    && git clone https://github.com/luvres/calculix.git \
-    && cd calculix/ \
-    && ./install \
-    && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-    && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
-    && cd && rm CalculiX-${ccx_VERSION} calculix -fR
-
-
-### Eigen
-#---------
-# # https://forum.freecadweb.org/viewtopic.php?p=171028#p171028
-# # https://forum.freecadweb.org/viewtopic.php?t=5745
-# #---------
-# apt-get update && apt-get install cmake mercurial build-essential 
-# hg clone https://bitbucket.org/eigen/eigen
-# mkdir build && cd build
-#   \
-# cmake \
-#     #-DCMAKE_INSTALL_PREFIX=$FREECAD
-#     -DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
-#     -DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
-#     -DCMAKE_BUILD_TYPE=Release \
-#     -DCMAKE_VERBOSE_MAKEFILE=ON \
-#     ../eigen
-#   \
-# make install
-
-
-### Z88Aurora
-# #-------------
-# wget http://download.z88.de/z88aurora/V4/Z88AuroraV4_en.tar.gz
-# gunzip Z88AuroraV4_en.tar.gz
-# tar -xpf Z88AuroraV4_en.tar
-# ./Z88AuroraV4/bin/ubuntu64/aurorastart
+# RUN \
+#     ccx_VERSION=2.12 && \
+#     apt-get install -y gfortran xorg-dev cpio \
+#     && cd \
+#     && git clone https://github.com/luvres/calculix.git \
+#     && cd calculix/ \
+#     && ./install \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+#     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
