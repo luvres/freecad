@@ -66,7 +66,7 @@ RUN \
 #     libmedc-dev
 
 ### libMED 3.2.0
-#--------------------
+#----------------
 RUN \
     cd \
     && mkdir med \
@@ -81,7 +81,7 @@ RUN \
     && make install
 
 ### VTK 7.1.1
-#-----------------
+#-------------
 # 7.0 - 7.0.0
 # 7.1 - 7.1.1
 # 8.0 - 8.0.0
@@ -110,7 +110,7 @@ RUN \
     && make install
 
 ### OCCT 7.1.0
-#------------------
+#--------------
 RUN \
    url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && \
    #url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && 
@@ -144,7 +144,7 @@ RUN \
     && make install
 
 ### Netgen 5.3.1
-#--------------------
+#----------------
 RUN \
     cd \
     && apt-get install -y \
