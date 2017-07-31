@@ -9,7 +9,7 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 ENV FREECAD=/opt/local/FreeCAD-0.17
 RUN \
-    cd - \
+    cd \
     && mkdir -p $FREECAD \
     \
     && package_list=" doxygen \
@@ -78,7 +78,7 @@ RUN \
 ### libMED 3.2.0
 #----------------
 RUN \
-    cd - \
+    cd \
     && mkdir med \
     && cd med \
     && git clone https://github.com/luvres/libMED.git \
@@ -97,7 +97,7 @@ RUN \
     vtk_VERSION_MAJOR=7.1 && \
     vtk_VERSION_MINOR=7.1.1 && \
   \
-    cd - \
+    cd \
     && mkdir vtk \
     && cd vtk \
     && wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
@@ -124,7 +124,7 @@ RUN \
    url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && \
    dir_OCCT=1780d6c && \
   \
-    cd - \
+    cd \
     && mkdir occt \
     && cd occt \
   \
@@ -154,7 +154,7 @@ RUN \
 ### Netgen 5.3.1
 #----------------
 RUN \
-    cd - \
+    cd \
     && apt-get install -y \
     openmpi-bin libopenmpi-dev \
     && git clone https://github.com/luvres/netgen.git \
@@ -185,7 +185,7 @@ RUN \
 ### FreeCAD latest Github commit
 #--------------------------------
 RUN \
-    cd - \
+    cd \
     && git clone https://github.com/FreeCAD/FreeCAD \
   # building FreeCAD
     && mkdir build \
@@ -213,7 +213,7 @@ RUN \
 RUN \
     ccx_VERSION=2.12 && \
     apt-get install -y gfortran cpio \
-    && cd - \
+    && cd \
     && git clone https://github.com/luvres/calculix.git \
     && cd calculix/ \
     && ./install \
