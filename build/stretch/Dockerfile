@@ -61,8 +61,8 @@ RUN \
       \
         calculix-ccx
 
-### get libMED 3.2.0
-#--------------------
+### libMED 3.2.0
+#----------------
 RUN \
     cd \
     && mkdir med \
@@ -76,11 +76,11 @@ RUN \
     && make -j$(nproc) \
     && make install
 
-### get VTK 8.0.0
-#-----------------
+### VTK 8.0.0
+#-------------
 RUN \
-    vtk_VERSION_MAJOR=8.0 && \
-    vtk_VERSION_MINOR=8.0.0 && \
+    vtk_VERSION_MAJOR=7.1 && \
+    vtk_VERSION_MINOR=7.1.1 && \
   \
     cd \
     && mkdir vtk \
@@ -102,16 +102,12 @@ RUN \
     && make -j$(nproc) \
     && make install
 
-### get OCCT 7.1.0
-#------------------
+### OCCT 7.1.0
+#--------------
 RUN \
-    url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz" && \
-    #url_OCCT="http://desktop/Workstation/occt-7.1.0.tgz" && 
-    dir_OCCT=89aebde && \
-  \
-#     #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && 
-#     url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && 
-#     dir_OCCT=1780d6c && 
+    #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && 
+    url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && \
+    dir_OCCT=1780d6c && \
   \
     cd \
     && mkdir occt \
@@ -140,8 +136,8 @@ RUN \
     && make -j$(nproc) \
     && make install
 
-### get Netgen 5.3.1
-#--------------------
+### Netgen 5.3.1
+#----------------
 RUN \
     cd \
     && apt-get install -y \
@@ -171,8 +167,8 @@ RUN \
     && cp -rf libsrc $FREECAD/libsrc
 
 
-### get FreeCAD latest Github commit
-#------------------------------------
+### FreeCAD latest Github commit
+#-------------------------------
 RUN \
     cd \
     && git clone https://github.com/FreeCAD/FreeCAD \
