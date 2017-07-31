@@ -168,13 +168,3 @@ docker build -t freecad:build-jessie ./build/jessie/
 ```
 docker build -t freecad:build-xenial ./build/xenial/
 ```
-```
-```
-#### Debian Stretch
-##### libMED 3.2.0
-##### VTK 8.0.0
-##### OCCT 7.1.0p1
-##### Netgen 5.3.1
-```
-docker build -t freecad:build-stretch ./build/stretch/
-```
