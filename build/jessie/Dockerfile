@@ -92,6 +92,7 @@ RUN \
 
 ### VTK 7.1.1
 #-------------
+# 8.0.0
 RUN \
     vtk_VERSION_MAJOR=7.1 && \
     vtk_VERSION_MINOR=7.1.1 && \
