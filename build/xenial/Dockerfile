@@ -205,24 +205,27 @@ RUN \
     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
 
 
-### Eigen
-#---------
-# # https://forum.freecadweb.org/viewtopic.php?p=171028#p171028
-# # https://forum.freecadweb.org/viewtopic.php?t=5745
-# #---------
-# apt-get update && apt-get install cmake mercurial build-essential 
-# hg clone https://bitbucket.org/eigen/eigen
-# mkdir build && cd build
-#   \
-# cmake \
-#     #-DCMAKE_INSTALL_PREFIX=$FREECAD
-#     -DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
-#     -DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
-#     -DCMAKE_BUILD_TYPE=Release \
-#     -DCMAKE_VERBOSE_MAKEFILE=ON \
-#     ../eigen
-#   \
-# make install
+### Eigen Bitbucket
+#-------------------
+# https://forum.freecadweb.org/viewtopic.php?p=171028#p171028
+# https://forum.freecadweb.org/viewtopic.php?t=5745
+# RUN \
+#     cd \
+#     && mkdir eigen \
+#     && cd eigen \
+#     && apt-get update && apt-get install -y mercurial \
+#     && hg clone https://bitbucket.org/eigen/eigen \
+#     && mkdir build \
+#     && cd build \
+#     && cmake \
+#         ../eigen \
+#         -DCMAKE_INSTALL_PREFIX=$FREECAD \
+#         -DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
+#         -DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
+#         -DCMAKE_BUILD_TYPE=Release \
+#         -DCMAKE_VERBOSE_MAKEFILE=ON \
+#       \
+#       make install
 
 
 ### Z88Aurora
