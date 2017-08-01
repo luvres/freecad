@@ -177,13 +177,21 @@ RUN \
     && cd build \
   \
   # with oce-dev installed, with netgen
-    && cmake ../FreeCAD  \
-            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD  \
-            -DBUILD_FEM_NETGEN=1  \
-            -DCMAKE_CXX_FLAGS="-DNETGEN_V5"  \
-            -DNETGEN_ROOT=$FREECAD  \
-            -DFREECAD_USE_OCC_VARIANT="Official Version"  \
-            -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade  \
+    && cmake ../FreeCAD \
+            -DCMAKE_CXX_COMPILER="/usr/bin/mpic++" \
+            -DCMAKE_CXX_FLAGS="-I/usr/include/hdf5/openmpi -I/usr/include/mpi" \
+            #-DCMAKE_BUILD_TYPE=DebWithRelInfo 
+            #-DCOIN3D_DOC_PATH=/usr/share/doc/libcoin80-doc 
+            #-DCOIN3D_DOC_TAGFILE=/usr/share/doc/libcoin80-doc/html/coin.tag.gz 
+            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+            -DBUILD_FEM_NETGEN=1 \
+            -DCMAKE_CXX_FLAGS="-DNETGEN_V5" \
+            -DNETGEN_ROOT=$FREECAD \
+            -DFREECAD_USE_OCC_VARIANT="Official Version" \
+            #-DFREECAD_USE_OCC_VARIANT="Official Version" sourcecode
+            #-DFREECAD_BUILD_DEBIAN=1 
+            #-DEIGEN3_INCLUDE_DIR=/usr/include/eigen3 
+            -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
             -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so \
   \
     && make -j$(nproc) 
