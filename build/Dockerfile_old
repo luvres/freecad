@@ -99,6 +99,13 @@ RUN cd \
     && make -j$(nproc) \
     && make install
 
+
+### get OCCT 7.2.0
+#------------------
+#     #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=82af2baefa166a066b30ee6e0382965d83b90ff1;sf=tgz" && 
+#     url_OCCT="http://desktop/Workstation/occt-7.2.0beta.tgz" && 
+#     dir_OCCT=82af2ba && 
+    
 ### get OCCT 7.1.0
 #------------------
 #     #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=89aebdea8d6f4d15cfc50e9458cd8e2e25022326;sf=tgz" && 
