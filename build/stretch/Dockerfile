@@ -179,7 +179,7 @@ RUN \
   # with oce-dev installed, with netgen
     && cmake ../FreeCAD \
             -DCMAKE_CXX_COMPILER="/usr/bin/mpic++" \
-            -DCMAKE_CXX_FLAGS="-I/usr/include/hdf5/openmpi -I/usr/include/mpi" \
+            -DCMAKE_CXX_FLAGS="-I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/include/mpi" \
             #-DCMAKE_BUILD_TYPE=DebWithRelInfo 
             #-DCOIN3D_DOC_PATH=/usr/share/doc/libcoin80-doc 
             #-DCOIN3D_DOC_TAGFILE=/usr/share/doc/libcoin80-doc/html/coin.tag.gz 

@@ -23,6 +23,7 @@ RUN \
                       libboost-thread1.55-dev \
                       libcoin80 \
                       libcoin80-dev \
+                      libeigen3-dev \
                       libpyside-dev \
                       libqtcore4 \
                       libshiboken-dev \
@@ -59,7 +60,14 @@ RUN \
         libtogl-dev \
         libhdf5-dev
 
-
+### cmake -> Enable backports to "cmake 3.3 or higher" required by VTK 8
+#---------
+# RUN \
+#     echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/backports.list \
+#     && apt-get update \
+#     && apt-get -t jessie-backports install -y \
+#   \
+#     cmake
 
 ### libMED 3.0.6
 #----------------
@@ -81,15 +89,6 @@ RUN \
     && cmake ../libMED -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
     && make -j$(nproc) \
     && make install
-
-### cmake -> Enable backports to "cmake 3.3 or higher" required by VTK 8
-#---------
-# RUN \
-#     echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/backports.list \
-#     && apt-get update \
-#     && apt-get -t jessie-backports install -y \
-#   \
-#     cmake
 
 ### VTK 7.1.1
 #-------------
@@ -183,40 +182,11 @@ RUN \
     && cp -rf libsrc $FREECAD/libsrc
 
 
-### Eigen 3.2.2
-#---------------
-# RUN apt-get install -y \
-#     libeigen3-dev \
-
-### Eigen 3.3.90 -> Bitbucket
-#----------------------------
-#apt-get remove -y libeigen3-dev
-RUN \
-    cd \
-    && mkdir eigen \
-    && cd eigen \
-    && apt-get install -y mercurial \
-    && hg clone https://bitbucket.org/eigen/eigen \
-    && mkdir build \
-    && cd build \
-  \
-    && cmake ../eigen \
-        -DCMAKE_INSTALL_PREFIX=$FREECAD \
-        -DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
-        -DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_VERBOSE_MAKEFILE=ON \
-  \
-    && make install
-
-
 ### FreeCAD latest Github commit
 #--------------------------------
 RUN \
     cd \
     && git clone https://github.com/FreeCAD/FreeCAD \
-  # To get all materials ?
-    #&& sed -i '/GLOB MaterialLib_Files/s/#//' FreeCAD/src/Mod/Material/CMakeLists.txt 
   # building FreeCAD
     && mkdir build \
     && cd build \
@@ -230,8 +200,6 @@ RUN \
             -DFREECAD_USE_OCC_VARIANT="Official Version"  \
             -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade  \
             -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so \
-            -DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 \
-            -DBUILD_MATERIAL=ON \
   \
     && make -j$(nproc) 
 #    #&& make install
@@ -252,4 +220,3 @@ RUN \
     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
-
