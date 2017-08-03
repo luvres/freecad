@@ -235,7 +235,7 @@ RUN \
             -DFREECAD_USE_OCC_VARIANT="Official Version"  \
             -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade  \
             -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so \
-            -DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
+            -DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 \
   \
     && make -j$(nproc) 
 #    #&& make install
