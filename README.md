@@ -120,9 +120,10 @@ cd freecad
 ```
 ```
 docker build -t izone/freecad:nvidia-xenial ./nvidia/ && \
-docker build -t izone/freecad:nvidia-sid ./nvidia/sid/ && \
+docker build -t izone/freecad:nvidia-jessie ./nvidia/jessie/ && \
 docker build -t izone/freecad:nvidia-stretch ./nvidia/stretch/ && \
-docker build -t izone/freecad:nvidia-jessie ./nvidia/jessie/
+docker build -t izone/freecad:nvidia-sid ./nvidia/sid/ 
+
 ```
 ```
 ```
