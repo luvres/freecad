@@ -122,7 +122,7 @@ RUN apt-get install -y \
     libcoin80-dev
 
 ### OCCT 7.1.0
-#-------------- 
+#--------------
 RUN \
    #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && 
    url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && \
@@ -235,11 +235,9 @@ RUN \
             -DFREECAD_USE_OCC_VARIANT="Official Version"  \
             -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade  \
             -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so \
-            -DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 \
-            -DCOIN3D_LIBRARY=/usr/local/lib/libCoin.so \
-            -DCOIN3D_INCLUDE_DIR=/usr/local/include/Inventor 
-#  \
-#    && make -j$(nproc) 
+            -DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
+  \
+    && make -j$(nproc) 
 #    #&& make install
 # 
 # # start FreeCAD
