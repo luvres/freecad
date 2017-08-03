@@ -214,6 +214,7 @@ RUN \
     && make install
 
 
+
 ### FreeCAD latest Github commit
 #--------------------------------
 RUN \
@@ -235,8 +236,10 @@ RUN \
             -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade  \
             -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so \
             -DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 \
-  \
-    && make -j$(nproc) 
+            -DCOIN3D_LIBRARY=/usr/local/lib/libCoin.so \
+            -DCOIN3D_INCLUDE_DIR=/usr/local/include/Inventor 
+#  \
+#    && make -j$(nproc) 
 #    #&& make install
 # 
 # # start FreeCAD
@@ -245,14 +248,14 @@ RUN \
 
 ### Calculix 2.12 and CGX
 #-------------------------
-RUN \
-    ccx_VERSION=2.12 && \
-    apt-get install -y gfortran cpio \
-    && cd \
-    && git clone https://github.com/luvres/calculix.git \
-    && cd calculix/ \
-    && ./install \
-    && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-    && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
-    && cd && rm CalculiX-${ccx_VERSION} calculix -fR
+# RUN \
+#     ccx_VERSION=2.12 && \
+#     apt-get install -y gfortran cpio \
+#     && cd \
+#     && git clone https://github.com/luvres/calculix.git \
+#     && cd calculix/ \
+#     && ./install \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+#     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
 
