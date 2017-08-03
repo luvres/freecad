@@ -12,7 +12,18 @@ RUN \
     cd \
     && mkdir -p $FREECAD \
     \
-    && package_deps=" doxygen \
+    && package_list=" doxygen \
+                      libboost1.62-dev \
+                      libboost-filesystem1.62-dev \
+                      libboost-program-options1.62-dev \
+                      libboost-python1.62-dev \
+                      libboost-regex1.62-dev \
+                      libboost-signals1.62-dev \
+                      libboost-system1.62-dev \
+                      libboost-thread1.62-dev \
+                      libcoin80v5 \
+                      libcoin80-dev \
+                      libeigen3-dev \
                       libpyside-dev \
                       libqtcore4 \
                       libshiboken-dev \
@@ -30,40 +41,25 @@ RUN \
                       qt4-qmake \
                       libqtwebkit-dev \
                       shiboken \
+                      gmsh \
                       swig " \
     \
-    && package_boost=" libboost1.62-dev \
-                       libboost-filesystem1.62-dev \
-                       libboost-program-options1.62-dev \
-                       libboost-python1.62-dev \
-                       libboost-regex1.62-dev \
-                       libboost-signals1.62-dev \
-                       libboost-system1.62-dev \
-                       libboost-thread1.62-dev " \
-    \
-    && package_build=" python-pivy \
-                       cmake \
-                       g++ \
-                       libfreetype6-dev \
-                       tcl8.5-dev \
-                       tk8.5-dev \
-                       automake \
-                       libtogl-dev \
-                       libhdf5-dev " \
-    \
     && apt-get update \
-    \
     && apt-get install -y \
-      \
-        $package_deps \
-        $package_boost \
-        $package_build \
-      \
-        dictionaries-common \
-        wget \
+        dictionaries-common wget \
+        $package_list \
+        python-pivy \
         git \
-        gmsh 
-        #calculix-ccx
+        cmake \
+        g++ \
+        libfreetype6-dev \
+        tcl8.5-dev \
+        tk8.5-dev \
+        automake \
+        libtogl-dev \
+        libhdf5-dev \
+      \
+        calculix-ccx
 
 ### libMED 3.2.0
 #----------------
@@ -83,8 +79,8 @@ RUN \
 ### VTK 8.0.0
 #-------------
 RUN \
-    vtk_VERSION_MAJOR=8.0 && \
-    vtk_VERSION_MINOR=8.0.0 && \
+    vtk_VERSION_MAJOR=7.1 && \
+    vtk_VERSION_MINOR=7.1.1 && \
   \
     cd \
     && mkdir vtk \
@@ -106,19 +102,13 @@ RUN \
     && make -j$(nproc) \
     && make install
 
-### libCoin 3.1.4
-#-----------------
-RUN apt-get install -y \
-    libcoin80v5 \
-    libcoin80-dev 
-
 ### OCCT 7.1.0
 #--------------
 RUN \
     #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && 
     url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && \
     dir_OCCT=1780d6c && \
-  \  
+  \
     cd \
     && mkdir occt \
     && cd occt \
@@ -176,35 +166,9 @@ RUN \
     && make install \
     && cp -rf libsrc $FREECAD/libsrc
 
-### Eigen 3.3~beta1-2
-#---------------------
-# RUN apt-get install -y \
-#     libeigen3-dev \
-
-### Eigen 3.3.90 -> Bitbucket
-#----------------------------
-#apt-get remove -y libeigen3-dev
-RUN \
-    cd \
-    && mkdir eigen \
-    && cd eigen \
-    && apt-get install -y mercurial \
-    && hg clone https://bitbucket.org/eigen/eigen \
-    && mkdir build \
-    && cd build \
-  \
-    && cmake ../eigen \
-        -DCMAKE_INSTALL_PREFIX=$FREECAD \
-        -DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
-        -DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_VERBOSE_MAKEFILE=ON \
-  \
-    && make install
-
 
 ### FreeCAD latest Github commit
-#--------------------------------
+#-------------------------------
 RUN \
     cd \
     && git clone https://github.com/FreeCAD/FreeCAD \
@@ -213,13 +177,21 @@ RUN \
     && cd build \
   \
   # with oce-dev installed, with netgen
-    && cmake ../FreeCAD  \
-            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD  \
-            -DBUILD_FEM_NETGEN=1  \
-            -DCMAKE_CXX_FLAGS="-DNETGEN_V5"  \
-            -DNETGEN_ROOT=$FREECAD  \
-            -DFREECAD_USE_OCC_VARIANT="Official Version"  \
-            -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade  \
+    && cmake ../FreeCAD \
+            -DCMAKE_CXX_COMPILER="/usr/bin/mpic++" \
+            -DCMAKE_CXX_FLAGS="-I/usr/lib/x86_64-linux-gnu/openmpi/include -I/usr/include/mpi" \
+            #-DCMAKE_BUILD_TYPE=DebWithRelInfo 
+            #-DCOIN3D_DOC_PATH=/usr/share/doc/libcoin80-doc 
+            #-DCOIN3D_DOC_TAGFILE=/usr/share/doc/libcoin80-doc/html/coin.tag.gz 
+            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+            -DBUILD_FEM_NETGEN=1 \
+            -DCMAKE_CXX_FLAGS="-DNETGEN_V5" \
+            -DNETGEN_ROOT=$FREECAD \
+            -DFREECAD_USE_OCC_VARIANT="Official Version" \
+            #-DFREECAD_USE_OCC_VARIANT="Official Version" sourcecode
+            #-DFREECAD_BUILD_DEBIAN=1 
+            #-DEIGEN3_INCLUDE_DIR=/usr/include/eigen3 
+            -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
             -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so \
   \
     && make -j$(nproc) 
@@ -231,13 +203,13 @@ RUN \
 
 ### Calculix 2.12 and CGX
 #-------------------------
-RUN \
-    ccx_VERSION=2.12 && \
-    apt-get install -y gfortran cpio \
-    && cd \
-    && git clone https://github.com/luvres/calculix.git \
-    && cd calculix/ \
-    && ./install \
-    && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-    && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
-    && cd && rm CalculiX-${ccx_VERSION} calculix -fR
+# RUN \
+#     ccx_VERSION=2.12 && \
+#     apt-get install -y gfortran xorg-dev cpio \
+#     && cd \
+#     && git clone https://github.com/luvres/calculix.git \
+#     && cd calculix/ \
+#     && ./install \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+#     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
