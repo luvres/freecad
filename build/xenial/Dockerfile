@@ -21,8 +21,6 @@ RUN \
                       libboost-signals1.58-dev \
                       libboost-system1.58-dev \
                       libboost-thread1.58-dev \
-                      libcoin80v5 \
-                      libcoin80-dev \
                       libpyside-dev \
                       libqtcore4 \
                       libshiboken-dev \
@@ -100,6 +98,12 @@ RUN \
     && make -j$(nproc) \
     && make install
 
+### libCoin 3.1.4
+#-----------------
+RUN apt-get install -y \
+    libcoin80v5 \
+    libcoin80-dev 
+
 ### OCCT 7.1.0
 #--------------
 RUN \
@@ -164,7 +168,6 @@ RUN \
     && make install \
     && cp -rf libsrc $FREECAD/libsrc
 
-
 ### Eigen 3.3~beta1-2
 #---------------------
 # RUN apt-get install -y \
@@ -190,7 +193,6 @@ RUN \
         -DCMAKE_VERBOSE_MAKEFILE=ON \
   \
     && make install
-
 
 
 ### FreeCAD latest Github commit

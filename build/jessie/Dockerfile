@@ -57,7 +57,6 @@ RUN \
         libtogl-dev \
         libhdf5-dev
 
-
 ### libMED 3.0.6
 #----------------
 # RUN apt-get install -y \
@@ -155,7 +154,6 @@ RUN \
     && make -j$(nproc) \
     && make install
 
-
 ### Netgen 5.3.1
 #----------------
 RUN \
@@ -186,7 +184,6 @@ RUN \
     && make install \
     && cp -rf libsrc $FREECAD/libsrc
 
-
 ### Eigen 3.2.2
 #---------------
 # RUN apt-get install -y \
@@ -212,7 +209,6 @@ RUN \
         -DCMAKE_VERBOSE_MAKEFILE=ON \
   \
     && make install
-
 
 
 ### FreeCAD latest Github commit
