@@ -23,7 +23,6 @@ RUN \
                       libboost-thread1.58-dev \
                       libcoin80v5 \
                       libcoin80-dev \
-                      libeigen3-dev \
                       libpyside-dev \
                       libqtcore4 \
                       libshiboken-dev \
@@ -166,6 +165,34 @@ RUN \
     && cp -rf libsrc $FREECAD/libsrc
 
 
+### Eigen 3.3~beta1-2
+#---------------------
+# RUN apt-get install -y \
+#     libeigen3-dev \
+
+### Eigen 3.3.90 -> Bitbucket
+#----------------------------
+#apt-get remove -y libeigen3-dev
+RUN \
+    cd \
+    && mkdir eigen \
+    && cd eigen \
+    && apt-get install -y mercurial \
+    && hg clone https://bitbucket.org/eigen/eigen \
+    && mkdir build \
+    && cd build \
+  \
+    && cmake ../eigen \
+        -DCMAKE_INSTALL_PREFIX=$FREECAD \
+        -DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
+        -DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_VERBOSE_MAKEFILE=ON \
+  \
+    && make install
+
+
+
 ### FreeCAD latest Github commit
 #--------------------------------
 RUN \
@@ -186,10 +213,11 @@ RUN \
             -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so \
   \
     && make -j$(nproc) 
-    #&& make install
+#    #&& make install
+# 
+# # start FreeCAD
+# # $FREECAD/bin/FreeCAD
 
-# start FreeCAD
-# $FREECAD/bin/FreeCAD
 
 ### Calculix 2.12 and CGX
 #-------------------------
@@ -203,34 +231,3 @@ RUN \
     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
-
-
-### Eigen Bitbucket
-#-------------------
-# https://forum.freecadweb.org/viewtopic.php?p=171028#p171028
-# https://forum.freecadweb.org/viewtopic.php?t=5745
-# RUN \
-#     cd \
-#     && mkdir eigen \
-#     && cd eigen \
-#     && apt-get update && apt-get install -y mercurial \
-#     && hg clone https://bitbucket.org/eigen/eigen \
-#     && mkdir build \
-#     && cd build \
-#     && cmake \
-#         ../eigen \
-#         -DCMAKE_INSTALL_PREFIX=$FREECAD \
-#         -DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
-#         -DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
-#         -DCMAKE_BUILD_TYPE=Release \
-#         -DCMAKE_VERBOSE_MAKEFILE=ON \
-#       \
-#       make install
-
-
-### Z88Aurora
-# #-------------
-# wget http://download.z88.de/z88aurora/V4/Z88AuroraV4_en.tar.gz
-# gunzip Z88AuroraV4_en.tar.gz
-# tar -xpf Z88AuroraV4_en.tar
-# ./Z88AuroraV4/bin/ubuntu64/aurorastart
