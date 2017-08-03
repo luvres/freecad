@@ -57,11 +57,6 @@ RUN \
         libtogl-dev \
         libhdf5-dev
 
-### libCoin 3.1.4
-#-----------------
-RUN apt-get install -y \
-    libcoin80 \
-    libcoin80-dev
 
 ### libMED 3.0.6
 #----------------
@@ -120,14 +115,15 @@ RUN \
     && make -j$(nproc) \
     && make install
 
+### libCoin 3.1.4
+#-----------------
+RUN apt-get install -y \
+    libcoin80 \
+    libcoin80-dev
+
 ### OCCT 7.1.0
 #--------------
 RUN \
-    ## OCCT 7.2.0 Beta
-#    #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=82af2baefa166a066b30ee6e0382965d83b90ff1;sf=tgz" && 
-#    url_OCCT="http://desktop/Workstation/occt-7.2.0beta.tgz" && 
-#    dir_OCCT=82af2ba && 
-  \
    #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && 
    url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && \
    dir_OCCT=1780d6c && \
@@ -159,6 +155,7 @@ RUN \
     && make -j$(nproc) \
     && make install
 
+
 ### Netgen 5.3.1
 #----------------
 RUN \
@@ -188,6 +185,7 @@ RUN \
     && make -j$(nproc) \
     && make install \
     && cp -rf libsrc $FREECAD/libsrc
+
 
 ### Eigen 3.2.2
 #---------------
