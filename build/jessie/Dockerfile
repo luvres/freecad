@@ -1,4 +1,4 @@
-FROM izone/freecad:jessie-base
+FROM freecad:jessie-base
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 ### FreeCAD latest Github commit
