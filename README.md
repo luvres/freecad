@@ -177,7 +177,7 @@ docker build -t freecad:build-xenial ./build/xenial/
 ### Builds ..
 #### Jessie
 ```
-docker build -t freecad:jessie-base -f ./build/jessie/base
+docker build -t freecad:jessie-base ./build/jessie/base/
 
 docker build -t freecad:build-jessie ./build/jessie
 ```

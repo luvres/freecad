@@ -211,8 +211,8 @@ RUN \
     && make install
 
 
-# # # # # ### FreeCAD latest Github commit
-# # # # # #--------------------------------
+### FreeCAD latest Github commit
+#--------------------------------
 # # # # # RUN \
 # # # # #     cd \
 # # # # #     && git clone https://github.com/FreeCAD/FreeCAD \
