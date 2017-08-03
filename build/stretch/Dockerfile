@@ -109,9 +109,9 @@ RUN \
 ### libCoin 3.1.4
 #-----------------
 RUN apt-get install -y \
-    libcoin80v5 \
-    libcoin80-dev 
-
+    libcoin80 \
+    libcoin80-dev
+    
 ### OCCT 7.1.0
 #--------------
 RUN \
