@@ -119,8 +119,7 @@ cd freecad
 ```
 ```
 ```
-docker build -t izone/freecad:nvidia ./nvidia/ && \
-docker build -t izone/freecad:nvidia-trusty ./nvidia/trusty/ && \
+docker build -t izone/freecad:nvidia-xenial ./nvidia/ && \
 docker build -t izone/freecad:nvidia-sid ./nvidia/sid/ && \
 docker build -t izone/freecad:nvidia-stretch ./nvidia/stretch/ && \
 docker build -t izone/freecad:nvidia-jessie ./nvidia/jessie/
@@ -167,4 +166,17 @@ docker build -t freecad:build-jessie ./build/jessie/
 ##### CalculiX 2.12
 ```
 docker build -t freecad:build-xenial ./build/xenial/
+```
+```
+```
+```
+```
+-----
+
+### Builds ..
+#### Jessie
+```
+docker build -t freecad:jessie-base -f ./build/jessie/base
+
+docker build -t freecad:build-jessie ./build/jessie
 ```

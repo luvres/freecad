@@ -1,4 +1,4 @@
-FROM izone/freecad:nvidia-xenial
+FROM izone/freecad:nvidia-jessie
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 # References:
@@ -13,14 +13,14 @@ RUN \
     && mkdir -p $FREECAD \
     \
     && package_list=" doxygen \
-                      libboost1.58-dev \
-                      libboost-filesystem1.58-dev \
-                      libboost-program-options1.58-dev \
-                      libboost-python1.58-dev \
-                      libboost-regex1.58-dev \
-                      libboost-signals1.58-dev \
-                      libboost-system1.58-dev \
-                      libboost-thread1.58-dev \
+                      libboost1.55-dev \
+                      libboost-filesystem1.55-dev \
+                      libboost-program-options1.55-dev \
+                      libboost-python1.55-dev \
+                      libboost-regex1.55-dev \
+                      libboost-signals1.55-dev \
+                      libboost-system1.55-dev \
+                      libboost-thread1.55-dev \
                       libpyside-dev \
                       libqtcore4 \
                       libshiboken-dev \
@@ -47,6 +47,7 @@ RUN \
         $package_list \
         python-pivy \
         git \
+      # Enable backports to build VTK 8
         cmake \
         g++ \
         libfreetype6-dev \
@@ -54,8 +55,13 @@ RUN \
         tk8.5-dev \
         automake \
         libtogl-dev \
-        libhdf5-dev 
-        #calculix-ccx
+        libhdf5-dev
+
+### libMED 3.0.6
+#----------------
+# RUN apt-get install -y \
+#     libmed-dev \
+#     libmedc-dev
 
 ### libMED 3.2.0
 #----------------
@@ -72,11 +78,21 @@ RUN \
     && make -j$(nproc) \
     && make install
 
-### VTK 8.0.0
+### cmake -> Enable backports to "cmake 3.3 or higher" required by VTK 8
+#---------
+# RUN \
+#     echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/backports.list \
+#     && apt-get update \
+#     && apt-get -t jessie-backports install -y \
+#   \
+#     cmake
+
+### VTK 7.1.1
 #-------------
+# 8.0.0
 RUN \
-    vtk_VERSION_MAJOR=8.0 && \
-    vtk_VERSION_MINOR=8.0.0 && \
+    vtk_VERSION_MAJOR=7.1 && \
+    vtk_VERSION_MINOR=7.1.1 && \
   \
     cd \
     && mkdir vtk \
@@ -101,16 +117,16 @@ RUN \
 ### libCoin 3.1.4
 #-----------------
 RUN apt-get install -y \
-    libcoin80v5 \
-    libcoin80-dev 
+    libcoin80 \
+    libcoin80-dev
 
 ### OCCT 7.1.0
 #--------------
 RUN \
-    url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && \
-    #url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && 
-    dir_OCCT=1780d6c && \
-  \  
+   url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && \
+   #url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && 
+   dir_OCCT=1780d6c && \
+  \
     cd \
     && mkdir occt \
     && cd occt \
@@ -168,8 +184,8 @@ RUN \
     && make install \
     && cp -rf libsrc $FREECAD/libsrc
 
-### Eigen 3.3~beta1-2
-#---------------------
+### Eigen 3.2.2
+#---------------
 # RUN apt-get install -y \
 #     libeigen3-dev \
 
@@ -195,30 +211,33 @@ RUN \
     && make install
 
 
-### FreeCAD latest Github commit
-#--------------------------------
-RUN \
-    cd \
-    && git clone https://github.com/FreeCAD/FreeCAD \
-  # building FreeCAD
-    && mkdir build \
-    && cd build \
-  \
-  # with oce-dev installed, with netgen
-    && cmake ../FreeCAD  \
-            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD  \
-            -DBUILD_FEM_NETGEN=1  \
-            -DCMAKE_CXX_FLAGS="-DNETGEN_V5"  \
-            -DNETGEN_ROOT=$FREECAD  \
-            -DFREECAD_USE_OCC_VARIANT="Official Version"  \
-            -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade  \
-            -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so \
-  \
-    && make -j$(nproc) 
-#    #&& make install
-# 
-# # start FreeCAD
-# # $FREECAD/bin/FreeCAD
+# # # # # ### FreeCAD latest Github commit
+# # # # # #--------------------------------
+# # # # # RUN \
+# # # # #     cd \
+# # # # #     && git clone https://github.com/FreeCAD/FreeCAD \
+# # # # #   # To get all materials ?
+# # # # #     #&& sed -i '/GLOB MaterialLib_Files/s/#//' FreeCAD/src/Mod/Material/CMakeLists.txt 
+# # # # #   # building FreeCAD
+# # # # #     && mkdir build \
+# # # # #     && cd build \
+# # # # #   \
+# # # # #   # with oce-dev installed, with netgen
+# # # # #     && cmake ../FreeCAD  \
+# # # # #             -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD  \
+# # # # #             -DBUILD_FEM_NETGEN=1  \
+# # # # #             -DCMAKE_CXX_FLAGS="-DNETGEN_V5"  \
+# # # # #             -DNETGEN_ROOT=$FREECAD  \
+# # # # #             -DFREECAD_USE_OCC_VARIANT="Official Version"  \
+# # # # #             -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade  \
+# # # # #             -DOCC_LIBRARY=$FREECAD/lib/libTKernel.so \
+# # # # #             -DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 \
+# # # # #   \
+# # # # #     && make -j$(nproc) 
+# # # # # #    #&& make install
+# # # # # # 
+# # # # # # # start FreeCAD
+# # # # # # # $FREECAD/bin/FreeCAD
 
 
 ### Calculix 2.12 and CGX
@@ -233,3 +252,4 @@ RUN \
     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
+
