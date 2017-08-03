@@ -12,15 +12,7 @@ RUN \
     cd \
     && mkdir -p $FREECAD \
     \
-    && package_list=" doxygen \
-                      libboost1.58-dev \
-                      libboost-filesystem1.58-dev \
-                      libboost-program-options1.58-dev \
-                      libboost-python1.58-dev \
-                      libboost-regex1.58-dev \
-                      libboost-signals1.58-dev \
-                      libboost-system1.58-dev \
-                      libboost-thread1.58-dev \
+    && package_deps=" doxygen \
                       libpyside-dev \
                       libqtcore4 \
                       libshiboken-dev \
@@ -38,23 +30,39 @@ RUN \
                       qt4-qmake \
                       libqtwebkit-dev \
                       shiboken \
-                      gmsh \
                       swig " \
     \
+    && package_boost=" libboost1.58-dev \
+                       libboost-filesystem1.58-dev \
+                       libboost-program-options1.58-dev \
+                       libboost-python1.58-dev \
+                       libboost-regex1.58-dev \
+                       libboost-signals1.58-dev \
+                       libboost-system1.58-dev \
+                       libboost-thread1.58-dev " \
+    \
+    && package_build=" python-pivy \
+                       cmake \
+                       g++ \
+                       libfreetype6-dev \
+                       tcl8.5-dev \
+                       tk8.5-dev \
+                       automake \
+                       libtogl-dev \
+                       libhdf5-dev " \
+    \
     && apt-get update \
+    \
     && apt-get install -y \
-        dictionaries-common wget \
-        $package_list \
-        python-pivy \
+      \
+        $package_deps \
+        $package_boost \
+        $package_build \
+      \
+        dictionaries-common \
+        wget \
         git \
-        cmake \
-        g++ \
-        libfreetype6-dev \
-        tcl8.5-dev \
-        tk8.5-dev \
-        automake \
-        libtogl-dev \
-        libhdf5-dev 
+        gmsh 
         #calculix-ccx
 
 ### libMED 3.2.0
@@ -223,13 +231,13 @@ RUN \
 
 ### Calculix 2.12 and CGX
 #-------------------------
-RUN \
-    ccx_VERSION=2.12 && \
-    apt-get install -y gfortran cpio \
-    && cd \
-    && git clone https://github.com/luvres/calculix.git \
-    && cd calculix/ \
-    && ./install \
-    && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-    && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
-    && cd && rm CalculiX-${ccx_VERSION} calculix -fR
+# RUN \
+#     ccx_VERSION=2.12 && \
+#     apt-get install -y gfortran cpio \
+#     && cd \
+#     && git clone https://github.com/luvres/calculix.git \
+#     && cd calculix/ \
+#     && ./install \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+#     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
