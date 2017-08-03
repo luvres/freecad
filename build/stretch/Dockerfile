@@ -62,8 +62,9 @@ RUN \
         dictionaries-common \
         wget \
         git \
-        gmsh 
-        #calculix-ccx
+        gmsh \
+      \
+        calculix-ccx
 
 ### libMED 3.2.0
 #----------------
@@ -231,13 +232,13 @@ RUN \
 
 ### Calculix 2.12 and CGX
 #-------------------------
-RUN \
-    ccx_VERSION=2.12 && \
-    apt-get install -y gfortran cpio \
-    && cd \
-    && git clone https://github.com/luvres/calculix.git \
-    && cd calculix/ \
-    && ./install \
-    && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-    && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
-    && cd && rm CalculiX-${ccx_VERSION} calculix -fR
+# RUN \
+#     ccx_VERSION=2.12 && \
+#     apt-get install -y gfortran cpio \
+#     && cd \
+#     && git clone https://github.com/luvres/calculix.git \
+#     && cd calculix/ \
+#     && ./install \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+#     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
