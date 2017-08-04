@@ -7,7 +7,7 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 # https://sourceforge.net/p/netgen-mesher/wiki/Home/
 # https://aur.archlinux.org/packages
 
-ENV FREECAD=/opt/local/FreeCAD-0.17
+ENV FREECAD=/opt/FreeCAD
 RUN \
     cd \
     && mkdir -p $FREECAD \
@@ -105,7 +105,9 @@ RUN \
   # building VTK
     && mkdir build \
     && cd build \
-  \
+  \luvres08
+luvres09
+
     && cmake ../VTK-${vtk_VERSION_MINOR} \
             -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
             -DVTK_Group_Rendering:BOOL=OFF \
@@ -236,7 +238,7 @@ RUN \
     && make -j$(nproc) 
 #    && make install
 # 
-# start FreeCAD
+## start FreeCAD
 # $FREECAD/bin/FreeCAD
 
 
