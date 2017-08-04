@@ -1,4 +1,4 @@
-FROM izone/freecad:nvidia-sid
+FROM izone/freecad:nvidia-stretch
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 RUN \
