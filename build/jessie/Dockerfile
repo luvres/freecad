@@ -195,8 +195,8 @@ RUN \
   \
     && cp -rf libsrc $FREECAD/libsrc
 
-### Eigen 3.2.2
-#---------------------
+### Eigen 3.2.2 - 3.3.0(backports)
+#----------------------------------
 # RUN apt-get install -y \
 #     libeigen3-dev \
 #

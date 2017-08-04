@@ -1,4 +1,4 @@
-FROM izone/freecad:nvidia-stretch
+FROM izone/freecad:nvidia-xenial
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 # References:
@@ -63,9 +63,14 @@ RUN \
         wget \
         git \
         gmsh \
-      \
         calculix-ccx
 
+### libMED 3.0.6
+#----------------
+# RUN apt-get install -y \
+#     libmed-dev \
+#     libmedc-dev
+#
 ### libMED 3.2.0
 #----------------
 RUN \
@@ -77,7 +82,10 @@ RUN \
   # building MED
     && mkdir build \
     && cd build \
-    && cmake ../libMED -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+  \
+    && cmake ../libMED \
+        -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+  \
     && make -j$(nproc) \
     && make install
 
@@ -175,10 +183,11 @@ RUN \
   \
     && make -j$(nproc) \
     && make install \
+  \
     && cp -rf libsrc $FREECAD/libsrc
 
-### Eigen 3.3~beta1-2
-#---------------------
+### Eigen 3.3.2
+#---------------
 # RUN apt-get install -y \
 #     libeigen3-dev \
 
@@ -225,10 +234,10 @@ RUN \
             #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
   \
     && make -j$(nproc) 
-#    #&& make install
+#    && make install
 # 
-# # start FreeCAD
-# # $FREECAD/bin/FreeCAD
+# start FreeCAD
+# $FREECAD/bin/FreeCAD
 
 
 ### Calculix 2.12 and CGX
