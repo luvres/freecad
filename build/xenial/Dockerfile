@@ -105,9 +105,7 @@ RUN \
   # building VTK
     && mkdir build \
     && cd build \
-  \luvres08
-luvres09
-
+  \
     && cmake ../VTK-${vtk_VERSION_MINOR} \
             -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
             -DVTK_Group_Rendering:BOOL=OFF \
