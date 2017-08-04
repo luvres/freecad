@@ -42,7 +42,6 @@ RUN \
                        libboost-thread1.55-dev " \
   \
     && package_build=" python-pivy \
-                       cmake \
                        g++ \
                        libfreetype6-dev \
                        tcl8.5-dev \
