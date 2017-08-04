@@ -203,24 +203,6 @@ RUN \
     && make install
 
 
-### Coin3D 4.0.0a
-#-----------------
-RUN \
-    cd \
-    && mkdir coin \
-    && cd coin \
-    && apt-get install -y mercurial \
-    && hg clone https://bitbucket.org/Coin3D/coin \
-    && cd coin \
-    && hg pull && hg update CMake \
-    && cd .. \
-    && mkdir build && cd build \
-  \
-    && cmake ../coin \
-    && make -j$(nproc) \
-    && make install
-
-
 ### FreeCAD latest Github commit
 #--------------------------------
 RUN \

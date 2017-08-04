@@ -236,14 +236,19 @@ RUN \
     && cmake ../FreeCAD \
             -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
             -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
-            -DNETGEN_ROOT=$FREECAD \
+          \
             -DBUILD_FEM_NETGEN=ON \
+            -DNETGEN_ROOT=$FREECAD \
             #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
+          \
+            #-DCOIN3D_INCLUDE_DIRS=/usr/local/include/Inventor 
+            #-DCOIN3D_LIBRARY=/usr/local/lib/libCoin.so 
+          \
             #-DFREECAD_USE_OCC_VARIANT="Official Version"  
             #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
             #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
-  \
-    && make -j$(nproc)
+   \
+     && make -j$(nproc)
 #    && make install
 # 
 # start FreeCAD
