@@ -11,7 +11,7 @@ ENV FREECAD=/opt/local/FreeCAD-0.17
 RUN \
     cd \
     && mkdir -p $FREECAD \
-    \
+  \
     && package_deps=" doxygen \
                       libpyside-dev \
                       libqtcore4 \
@@ -31,7 +31,7 @@ RUN \
                       libqtwebkit-dev \
                       shiboken \
                       swig " \
-    \
+  \
     && package_boost=" libboost1.55-dev \
                        libboost-filesystem1.55-dev \
                        libboost-program-options1.55-dev \
@@ -40,7 +40,7 @@ RUN \
                        libboost-signals1.55-dev \
                        libboost-system1.55-dev \
                        libboost-thread1.55-dev " \
-    \
+  \
     && package_build=" python-pivy \
                        cmake \
                        g++ \
@@ -50,9 +50,12 @@ RUN \
                        automake \
                        libtogl-dev \
                        libhdf5-dev " \
-    \
+  \
+  # Enable backports
+    && echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/backports.list \
+  \
     && apt-get update \
-    \
+  \
     && apt-get install -y \
       \
         $package_deps \
@@ -62,9 +65,21 @@ RUN \
         dictionaries-common \
         wget \
         git \
+        #cmake
+        #gmsh
+  \
+    # "cmake 3.3 or higher" required by VTK 8
+    && apt-get -t jessie-backports install -y \
+      \
+        cmake \
         gmsh 
-        #calculix-ccx
 
+### libMED 3.0.6
+#----------------
+# RUN apt-get install -y \
+#     libmed-dev \
+#     libmedc-dev
+#
 ### libMED 3.2.0
 #----------------
 RUN \
@@ -76,7 +91,10 @@ RUN \
   # building MED
     && mkdir build \
     && cd build \
-    && cmake ../libMED -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+  \
+    && cmake ../libMED \
+        -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+  \
     && make -j$(nproc) \
     && make install
 
@@ -175,13 +193,14 @@ RUN \
   \
     && make -j$(nproc) \
     && make install \
+  \
     && cp -rf libsrc $FREECAD/libsrc
 
-### Eigen 3.3~beta1-2
+### Eigen 3.2.2
 #---------------------
 # RUN apt-get install -y \
 #     libeigen3-dev \
-
+#
 ### Eigen 3.3.90 -> Bitbucket
 #----------------------------
 #apt-get remove -y libeigen3-dev
@@ -225,21 +244,21 @@ RUN \
             #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
   \
     && make -j$(nproc)
-#    #&& make install
+#    && make install
 # 
-# # start FreeCAD
-# # $FREECAD/bin/FreeCAD
+# start FreeCAD
+# $FREECAD/bin/FreeCAD
 
 
 ### Calculix 2.12 and CGX
 #-------------------------
-# RUN \
-#     ccx_VERSION=2.12 && \
-#     apt-get install -y gfortran cpio \
-#     && cd \
-#     && git clone https://github.com/luvres/calculix.git \
-#     && cd calculix/ \
-#     && ./install \
-#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
-#     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
+RUN \
+    ccx_VERSION=2.12 && \
+    apt-get install -y gfortran cpio \
+    && cd \
+    && git clone https://github.com/luvres/calculix.git \
+    && cd calculix/ \
+    && ./install \
+    && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+    && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+    && cd && rm CalculiX-${ccx_VERSION} calculix -fR

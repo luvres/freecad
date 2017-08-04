@@ -11,7 +11,7 @@ ENV FREECAD=/opt/local/FreeCAD-0.17
 RUN \
     cd \
     && mkdir -p $FREECAD \
-    \
+  \
     && package_deps=" doxygen \
                       libpyside-dev \
                       libqtcore4 \
@@ -31,7 +31,7 @@ RUN \
                       libqtwebkit-dev \
                       shiboken \
                       swig " \
-    \
+  \
     && package_boost=" libboost1.62-dev \
                        libboost-filesystem1.62-dev \
                        libboost-program-options1.62-dev \
@@ -40,7 +40,7 @@ RUN \
                        libboost-signals1.62-dev \
                        libboost-system1.62-dev \
                        libboost-thread1.62-dev " \
-    \
+  \
     && package_build=" python-pivy \
                        cmake \
                        g++ \
@@ -50,9 +50,9 @@ RUN \
                        automake \
                        libtogl-dev \
                        libhdf5-dev " \
-    \
+  \
     && apt-get update \
-    \
+  \
     && apt-get install -y \
       \
         $package_deps \

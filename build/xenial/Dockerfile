@@ -11,7 +11,7 @@ ENV FREECAD=/opt/local/FreeCAD-0.17
 RUN \
     cd \
     && mkdir -p $FREECAD \
-    \
+  \
     && package_deps=" doxygen \
                       libpyside-dev \
                       libqtcore4 \
@@ -31,7 +31,7 @@ RUN \
                       libqtwebkit-dev \
                       shiboken \
                       swig " \
-    \
+  \
     && package_boost=" libboost1.58-dev \
                        libboost-filesystem1.58-dev \
                        libboost-program-options1.58-dev \
@@ -40,7 +40,7 @@ RUN \
                        libboost-signals1.58-dev \
                        libboost-system1.58-dev \
                        libboost-thread1.58-dev " \
-    \
+  \
     && package_build=" python-pivy \
                        cmake \
                        g++ \
@@ -50,9 +50,9 @@ RUN \
                        automake \
                        libtogl-dev \
                        libhdf5-dev " \
-    \
+  \
     && apt-get update \
-    \
+  \
     && apt-get install -y \
       \
         $package_deps \
@@ -224,10 +224,10 @@ RUN \
             #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
   \
     && make -j$(nproc) 
-#    #&& make install
+#    && make install
 # 
-# # start FreeCAD
-# # $FREECAD/bin/FreeCAD
+# start FreeCAD
+# $FREECAD/bin/FreeCAD
 
 
 ### Calculix 2.12 and CGX
