@@ -1,4 +1,4 @@
-FROM izone/freecad:nvidia-xenial
+FROM izone/freecad:nvidia-stretch
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 # References:
