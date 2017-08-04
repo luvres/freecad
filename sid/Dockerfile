@@ -1,4 +1,4 @@
-FROM izone/freecad:nvidia-stretch
+FROM izone/freecad:nvidia-sid
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 RUN \
@@ -44,13 +44,12 @@ RUN \
                 libvtk6-dev \
                 libproj-dev " \
     && apt-get update \
-    && apt install -y \
+    && apt-get install -y \
                 #xserver-xorg-video-intel
                 libgl1-mesa-dri \
                 $pack_build \
                 gmsh \
-                calculix-cxx
-                
+                calculix-ccx
 
 RUN \
   # get FreeCAD Git
