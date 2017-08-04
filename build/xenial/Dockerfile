@@ -65,6 +65,12 @@ RUN \
         gmsh 
         #calculix-ccx
 
+### libMED 3.0.6
+#----------------
+# RUN apt-get install -y \
+#     libmed-dev \
+#     libmedc-dev
+#
 ### libMED 3.2.0
 #----------------
 RUN \
@@ -76,7 +82,10 @@ RUN \
   # building MED
     && mkdir build \
     && cd build \
-    && cmake ../libMED -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+  \
+    && cmake ../libMED \
+        -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+  \
     && make -j$(nproc) \
     && make install
 
@@ -174,6 +183,7 @@ RUN \
   \
     && make -j$(nproc) \
     && make install \
+  \
     && cp -rf libsrc $FREECAD/libsrc
 
 ### Eigen 3.3~beta1-2
