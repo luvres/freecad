@@ -243,7 +243,7 @@ RUN \
             #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
             #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
   \
-    && make -j$(nproc)
+    && make -j$(nproc) 
 #    && make install
 # 
 # start FreeCAD
