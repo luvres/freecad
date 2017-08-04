@@ -115,8 +115,6 @@ RUN \
     && make -j$(nproc) \
     && make install
 
-    
-    
 ### libCoin 3.1.4
 #-----------------
 RUN apt-get install -y \
