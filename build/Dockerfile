@@ -150,8 +150,8 @@ RUN apt-get install -y \
 ### OCCT 7.1.0
 #--------------
 RUN \
-    url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && \
-    #url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && 
+    #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && 
+    url_OCCT="http://191.96.255.100/Workstation/occt-7.1.0p1.tgz" && \
     dir_OCCT=1780d6c && \
   \  
     cd \
