@@ -32,15 +32,6 @@ RUN \
                       shiboken \
                       swig " \
   \
-    && package_boost=" libboost1.55-dev \
-                       libboost-filesystem1.55-dev \
-                       libboost-program-options1.55-dev \
-                       libboost-python1.55-dev \
-                       libboost-regex1.55-dev \
-                       libboost-signals1.55-dev \
-                       libboost-system1.55-dev \
-                       libboost-thread1.55-dev " \
-  \
     && package_build=" python-pivy \
                        g++ \
                        libfreetype6-dev \
@@ -74,6 +65,31 @@ RUN \
 #       \
 #         cmake \
 #         gmsh 
+
+### libBoost 1.55
+#-----------------
+# RUN apt-get install -y \
+#     libboost1.55-dev \
+#     libboost-filesystem1.55-dev \
+#     libboost-program-options1.55-dev \
+#     libboost-python1.55-dev \
+#     libboost-regex1.55-dev \
+#     libboost-signals1.55-dev \
+#     libboost-system1.55-dev \
+#     libboost-thread1.55-dev " \
+# 
+### libBoost 1.64
+#-----------------
+RUN \
+    VERSION=64 && \
+  \
+    cd \
+    && wget https://downloads.sourceforge.net/project/boost/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.bz2 \
+    && tar jxf boost_1_${VERSION}_0.tar.bz2 \
+    && cd boost_1_${VERSION}_0/ \
+  \
+    && ./bootstrap.sh --prefix=$FREECAD \
+    && ./b2 -j$(nproc) install
 
 ### libMED 3.0.6
 #----------------
@@ -246,10 +262,10 @@ RUN \
             #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
             #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
 # Make
-RUN \
-    cd \
-    && cd build \
-    && make -j$(nproc) 
+# RUN \
+#     cd \
+#     && cd build \
+#     && make -j$(nproc) 
     
 #    && make install
 # 
@@ -259,13 +275,13 @@ RUN \
 
 ### Calculix 2.12 and CGX
 #-------------------------
-RUN \
-    ccx_VERSION=2.12 && \
-    apt-get install -y gfortran cpio \
-    && cd \
-    && git clone https://github.com/luvres/calculix.git \
-    && cd calculix/ \
-    && ./install \
-    && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-    && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
-    && cd && rm CalculiX-${ccx_VERSION} calculix -fR
+# RUN \
+#     ccx_VERSION=2.12 && \
+#     apt-get install -y gfortran cpio \
+#     && cd \
+#     && git clone https://github.com/luvres/calculix.git \
+#     && cd calculix/ \
+#     && ./install \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+#     && cd && rm CalculiX-${ccx_VERSION} calculix -fR

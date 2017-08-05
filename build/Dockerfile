@@ -84,9 +84,8 @@ RUN \
     VERSION=64 && \
   \
     cd \
-    && wget -O boost_1_${VERSION}_0.tar.gz \
-    https://sourceforge.net/projects/boost/files/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.gz/download \
-    && tar xf boost_1_${VERSION}_0.tar.gz \
+    && wget https://downloads.sourceforge.net/project/boost/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.bz2 \
+    && tar jxf boost_1_${VERSION}_0.tar.bz2 \
     && cd boost_1_${VERSION}_0/ \
   \
     && ./bootstrap.sh --prefix=$FREECAD \
@@ -263,10 +262,10 @@ RUN \
             #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
             #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
 # Make
-RUN \
-    cd \
-    && cd build \
-    && make -j$(nproc) 
+# RUN \
+#     cd \
+#     && cd build \
+#     && make -j$(nproc) 
     
 #    && make install
 # 
