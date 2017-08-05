@@ -32,15 +32,6 @@ RUN \
                       shiboken \
                       swig " \
   \
-    && package_boost=" libboost1.55-dev \
-                       libboost-filesystem1.55-dev \
-                       libboost-program-options1.55-dev \
-                       libboost-python1.55-dev \
-                       libboost-regex1.55-dev \
-                       libboost-signals1.55-dev \
-                       libboost-system1.55-dev \
-                       libboost-thread1.55-dev " \
-  \
     && package_build=" python-pivy \
                        g++ \
                        libfreetype6-dev \
@@ -73,11 +64,38 @@ RUN \
         cmake \
         gmsh 
 
+### libBoost 1.55
+#-----------------
+# RUN apt-get install -y \
+#     libboost1.55-dev \
+#     libboost-filesystem1.55-dev \
+#     libboost-program-options1.55-dev \
+#     libboost-python1.55-dev \
+#     libboost-regex1.55-dev \
+#     libboost-signals1.55-dev \
+#     libboost-system1.55-dev \
+#     libboost-thread1.55-dev " \
+#                        
+### libBoost 1.64
+#-----------------
+RUN \
+    VERSION="64" && \
+  \
+    cd \
+    && wget -O boost_1_${VERSION}_0.tar.gz \
+    https://sourceforge.net/projects/boost/files/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.gz/download \
+    && tar xf boost_1_${VERSION}_0.tar.gz \
+    && cd boost_1_${VERSION}_0/ \
+  \
+    && ./bootstrap.sh --prefix=/usr \
+    && ./b2 -j$(nproc) install 
+
+
 ### libMED 3.0.6
 #----------------
 # RUN apt-get install -y \
-#         libmed-dev \
-#         libmedc-dev
+#     libmed-dev \
+#     libmedc-dev
 #
 ### libMED 3.2.0
 #----------------
@@ -235,13 +253,13 @@ RUN \
             -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
             -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
             -DNETGEN_ROOT=$FREECAD \
-            -DBUILD_FEM_NETGEN=ON \
+            -DBUILD_FEM_NETGEN=ON 
             #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
             #-DFREECAD_USE_OCC_VARIANT="Official Version"  
             #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
             #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
-  \
-    && make -j$(nproc) 
+#   \
+#     && make -j$(nproc) 
 #    && make install
 # 
 ## start FreeCAD
@@ -250,13 +268,13 @@ RUN \
 
 ### Calculix 2.12 and CGX
 #-------------------------
-RUN \
-    ccx_VERSION=2.12 && \
-    apt-get install -y gfortran cpio \
-    && cd \
-    && git clone https://github.com/luvres/calculix.git \
-    && cd calculix/ \
-    && ./install \
-    && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-    && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
-    && cd && rm CalculiX-${ccx_VERSION} calculix -fR
+# RUN \
+#     ccx_VERSION=2.12 && \
+#     apt-get install -y gfortran cpio \
+#     && cd \
+#     && git clone https://github.com/luvres/calculix.git \
+#     && cd calculix/ \
+#     && ./install \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+#     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
