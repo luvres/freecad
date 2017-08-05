@@ -46,7 +46,6 @@ RUN \
     && apt-get install -y \
       \
         $package_deps \
-        $package_boost \
         $package_build \
       \
         dictionaries-common \
