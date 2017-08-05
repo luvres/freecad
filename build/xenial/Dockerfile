@@ -230,13 +230,17 @@ RUN \
             -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
             -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
             -DNETGEN_ROOT=$FREECAD \
-            -DBUILD_FEM_NETGEN=ON \
+            -DBUILD_FEM_NETGEN=ON 
             #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
             #-DFREECAD_USE_OCC_VARIANT="Official Version"  
             #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
             #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
-  \
+# Make
+RUN \
+    cd \
+    && cd build \
     && make -j$(nproc) 
+    
 #    && make install
 # 
 ## start FreeCAD

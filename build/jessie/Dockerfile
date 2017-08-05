@@ -50,9 +50,6 @@ RUN \
                        libtogl-dev \
                        libhdf5-dev " \
   \
-  # Enable backports
-    && echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/backports.list \
-  \
     && apt-get update \
   \
     && apt-get install -y \
@@ -64,14 +61,19 @@ RUN \
         dictionaries-common \
         wget \
         git \
-        #cmake
-        #gmsh
-  \
-    # "cmake 3.3 or higher" required by VTK 8
-    && apt-get -t jessie-backports install -y \
-      \
         cmake \
-        gmsh 
+        gmsh
+
+## Enable backports
+# RUN \
+#     echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/backports.list \
+#     && apt-get update \
+#   \
+#   # "cmake 3.3 or higher" required by VTK 8
+#     && apt-get -t jessie-backports install -y \
+#       \
+#         cmake \
+#         gmsh 
 
 ### libMED 3.0.6
 #----------------
@@ -97,11 +99,11 @@ RUN \
     && make -j$(nproc) \
     && make install
 
-### VTK 8.0.0
+### VTK 7.1.1
 #-------------
 RUN \
-    vtk_VERSION_MAJOR=8.0 && \
-    vtk_VERSION_MINOR=8.0.0 && \
+    vtk_VERSION_MAJOR=7.1 && \
+    vtk_VERSION_MINOR=7.1.1 && \
   \
     cd \
     && mkdir vtk \
@@ -238,13 +240,17 @@ RUN \
             -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
             -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
             -DNETGEN_ROOT=$FREECAD \
-            -DBUILD_FEM_NETGEN=ON \
+            -DBUILD_FEM_NETGEN=ON 
             #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
             #-DFREECAD_USE_OCC_VARIANT="Official Version"  
             #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
             #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
-  \
+# Make
+RUN \
+    cd \
+    && cd build \
     && make -j$(nproc) 
+    
 #    && make install
 # 
 ## start FreeCAD
