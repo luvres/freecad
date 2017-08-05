@@ -81,7 +81,7 @@ RUN \
 ### libBoost 1.64
 #-----------------
 RUN \
-    VERSION="64" && \
+    VERSION=64 && \
   \
     cd \
     && wget -O boost_1_${VERSION}_0.tar.gz \
@@ -119,8 +119,8 @@ RUN \
 ### VTK 7.1.1
 #-------------
 RUN \
-    vtk_VERSION_MAJOR="7.1" && \
-    vtk_VERSION_MINOR="7.1.1" && \
+    vtk_VERSION_MAJOR=7.1 && \
+    vtk_VERSION_MINOR=7.1.1 && \
   \
     cd \
     && mkdir vtk \
