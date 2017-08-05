@@ -7,7 +7,7 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 # https://sourceforge.net/p/netgen-mesher/wiki/Home/
 # https://aur.archlinux.org/packages
 
-ENV FREECAD="/opt/FreeCAD"
+ENV FREECAD=/opt/FreeCAD
 RUN \
     cd \
     && mkdir -p $FREECAD \
