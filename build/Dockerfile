@@ -7,7 +7,7 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 # https://sourceforge.net/p/netgen-mesher/wiki/Home/
 # https://aur.archlinux.org/packages
 
-ENV FREECAD=/opt/FreeCAD
+ENV FREECAD="/opt/FreeCAD"
 RUN \
     cd \
     && mkdir -p $FREECAD \
@@ -119,8 +119,8 @@ RUN \
 ### VTK 7.1.1
 #-------------
 RUN \
-    vtk_VERSION_MAJOR=7.1 && \
-    vtk_VERSION_MINOR=7.1.1 && \
+    vtk_VERSION_MAJOR="7.1" && \
+    vtk_VERSION_MINOR="7.1.1" && \
   \
     cd \
     && mkdir vtk \
@@ -153,7 +153,7 @@ RUN apt-get install -y \
 RUN \
     #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && 
     url_OCCT="http://191.96.255.100/Workstation/occt-7.1.0p1.tgz" && \
-    dir_OCCT=1780d6c && \
+    dir_OCCT="1780d6c" && \
   \  
     cd \
     && mkdir occt \
