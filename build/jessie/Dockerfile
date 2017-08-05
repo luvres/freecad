@@ -133,7 +133,7 @@ RUN apt-get install -y \
 #--------------
 RUN \
     #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && 
-    url_OCCT="http://desktop/Workstation/occt-7.1.0p1.tgz" && \
+    url_OCCT="http://191.96.255.100/Workstation/occt-7.1.0p1.tgz" && \
     dir_OCCT=1780d6c && \
   \  
     cd \
@@ -223,14 +223,17 @@ RUN \
 
 ### FreeCAD latest Github commit
 #--------------------------------
+# get FreeCAD
 RUN \
     cd \
-    && git clone https://github.com/FreeCAD/FreeCAD \
-  # building FreeCAD
+    && git clone https://github.com/FreeCAD/FreeCAD 
+
+# building FreeCAD
+RUN \
+    cd \
     && mkdir build \
     && cd build \
   \
-  # with oce-dev installed, with netgen
     && cmake ../FreeCAD \
             -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
             -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \

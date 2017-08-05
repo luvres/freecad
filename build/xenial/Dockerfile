@@ -215,14 +215,17 @@ RUN \
 
 ### FreeCAD latest Github commit
 #--------------------------------
+# get FreeCAD
 RUN \
     cd \
-    && git clone https://github.com/FreeCAD/FreeCAD \
-  # building FreeCAD
+    && git clone https://github.com/FreeCAD/FreeCAD 
+
+# building FreeCAD
+RUN \
+    cd \
     && mkdir build \
     && cd build \
   \
-  # with oce-dev installed, with netgen
     && cmake ../FreeCAD \
             -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
             -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
