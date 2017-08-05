@@ -1,11 +1,12 @@
 FROM izone/freecad:nvidia-jessie
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
-# References:
+## References:
 # https://gist.github.com/berndhahnebach/38d5bfe73134928c0a1ad001a94df05f
 # https://github.com/berndhahnebach/Netgen
 # https://sourceforge.net/p/netgen-mesher/wiki/Home/
 # https://aur.archlinux.org/packages
+# http://www.boost.org/doc/libs/1_64_0/more/getting_started/unix-variants.html
 
 ENV FREECAD=/opt/FreeCAD
 RUN \
@@ -75,7 +76,7 @@ RUN \
 #     libboost-regex1.55-dev \
 #     libboost-signals1.55-dev \
 #     libboost-system1.55-dev \
-#     libboost-thread1.55-dev " \
+#     libboost-thread1.55-dev
 # 
 ### libBoost 1.64
 #-----------------
@@ -93,8 +94,8 @@ RUN \
 ### libMED 3.0.6
 #----------------
 # RUN apt-get install -y \
-#         libmed-dev \
-#         libmedc-dev
+#     libmed-dev \
+#     libmedc-dev
 #
 ### libMED 3.2.0
 #----------------
@@ -149,19 +150,11 @@ RUN apt-get install -y \
 ### OCCT 7.1.0
 #--------------
 RUN \
-    #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && 
-    url_OCCT="http://191.96.255.100/Workstation/occt-7.1.0p1.tgz" && \
-    dir_OCCT=1780d6c && \
-  \  
     cd \
     && mkdir occt \
     && cd occt \
-  \
-    && wget ${url_OCCT} -O occt.tgz \
-    && gunzip occt.tgz \
-    && tar xf occt.tar \
-    && rm occt.tar \
-    && cd occt-${dir_OCCT} \
+    && git clone https://github.com/luvres/occt.git \
+    && cd occt \
   \
     && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtk/EXTERNLIB >& /tmp/EXTERNLIB" \
     && cp /tmp/EXTERNLIB src/TKIVtk/EXTERNLIB \
@@ -171,9 +164,9 @@ RUN \
     && cd .. \
     && mkdir build \
     && cd build \
-  \
+  \    
     && cmake \
-        ../occt-${dir_OCCT} \
+        ../occt \
         -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
         -DUSE_VTK:BOOL=OFF \
   \
@@ -261,10 +254,10 @@ RUN \
             #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
             #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
 # Make
-# RUN \
-#     cd \
-#     && cd build \
-#     && make -j$(nproc) 
+RUN \
+    cd \
+    && cd build \
+    && make -j$(nproc) 
     
 #    && make install
 # 
