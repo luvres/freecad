@@ -52,8 +52,8 @@ RUN \
         dictionaries-common \
         wget \
         git \
+        cmake \
         gmsh
-        #cmake 
 
 ## Enable backports
 # RUN \
@@ -65,21 +65,6 @@ RUN \
 #       \
 #         cmake \
 #         gmsh 
-
-### cmake (Git)
-#---------------
-RUN \
-    cd \
-    && apt-get update \
-    && apt-get install -y \
-        git g++ make \
-    && git clone https://gitlab.kitware.com/cmake/cmake.git \
-    && cd cmake \
-    && ./bootstrap --prefix=/usr \
-    && make -j$(nproc) 
-    #cp bin/cmake /usr/bin/
-    #alias cmake='/root/cmake/bin/cmake'
-    && make install
 
 ### libBoost 1.55
 #-----------------
@@ -133,6 +118,8 @@ RUN \
 
 ### VTK 7.1.1
 #-------------
+# 8.0.0
+# 6.3.0
 RUN \
     vtk_VERSION_MAJOR=7.1 && \
     vtk_VERSION_MINOR=7.1.1 && \

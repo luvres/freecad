@@ -52,10 +52,10 @@ RUN \
         dictionaries-common \
         wget \
         git \
-        cmake \
         gmsh
+        #cmake 
 
-## Enable backports
+## Enable backports (cmake 3.6.2)
 # RUN \
 #     echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/backports.list \
 #     && apt-get update \
@@ -65,6 +65,25 @@ RUN \
 #       \
 #         cmake \
 #         gmsh 
+
+### cmake 3.0.2
+#---------------
+# RUN apt-get install -y \
+#     make 
+#
+### cmake (Git)
+#---------------
+RUN \
+    cd \
+    #&& apt-get install -y 
+    #    git g++ make 
+    && git clone https://gitlab.kitware.com/cmake/cmake.git \
+    && cd cmake \
+    && ./bootstrap --prefix=/usr \
+    && make -j$(nproc) \
+    #cp bin/cmake /usr/bin/
+    #alias cmake='/root/cmake/bin/cmake'
+    && make install
 
 ### libBoost 1.55
 #-----------------
@@ -116,24 +135,19 @@ RUN \
     && make -j$(nproc) \
     && make install
 
-### VTK 7.1.1
+### VTK (Git)
 #-------------
 RUN \
-    vtk_VERSION_MAJOR=7.1 && \
-    vtk_VERSION_MINOR=7.1.1 && \
-  \
     cd \
     && mkdir vtk \
     && cd vtk \
-    && wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
-    && gunzip VTK-${vtk_VERSION_MINOR}.tar.gz \
-    && tar xf VTK-${vtk_VERSION_MINOR}.tar \
-    && rm VTK-${vtk_VERSION_MINOR}.tar \
+    && git clone https://gitlab.kitware.com/vtk/vtk.git \
   # building VTK
     && mkdir build \
     && cd build \
   \
-    && cmake ../VTK-${vtk_VERSION_MINOR} \
+    && cmake ../vtk \
+            #../VTK-${vtk_VERSION_MINOR} 
             -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
             -DVTK_Group_Rendering:BOOL=OFF \
             -DVTK_Group_StandAlone:BOOL=ON \
@@ -269,13 +283,13 @@ RUN \
 
 ### Calculix 2.12 and CGX
 #-------------------------
-RUN \
-    ccx_VERSION=2.12 && \
-    apt-get install -y gfortran cpio \
-    && cd \
-    && git clone https://github.com/luvres/calculix.git \
-    && cd calculix/ \
-    && ./install \
-    && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-    && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
-    && cd && rm CalculiX-${ccx_VERSION} calculix -fR
+# RUN \
+#     ccx_VERSION=2.12 && \
+#     apt-get install -y gfortran cpio \
+#     && cd \
+#     && git clone https://github.com/luvres/calculix.git \
+#     && cd calculix/ \
+#     && ./install \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+#     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
