@@ -147,7 +147,6 @@ RUN \
     && cd build \
   \
     && cmake ../vtk \
-            #../VTK-${vtk_VERSION_MINOR} 
             -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
             -DVTK_Group_Rendering:BOOL=OFF \
             -DVTK_Group_StandAlone:BOOL=ON \
