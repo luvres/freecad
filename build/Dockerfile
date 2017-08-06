@@ -52,8 +52,8 @@ RUN \
         dictionaries-common \
         wget \
         git \
-        cmake \
         gmsh
+        #cmake 
 
 ## Enable backports
 # RUN \
@@ -65,6 +65,21 @@ RUN \
 #       \
 #         cmake \
 #         gmsh 
+
+### cmake (Git)
+#---------------
+RUN \
+    cd \
+    && apt-get update \
+    && apt-get install -y \
+        git g++ make \
+    && git clone https://gitlab.kitware.com/cmake/cmake.git \
+    && cd cmake \
+    && ./bootstrap --prefix=/usr \
+    && make -j$(nproc) 
+    #cp bin/cmake /usr/bin/
+    #alias cmake='/root/cmake/bin/cmake'
+    && make install
 
 ### libBoost 1.55
 #-----------------
@@ -86,6 +101,7 @@ RUN \
     cd \
     && wget https://downloads.sourceforge.net/project/boost/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.bz2 \
     && tar jxf boost_1_${VERSION}_0.tar.bz2 \
+    && rm boost_1_${VERSION}_0.tar.bz2 \
     && cd boost_1_${VERSION}_0/ \
   \
     && ./bootstrap.sh --prefix=$FREECAD \
@@ -150,19 +166,11 @@ RUN apt-get install -y \
 ### OCCT 7.1.0
 #--------------
 RUN \
-    #url_OCCT="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=snapshot;h=1780d6cc299f1d06eb106f5cfc27731cdaf97a56;sf=tgz" && 
-    url_OCCT="http://191.96.255.100/Workstation/occt-7.1.0p1.tgz" && \
-    dir_OCCT="1780d6c" && \
-  \  
     cd \
     && mkdir occt \
     && cd occt \
-  \
-    && wget ${url_OCCT} -O occt.tgz \
-    && gunzip occt.tgz \
-    && tar xf occt.tar \
-    && rm occt.tar \
-    && cd occt-${dir_OCCT} \
+    && git clone https://github.com/luvres/occt.git \
+    && cd occt \
   \
     && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtk/EXTERNLIB >& /tmp/EXTERNLIB" \
     && cp /tmp/EXTERNLIB src/TKIVtk/EXTERNLIB \
@@ -172,9 +180,9 @@ RUN \
     && cd .. \
     && mkdir build \
     && cd build \
-  \
+  \    
     && cmake \
-        ../occt-${dir_OCCT} \
+        ../occt \
         -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
         -DUSE_VTK:BOOL=OFF \
   \
@@ -218,7 +226,7 @@ RUN \
 #     libeigen3-dev \
 #
 ### Eigen 3.3.90 -> Bitbucket
-#----------------------------
+#-----------------------------
 #apt-get remove -y libeigen3-dev
 RUN \
     cd \
@@ -261,11 +269,12 @@ RUN \
             #-DFREECAD_USE_OCC_VARIANT="Official Version"  
             #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
             #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
-# Make
-# RUN \
-#     cd \
-#     && cd build \
-#     && make -j$(nproc) 
+
+# Make FreeCAD
+RUN \
+    cd \
+    && cd build \
+    && make -j$(nproc) 
     
 #    && make install
 # 
@@ -275,13 +284,13 @@ RUN \
 
 ### Calculix 2.12 and CGX
 #-------------------------
-# RUN \
-#     ccx_VERSION=2.12 && \
-#     apt-get install -y gfortran cpio \
-#     && cd \
-#     && git clone https://github.com/luvres/calculix.git \
-#     && cd calculix/ \
-#     && ./install \
-#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
-#     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
+RUN \
+    ccx_VERSION=2.12 && \
+    apt-get install -y gfortran cpio \
+    && cd \
+    && git clone https://github.com/luvres/calculix.git \
+    && cd calculix/ \
+    && ./install \
+    && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+    && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+    && cd && rm CalculiX-${ccx_VERSION} calculix -fR
