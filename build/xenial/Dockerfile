@@ -6,6 +6,7 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 # https://github.com/berndhahnebach/Netgen
 # https://sourceforge.net/p/netgen-mesher/wiki/Home/
 # https://aur.archlinux.org/packages
+# http://www.boost.org/doc/libs/1_64_0/more/getting_started/unix-variants.html
 
 ENV FREECAD=/opt/FreeCAD
 RUN \
@@ -32,15 +33,6 @@ RUN \
                       shiboken \
                       swig " \
   \
-    && package_boost=" libboost1.58-dev \
-                       libboost-filesystem1.58-dev \
-                       libboost-program-options1.58-dev \
-                       libboost-python1.58-dev \
-                       libboost-regex1.58-dev \
-                       libboost-signals1.58-dev \
-                       libboost-system1.58-dev \
-                       libboost-thread1.58-dev " \
-  \
     && package_build=" python-pivy \
                        cmake \
                        g++ \
@@ -56,7 +48,6 @@ RUN \
     && apt-get install -y \
       \
         $package_deps \
-        $package_boost \
         $package_build \
       \
         dictionaries-common \
@@ -64,6 +55,31 @@ RUN \
         git \
         gmsh 
         #calculix-ccx
+
+### libBoost 1.58
+#-----------------
+# RUN apt-get install -y \
+#     libboost1.58-dev \
+#     libboost-filesystem1.58-dev \
+#     libboost-program-options1.58-dev \
+#     libboost-python1.58-dev \
+#     libboost-regex1.58-dev \
+#     libboost-signals1.58-dev \
+#     libboost-system1.58-dev \
+#     libboost-thread1.58-dev
+### libBoost 1.64
+#-----------------
+RUN \
+    VERSION=64 && \
+  \
+    cd \
+    && wget https://downloads.sourceforge.net/project/boost/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.bz2 \
+    && tar jxf boost_1_${VERSION}_0.tar.bz2 \
+    && rm boost_1_${VERSION}_0.tar.bz2 \
+    && cd boost_1_${VERSION}_0/ \
+  \
+    && ./bootstrap.sh --prefix=$FREECAD \
+    && ./b2 -j$(nproc) install
 
 ### libMED 3.0.6
 #----------------

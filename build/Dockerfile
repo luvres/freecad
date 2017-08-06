@@ -1,11 +1,12 @@
 FROM izone/freecad:nvidia-jessie
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
-# References:
+## References:
 # https://gist.github.com/berndhahnebach/38d5bfe73134928c0a1ad001a94df05f
 # https://github.com/berndhahnebach/Netgen
 # https://sourceforge.net/p/netgen-mesher/wiki/Home/
 # https://aur.archlinux.org/packages
+# http://www.boost.org/doc/libs/1_64_0/more/getting_started/unix-variants.html
 
 ENV FREECAD=/opt/FreeCAD
 RUN \
@@ -46,7 +47,6 @@ RUN \
     && apt-get install -y \
       \
         $package_deps \
-        $package_boost \
         $package_build \
       \
         dictionaries-common \
@@ -76,7 +76,7 @@ RUN \
 #     libboost-regex1.55-dev \
 #     libboost-signals1.55-dev \
 #     libboost-system1.55-dev \
-#     libboost-thread1.55-dev " \
+#     libboost-thread1.55-dev
 # 
 ### libBoost 1.64
 #-----------------
@@ -94,8 +94,8 @@ RUN \
 ### libMED 3.0.6
 #----------------
 # RUN apt-get install -y \
-#         libmed-dev \
-#         libmedc-dev
+#     libmed-dev \
+#     libmedc-dev
 #
 ### libMED 3.2.0
 #----------------
