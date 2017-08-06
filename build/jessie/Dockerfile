@@ -211,7 +211,7 @@ RUN \
 #     libeigen3-dev \
 #
 ### Eigen 3.3.90 -> Bitbucket
-#----------------------------
+#-----------------------------
 #apt-get remove -y libeigen3-dev
 RUN \
     cd \
@@ -254,7 +254,8 @@ RUN \
             #-DFREECAD_USE_OCC_VARIANT="Official Version"  
             #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
             #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
-# Make
+
+# Make FreeCAD
 RUN \
     cd \
     && cd build \
