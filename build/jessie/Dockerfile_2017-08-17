@@ -157,37 +157,9 @@ RUN \
 
 ### libCoin 3.1.4
 #-----------------
-# RUN apt-get install -y \
-#     libcoin80 \
-#     libcoin80-dev 
-### libCoin 4.0.0a
-#-----------------
-RUN \
-    apt-get install -y \
-        libgl1-mesa-dev \
-        libxi-dev \
-        libxmu-dev \
-        libxpm-dev \
-        libgl1-mesa-glx \
-        libice6 \
-        libsm6
-RUN \
-    cd \
-    && mkdir coin \
-    && cd coin \
-    && apt-get install -y mercurial \
-    && hg clone https://bitbucket.org/Coin3D/coin \
-    && cd coin \
-    && hg pull && hg update CMake \
-    && cd .. \
-    && mkdir build && cd build \
-  \
-    && cmake \
-        ../coin \
-        -DCMAKE_INSTALL_PREFIX=$FREECAD \
-        -DCOIN_BUILD_DOCUMENTATION=OFF \
-    && make -j$(nproc) \
-    && make install
+RUN apt-get install -y \
+    libcoin80 \
+    libcoin80-dev 
 
 ### OCCT 7.1.0
 #--------------
