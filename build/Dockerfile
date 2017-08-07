@@ -157,9 +157,34 @@ RUN \
 
 ### libCoin 3.1.4
 #-----------------
-RUN apt-get install -y \
-    libcoin80 \
-    libcoin80-dev 
+# RUN apt-get install -y \
+#     libcoin80 \
+#     libcoin80-dev 
+### Coin3D 4.0.0a
+#-----------------
+RUN \
+    apt-get install -y \
+        libgl1-mesa-dev \
+        libxi-dev \
+        libxmu-dev \
+        libxpm-dev \
+        libgl1-mesa-glx \
+        libice6 \
+        libsm6
+RUN \
+    cd \
+    && mkdir coin \
+    && cd coin \
+    && apt-get install -y mercurial \
+    && hg clone https://bitbucket.org/Coin3D/coin \
+    && cd coin \
+    && hg pull && hg update CMake \
+    && cd .. \
+    && mkdir build && cd build \
+  \
+    && cmake ../coin \
+    && make -j$(nproc) \
+    && make install
 
 ### OCCT 7.1.0
 #--------------
@@ -282,13 +307,13 @@ RUN \
 
 ### Calculix 2.12 and CGX
 #-------------------------
-# RUN \
-#     ccx_VERSION=2.12 && \
-#     apt-get install -y gfortran cpio \
-#     && cd \
-#     && git clone https://github.com/luvres/calculix.git \
-#     && cd calculix/ \
-#     && ./install \
-#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
-#     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
+RUN \
+    ccx_VERSION=2.12 && \
+    apt-get install -y gfortran cpio \
+    && cd \
+    && git clone https://github.com/luvres/calculix.git \
+    && cd calculix/ \
+    && ./install \
+    && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+    && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+    && cd && rm CalculiX-${ccx_VERSION} calculix -fR
