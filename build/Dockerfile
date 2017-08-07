@@ -158,7 +158,7 @@ RUN \
 ### libCoin 3.1.4
 #-----------------
 RUN apt-get install -y \
-    libcoin80 \
+    libcoin80v5 \
     libcoin80-dev 
 ### libCoin 4.0.0a
 #-----------------
