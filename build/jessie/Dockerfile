@@ -69,7 +69,7 @@ RUN \
 ### cmake 3.0.2
 #---------------
 # RUN apt-get install -y \
-#     make 
+#     cmake 
 #
 ### cmake (Git)
 #---------------

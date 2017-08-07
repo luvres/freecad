@@ -58,7 +58,7 @@ RUN \
 ### cmake 3.5.1
 #---------------
 # RUN apt-get install -y \
-#     make 
+#     cmake 
 #
 ### cmake (Git)
 #---------------

@@ -56,6 +56,25 @@ RUN \
         gmsh \
         calculix-ccx
 
+### cmake 3.7.2
+#---------------
+# RUN apt-get install -y \
+#     cmake 
+#
+### cmake (Git)
+#---------------
+RUN \
+    cd \
+    #&& apt-get install -y 
+    #    git g++ make 
+    && git clone https://gitlab.kitware.com/cmake/cmake.git \
+    && cd cmake \
+    && ./bootstrap --prefix=/usr \
+    && make -j$(nproc) \
+    #cp bin/cmake /usr/bin/
+    #alias cmake='/root/cmake/bin/cmake'
+    && make install
+
 ### libBoost 1.62
 #-----------------
 # RUN apt-get install -y \
@@ -106,24 +125,18 @@ RUN \
     && make -j$(nproc) \
     && make install
 
-### VTK 8.0.0
+### VTK (Git)
 #-------------
 RUN \
-    vtk_VERSION_MAJOR=8.0 && \
-    vtk_VERSION_MINOR=8.0.0 && \
-  \
     cd \
     && mkdir vtk \
     && cd vtk \
-    && wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
-    && gunzip VTK-${vtk_VERSION_MINOR}.tar.gz \
-    && tar xf VTK-${vtk_VERSION_MINOR}.tar \
-    && rm VTK-${vtk_VERSION_MINOR}.tar \
+    && git clone https://gitlab.kitware.com/vtk/vtk.git \
   # building VTK
     && mkdir build \
     && cd build \
   \
-    && cmake ../VTK-${vtk_VERSION_MINOR} \
+    && cmake ../vtk \
             -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
             -DVTK_Group_Rendering:BOOL=OFF \
             -DVTK_Group_StandAlone:BOOL=ON \
@@ -134,9 +147,37 @@ RUN \
 
 ### libCoin 3.1.4
 #-----------------
-RUN apt-get install -y \
-    libcoin80v5 \
-    libcoin80-dev 
+# RUN apt-get install -y \
+#     libcoin80 \
+#     libcoin80-dev 
+### libCoin 4.0.0a
+#-----------------
+RUN \
+    apt-get install -y \
+        libgl1-mesa-dev \
+        libxi-dev \
+        libxmu-dev \
+        libxpm-dev \
+        libgl1-mesa-glx \
+        libice6 \
+        libsm6
+RUN \
+    cd \
+    && mkdir coin \
+    && cd coin \
+    && apt-get install -y mercurial \
+    && hg clone https://bitbucket.org/Coin3D/coin \
+    && cd coin \
+    && hg pull && hg update CMake \
+    && cd .. \
+    && mkdir build && cd build \
+  \
+    && cmake \
+        ../coin \
+        -DCMAKE_INSTALL_PREFIX=$FREECAD \
+        -DCOIN_BUILD_DOCUMENTATION=OFF \
+    && make -j$(nproc) \
+    && make install 
 
 ### OCCT 7.1.0
 #--------------
