@@ -160,7 +160,7 @@ RUN \
 # RUN apt-get install -y \
 #     libcoin80 \
 #     libcoin80-dev 
-### Coin3D 4.0.0a
+### libCoin 4.0.0a
 #-----------------
 RUN \
     apt-get install -y \
@@ -182,7 +182,10 @@ RUN \
     && cd .. \
     && mkdir build && cd build \
   \
-    && cmake ../coin \
+    && cmake \
+        ../coin \
+        -DCMAKE_INSTALL_PREFIX=$FREECAD \
+        -DCOIN_BUILD_DOCUMENTATION=OFF \
     && make -j$(nproc) \
     && make install
 
