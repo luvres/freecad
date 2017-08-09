@@ -120,6 +120,10 @@ RUN \
 ### libMED 3.2.0
 #----------------
 RUN \
+    wget http://files.salome-platform.org/Salome/other/med-3.2.0.tar.gz \
+    && tar xf med-3.2.0.tar.gz \
+    &&
+RUN \
     cd \
     && mkdir med \
     && cd med \
