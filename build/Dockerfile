@@ -87,29 +87,29 @@ RUN \
 
 ### libBoost 1.55
 #-----------------
-RUN apt-get install -y \
-    libboost1.55-dev \
-    libboost-filesystem1.55-dev \
-    libboost-program-options1.55-dev \
-    libboost-python1.55-dev \
-    libboost-regex1.55-dev \
-    libboost-signals1.55-dev \
-    libboost-system1.55-dev \
-    libboost-thread1.55-dev
+# RUN apt-get install -y \
+#     libboost1.55-dev \
+#     libboost-filesystem1.55-dev \
+#     libboost-program-options1.55-dev \
+#     libboost-python1.55-dev \
+#     libboost-regex1.55-dev \
+#     libboost-signals1.55-dev \
+#     libboost-system1.55-dev \
+#     libboost-thread1.55-dev
 # 
 ### libBoost 1.64
 #-----------------
-# # RUN \
-# #     VERSION=64 && \
-# #   \
-# #     cd \
-# #     && wget https://downloads.sourceforge.net/project/boost/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.bz2 \
-# #     && tar jxf boost_1_${VERSION}_0.tar.bz2 \
-# #     && rm boost_1_${VERSION}_0.tar.bz2 \
-# #     && cd boost_1_${VERSION}_0/ \
-# #   \
-# #     && ./bootstrap.sh --prefix=$FREECAD \
-# #     && ./b2 -j$(nproc) install
+RUN \
+    VERSION=64 && \
+  \
+    cd \
+    && wget https://downloads.sourceforge.net/project/boost/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.bz2 \
+    && tar jxf boost_1_${VERSION}_0.tar.bz2 \
+    && rm boost_1_${VERSION}_0.tar.bz2 \
+    && cd boost_1_${VERSION}_0/ \
+  \
+    && ./bootstrap.sh --prefix=$FREECAD \
+    && ./b2 -j$(nproc) install
 
 ### libMED 3.0.6
 #----------------
