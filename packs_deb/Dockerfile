@@ -49,6 +49,7 @@ RUN \
 #---------------
 RUN \
     VERSION=3.2.0 && \
+    NAME=med && \   
     cd && cd med/build \
   \
     && checkinstall -Dy \
@@ -58,14 +59,17 @@ RUN \
         --nodoc \
         --pkgarch=$(dpkg --print-architecture) \
         --install=no \
-        --pkgname=med \
-        --pkgversion=$VERSION
+        --pkgname=$NAME \
+        --pkgversion=$VERSION \
+  \
+    && cp $NAME*.deb /mnt
 
 
 ## VTK (Git)
 #-------------
 RUN \
     VERSION=8.1 && \
+    NAME=vtk && \ 
     cd && cd vtk/build \
   \
     && checkinstall -Dy \
@@ -75,14 +79,17 @@ RUN \
         --nodoc \
         --pkgarch=$(dpkg --print-architecture) \
         --install=no \
-        --pkgname=vtk \
-        --pkgversion=$VERSION
+        --pkgname=$NAME \
+        --pkgversion=$VERSION \
+  \
+    && cp $NAME*.deb /mnt
 
 
 ## OCCT 7.1.0
 #-------------
 RUN \
     VERSION=7.1.0 && \
+    NAME=occt && \
     cd && cd occt/build \
   \
     && checkinstall -Dy \
@@ -92,8 +99,10 @@ RUN \
         --nodoc \
         --pkgarch=$(dpkg --print-architecture) \
         --install=no \
-        --pkgname=occt \
-        --pkgversion=$VERSION
+        --pkgname=$NAME \
+        --pkgversion=$VERSION \
+  \
+    && cp $NAME*.deb /mnt
 
 
 ## Netgen 5.3.1
@@ -104,12 +113,14 @@ RUN
   \
     && checkinstall -Dy \
         --pkgsource="https://sourceforge.net/projects/netgen-mesher/files/netgen-mesher/5.3/" \
-        --pkglicense="GPL2+" \
+        --pkglicense="LGPL2.1" \
         --maintainer="Leonardo Loures \\<luvres@hotmail.com\\>" \
         --nodoc \
         --install=no \
         --pkgname=netgen5 \
-        --pkgversion=$VERSION 
+        --pkgversion=$VERSION \
+  \
+    && cp $NAME*.deb /mnt
 
 
 ## Eigen 3.3.90 -> Bitbucket
