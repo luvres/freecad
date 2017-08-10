@@ -280,7 +280,7 @@ RUN \
 #
 ### Eigen 3.3.90 -> Bitbucket
 #-----------------------------
-#apt-get remove -y libeigen3-dev
+# http://eigen.tuxfamily.org/index.php?title=Main_Page
 RUN \
     cd \
     && mkdir eigen \
