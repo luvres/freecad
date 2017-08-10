@@ -11,12 +11,14 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 # -v $HOME/1uvr3z/packages:/mnt \
 # freecad:build-jessie bash
 
-RUN apt-get install checkinstall
+RUN \
+    apt-get update && apt-get install -y checkinstall
 
 ## cmake
 #--------
 RUN \
-    VERSION=`cmake -version | head -n1 | awk '{print $3}'` \
+    VERSION=`cmake -version | head -n1 | awk '{print $3}'` && \
+    NAME=cmake && \
     cd && cd cmake \
   \
     && checkinstall -Dy \
@@ -26,10 +28,10 @@ RUN \
         --nodoc \
         --pkgarch=$(dpkg --print-architecture) \
         --install=no \
-        --pkgname=cmake \
+        --pkgname=$NAME \
         --pkgversion=$VERSION \
   \
-    && cp cmake*.deb /mnt
+    && cp $NAME*.deb /mnt
 
     
 ## libBoost 1.64
@@ -45,77 +47,101 @@ RUN \
 
 ## libMED 3.2.0
 #---------------
-# # RUN \
-# #     VERSION=3.2.0 && \
-# #     cd && cd med/build \
-# #   \
-# #     && checkinstall -Dy \
-# #         --install=no \
-# #         --pkgname=med \
-# #         --pkgversion=$VERSION
+RUN \
+    VERSION=3.2.0 && \
+    cd && cd med/build \
+  \
+    && checkinstall -Dy \
+        --pkgsource="http://salome-platform.org/" \
+        --pkglicense="GPL3" \
+        --maintainer="Leonardo Loures \\<luvres@hotmail.com\\>" \
+        --nodoc \
+        --pkgarch=$(dpkg --print-architecture) \
+        --install=no \
+        --pkgname=med \
+        --pkgversion=$VERSION
 
 
 ## VTK (Git)
 #-------------
-# # RUN \
-# #     VERSION=8.1 && \
-# #     cd && cd vtk/build \
-# #   \
-# #     && checkinstall -Dy \
-# #         --install=no \
-# #         --pkgname=vtk \
-# #         --pkgversion=$VERSION
+RUN \
+    VERSION=8.1 && \
+    cd && cd vtk/build \
+  \
+    && checkinstall -Dy \
+        --pkgsource="https://gitlab.kitware.com/vtk/vtk" \
+        --pkglicense="BSD3" \
+        --maintainer="Leonardo Loures \\<luvres@hotmail.com\\>" \
+        --nodoc \
+        --pkgarch=$(dpkg --print-architecture) \
+        --install=no \
+        --pkgname=vtk \
+        --pkgversion=$VERSION
 
 
 ## OCCT 7.1.0
 #-------------
-# # RUN \
-# #     VERSION=7.1.0 && \
-# #     cd && cd occt/build \
-# #   \
-# #     && checkinstall -Dy \
-# #         --install=no \
-# #         --pkgname=occt \
-# #         --pkgversion=$VERSION
+RUN \
+    VERSION=7.1.0 && \
+    cd && cd occt/build \
+  \
+    && checkinstall -Dy \
+        --pkgsource="http://git.dev.opencascade.org/gitweb/?p=occt.git;a=summary" \
+        --pkglicense="GPL2" \
+        --maintainer="Leonardo Loures \\<luvres@hotmail.com\\>" \
+        --nodoc \
+        --pkgarch=$(dpkg --print-architecture) \
+        --install=no \
+        --pkgname=occt \
+        --pkgversion=$VERSION
 
 
 ## Netgen 5.3.1
 #----------------
-# # RUN 
-# #     VERSION=5.3.1 && \
-# #     cd && cd netgen \
-# #   \
-# #     && checkinstall -Dy \
-# #         --install=no \
-# #         --pkgname=netgen5 \
-# #         --pkgversion=$VERSION 
+RUN 
+    VERSION=5.3.1 && \
+    cd && cd netgen \
+  \
+    && checkinstall -Dy \
+        --pkgsource="https://sourceforge.net/projects/netgen-mesher/files/netgen-mesher/5.3/" \
+        --pkglicense="GPL2+" \
+        --maintainer="Leonardo Loures \\<luvres@hotmail.com\\>" \
+        --nodoc \
+        --install=no \
+        --pkgname=netgen5 \
+        --pkgversion=$VERSION 
 
 
 ## Eigen 3.3.90 -> Bitbucket
 #----------------------------
-# # RUN \
-# #     VERSION=3.3.90 && \
-# #     cd && cd eigen/build \
-# #   \
-# #     && checkinstall -Dy \
-# #         --pkgsource="http://eigen.tuxfamily.org/index.php?title=Main_Page" \
-# #         --pkglicense="GPL3" \
-# #         --nodoc \
-# #         --install=no \
-# #         --pkgname=eigen \
-# #         --pkgversion=$VERSION
+RUN \
+    VERSION=3.3.90 && \
+    cd && cd eigen/build \
+  \
+    && checkinstall -Dy \
+        --pkgsource="http://eigen.tuxfamily.org/index.php?title=Main_Page" \
+        --pkglicense="MPL2" \
+        --nodoc \
+        --install=no \
+        --pkgname=eigen \
+        --pkgversion=$VERSION
 
 
 ### FreeCAD latest Github commit
 #--------------------------------
-# # RUN \
-# #     VERSION=0.17 && \
-# #     cd && cd build \
-# #   \
-# #     && checkinstall -Dy \
-# #         --install=no \
-# #         --pkgname=FreeCAD \
-# #         --pkgversion=$VERSION
+RUN \
+    VERSION=0.17 && \
+    RELEASE= \
+    cd && cd build \
+  \
+    && checkinstall -Dy \
+        --pkgsource="http://eigen.tuxfamily.org/index.php?title=Main_Page" \
+        --pkglicense="GPL2" \
+        --nodoc \
+        --install=no \
+        --pkgname=FreeCAD \
+        --pkgversion=$VERSION \
+        --pkgrelease=$RELEASE \
 
 
 ## Calculix 2.12 and CGX
