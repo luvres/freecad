@@ -1,7 +1,7 @@
 FROM freecad:build-jessie
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
-# docker build -t freecad:deb ./build/packages/
+# docker build -t freecad:deb ./build/packs_deb/
 #
 # docker run -ti --rm --name FreeCAD \
 # --net=host \
