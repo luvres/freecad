@@ -157,7 +157,7 @@ RUN \
 ### FreeCAD latest Github commit
 #--------------------------------
 RUN \
-    NAME=FreeCAD && \
+    NAME=freecad && \
     VERSION=0.17 && \
     RELEASE=jessie && \
     cd && cd build \
