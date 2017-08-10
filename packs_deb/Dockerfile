@@ -11,6 +11,8 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 # -v $HOME/1uvr3z/packages:/mnt \
 # freecad:build-jessie bash
 
+RUN apt-get install checkinstall
+
 ## cmake
 #--------
 RUN \
