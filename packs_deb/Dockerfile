@@ -17,8 +17,9 @@ RUN \
 ## cmake
 #--------
 RUN \
-    VERSION=`cmake -version | head -n1 | awk '{print $3}'` && \
     NAME=cmake && \
+    VERSION=`cmake -version | head -n1 | awk '{print $3}'` && \
+    RELEASE=jessie && \
     cd && cd cmake \
   \
     && checkinstall -Dy \
@@ -30,6 +31,7 @@ RUN \
         --install=no \
         --pkgname=$NAME \
         --pkgversion=$VERSION \
+        --pkgrelease=$RELEASE \
   \
     && cp $NAME*.deb /mnt
 
@@ -48,8 +50,9 @@ RUN \
 ## libMED 3.2.0
 #---------------
 RUN \
-    VERSION=3.2.0 && \
     NAME=med && \   
+    VERSION=3.2.0 && \
+    RELEASE=jessie && \
     cd && cd med/build \
   \
     && checkinstall -Dy \
@@ -61,6 +64,7 @@ RUN \
         --install=no \
         --pkgname=$NAME \
         --pkgversion=$VERSION \
+        --pkgrelease=$RELEASE \
   \
     && cp $NAME*.deb /mnt
 
@@ -68,8 +72,9 @@ RUN \
 ## VTK (Git)
 #-------------
 RUN \
-    VERSION=8.1 && \
     NAME=vtk && \ 
+    VERSION=8.1 && \
+    RELEASE=jessie && \
     cd && cd vtk/build \
   \
     && checkinstall -Dy \
@@ -81,6 +86,7 @@ RUN \
         --install=no \
         --pkgname=$NAME \
         --pkgversion=$VERSION \
+        --pkgrelease=$RELEASE \
   \
     && cp $NAME*.deb /mnt
 
@@ -88,8 +94,9 @@ RUN \
 ## OCCT 7.1.0
 #-------------
 RUN \
-    VERSION=7.1.0 && \
     NAME=occt && \
+    VERSION=7.1.0 && \
+    RELEASE=jessie && \
     cd && cd occt/build \
   \
     && checkinstall -Dy \
@@ -101,15 +108,17 @@ RUN \
         --install=no \
         --pkgname=$NAME \
         --pkgversion=$VERSION \
+        --pkgrelease=$RELEASE \
   \
     && cp $NAME*.deb /mnt
 
 
 ## Netgen 5.3.1
 #----------------
-RUN 
-    VERSION=5.3.1 && \
+RUN \
     NAME=netgen-occt && \
+    VERSION=5.3.1 && \
+    RELEASE=jessie && \
     cd && cd netgen \
   \
     && checkinstall -Dy \
@@ -120,6 +129,7 @@ RUN
         --install=no \
         --pkgname=$NAME \        
         --pkgversion=$VERSION \
+        --pkgrelease=$RELEASE \
   \
     && cp $NAME*.deb /mnt
 
@@ -127,7 +137,9 @@ RUN
 ## Eigen 3.3.90 -> Bitbucket
 #----------------------------
 RUN \
+    NAME=eigen && \
     VERSION=3.3.90 && \
+    RELEASE=jessie && \
     cd && cd eigen/build \
   \
     && checkinstall -Dy \
@@ -135,15 +147,19 @@ RUN \
         --pkglicense="MPL2" \
         --nodoc \
         --install=no \
-        --pkgname=eigen \
-        --pkgversion=$VERSION
+        --pkgname=$NAME \
+        --pkgversion=$VERSION \
+        --pkgrelease=$RELEASE \
+  \
+    && cp $NAME*.deb /mnt
 
 
 ### FreeCAD latest Github commit
 #--------------------------------
 RUN \
+    NAME=FreeCAD && \
     VERSION=0.17 && \
-    RELEASE= \
+    RELEASE=jessie && \
     cd && cd build \
   \
     && checkinstall -Dy \
@@ -151,10 +167,12 @@ RUN \
         --pkglicense="GPL2" \
         --nodoc \
         --install=no \
-        --pkgname=FreeCAD \
+        --pkgname=$NAME \
         --pkgversion=$VERSION \
         --pkgrelease=$RELEASE \
-
+  \
+    && cp $NAME*.deb /mnt
+    
 
 ## Calculix 2.12 and CGX
 #------------------------
