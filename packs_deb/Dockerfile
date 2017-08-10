@@ -14,7 +14,7 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 ## cmake
 #--------
 RUN \
-    VERSION=`cmake -version | head -n1 | awk '{print $3}'`
+    VERSION=`cmake -version | head -n1 | awk '{print $3}'` \
     cd && cd cmake \
   \
     && checkinstall -Dy \
