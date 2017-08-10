@@ -109,6 +109,7 @@ RUN \
 #----------------
 RUN 
     VERSION=5.3.1 && \
+    NAME=netgen-occt && \
     cd && cd netgen \
   \
     && checkinstall -Dy \
@@ -117,7 +118,7 @@ RUN
         --maintainer="Leonardo Loures \\<luvres@hotmail.com\\>" \
         --nodoc \
         --install=no \
-        --pkgname=netgen5 \
+        --pkgname=$NAME \        
         --pkgversion=$VERSION \
   \
     && cp $NAME*.deb /mnt
