@@ -335,6 +335,7 @@ RUN apt-get install -y \
 # $FREECAD/bin/FreeCAD
 
 RUN \
+    cd && \
     wget -c http://desktop/FreeCAD/packages/cmake_3.9.20170809-g92d16-jessie_amd64.deb && \
     wget -c http://desktop/FreeCAD/packages/eigen_3.3.90-jessie_amd64.deb && \
     wget -c http://desktop/FreeCAD/packages/freecad_0.17-jessie_amd64.deb && \
