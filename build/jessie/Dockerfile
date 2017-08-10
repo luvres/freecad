@@ -97,8 +97,9 @@ RUN \
 #     libboost-system1.55-dev \
 #     libboost-thread1.55-dev
 # 
-### libBoost 1.64
+### libBoost 1.64 
 #-----------------
+# http://www.boost.org/doc/libs/1_64_0/more/getting_started/unix-variants.html
 RUN \
     VERSION=64 && \
   \
