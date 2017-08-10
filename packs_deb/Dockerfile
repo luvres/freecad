@@ -116,7 +116,7 @@ RUN \
 ## Netgen 5.3.1
 #----------------
 RUN \
-    NAME=netgen-occt && \
+    NAME=netgen-occ7 && \
     VERSION=5.3.1 && \
     RELEASE=jessie && \
     cd && cd netgen \
@@ -127,7 +127,7 @@ RUN \
         --maintainer="Leonardo Loures \\<luvres@hotmail.com\\>" \
         --nodoc \
         --install=no \
-        --pkgname=$NAME \        
+        --pkgname=$NAME \
         --pkgversion=$VERSION \
         --pkgrelease=$RELEASE \
   \
