@@ -20,7 +20,9 @@ RUN \
     && checkinstall -Dy \
         --pkgsource="https://gitlab.kitware.com/cmake/cmake" \
         --pkglicense="GPL3" \
+        --maintainer="Leonardo Loures \\<luvres@hotmail.com\\>" \
         --nodoc \
+        --pkgarch=$(dpkg --print-architecture) \
         --install=no \
         --pkgname=cmake \
         --pkgversion=$VERSION \
