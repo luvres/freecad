@@ -299,6 +299,23 @@ RUN apt-get install -y \
 # #     && make install
 
 
+RUN \
+    cd && \
+    wget -c http://desktop/FreeCAD/packages/cmake_3.9.20170810-g14b2f-jessie_amd64.deb && \
+  \
+    wget -c http://desktop/FreeCAD/packages/med_3.2.0-jessie_amd64.deb && \
+    wget -c http://desktop/FreeCAD/packages/vtk_8.1-jessie_amd64.deb && \
+    wget -c http://desktop/FreeCAD/packages/occt_7.1.0-jessie_amd64.deb && \
+  \
+    wget -c http://desktop/FreeCAD/packages/netgen-occ7_5.3.1-jessie_amd64.deb && \
+  \
+    wget -c http://desktop/FreeCAD/packages/eigen_3.3.90-jessie_amd64.deb && \
+  \
+    wget -c http://desktop/FreeCAD/packages/freecad_0.17-jessie_amd64.deb && \
+  \
+    dpkg -i *.deb
+
+
 ### FreeCAD latest Github commit
 #--------------------------------
 # get FreeCAD
@@ -332,17 +349,6 @@ RUN apt-get install -y \
 # 
 ## start FreeCAD
 # $FREECAD/bin/FreeCAD
-
-RUN \
-    cd && \
-    wget -c http://desktop/FreeCAD/packages/cmake_3.9.20170810-g14b2f-jessie_amd64.deb && \
-    wget -c http://desktop/FreeCAD/packages/eigen_3.3.90-jessie_amd64.deb && \
-    wget -c http://desktop/FreeCAD/packages/freecad_0.17-jessie_amd64.deb && \
-    wget -c http://desktop/FreeCAD/packages/med_3.2.0-jessie_amd64.deb && \
-    wget -c http://desktop/FreeCAD/packages/netgen-occ7_5.3.1-jessie_amd64.deb && \
-    wget -c http://desktop/FreeCAD/packages/occt_7.1.0-jessie_amd64.deb && \
-    wget -c http://desktop/FreeCAD/packages/vtk_8.1-jessie_amd64.deb && \
-    dpkg -i *.deb
 
 
 ### Calculix 2.12 and CGX
