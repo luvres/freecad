@@ -1,4 +1,4 @@
-FROM izone/freecad:nvidia
+FROM izone/freecad:nvidia-xenial
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 RUN apt update \
