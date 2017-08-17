@@ -223,8 +223,8 @@ RUN \
     cd \
     && mkdir occt \
     && cd occt \
-    && git clone https://github.com/luvres/occt.git \
-    && cd occt \
+    && git clone https://github.com/luvres/occt7.git \
+    && cd occt7 \
   \
     && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtk/EXTERNLIB >& /tmp/EXTERNLIB" \
     && cp /tmp/EXTERNLIB src/TKIVtk/EXTERNLIB \
@@ -236,7 +236,7 @@ RUN \
     && cd build \
   \    
     && cmake \
-        ../occt \
+        ../occt7 \
         -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
         -DUSE_VTK:BOOL=OFF \
   \

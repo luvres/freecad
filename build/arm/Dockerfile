@@ -92,6 +92,11 @@ RUN apt-get install -y \
     libeigen3-dev 
 
 
+### VTK 6
+#---------
+RUN apt-get install -y \
+    vtk6
+
 ### VTK 7.1.1
 #-------------
 RUN \
@@ -128,8 +133,8 @@ RUN \
     cd \
     && mkdir $MAKEDIR \
     && cd $MAKEDIR \
-    && git clone https://github.com/luvres/occt.git \
-    && cd occt \
+    && git clone https://github.com/luvres/occt7.git \
+    && cd occt7 \
   \
     && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtk/EXTERNLIB >& /tmp/EXTERNLIB" \
     && cp /tmp/EXTERNLIB src/TKIVtk/EXTERNLIB \
@@ -141,7 +146,7 @@ RUN \
     && cd build \
   \    
     && cmake \
-        ../occt \
+        ../occt7 \
         -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
         -DUSE_VTK:BOOL=OFF \
   \
@@ -188,36 +193,36 @@ RUN \
 ### FreeCAD latest Github commit
 #--------------------------------
 # get FreeCAD
-RUN \
-    cd \
-    && git clone https://github.com/FreeCAD/FreeCAD 
+##RUN \
+##    cd \
+##    && git clone https://github.com/FreeCAD/FreeCAD 
 
-# building FreeCAD
-RUN \
-    cd \
-    && mkdir build \
-    && cd build \
-  \
-    && cmake ../FreeCAD \
-            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-            -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
-            -DNETGEN_ROOT=$FREECAD \
-            -DBUILD_FEM_NETGEN=ON 
-            #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
-            #-DFREECAD_USE_OCC_VARIANT="Official Version"  
-            #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
-            #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
+### building FreeCAD
+##RUN \
+##    cd \
+##    && mkdir build \
+##    && cd build \
+##  \
+##    && cmake ../FreeCAD \
+##            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+##            -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
+##            -DNETGEN_ROOT=$FREECAD \
+##            -DBUILD_FEM_NETGEN=ON 
+##            #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
+##            #-DFREECAD_USE_OCC_VARIANT="Official Version"  
+##            #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
+##            #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
 
-# Make FreeCAD
-RUN \
-    cd \
-    && cd build \
-    && make -j$(nproc) \
-    
-    && make install \
-  \
-  # Clean
-    && cd && rm FreeCAD/ build/ -fR 
+### Make FreeCAD
+##RUN \
+##    cd \
+##    && cd build \
+##    && make -j$(nproc) \
+##    
+##    && make install \
+##  \
+##  # Clean
+##    && cd && rm FreeCAD/ build/ -fR 
 # 
 ## start FreeCAD
 # $FREECAD/bin/FreeCAD
