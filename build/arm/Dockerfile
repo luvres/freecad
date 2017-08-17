@@ -94,8 +94,8 @@ RUN apt-get install -y \
 
 ### VTK 6
 #---------
-RUN apt-get install -y \
-    vtk6
+#RUN apt-get install -y \
+#    vtk6
 
 ### VTK 7.1.1
 #-------------
