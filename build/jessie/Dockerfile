@@ -220,21 +220,14 @@ RUN apt-get install -y \
 ### OCCT 7.1.0
 #--------------
 RUN \
+    MAKEDIR=occt && \
     cd \
-    && mkdir occt \
-    && cd occt \
+    && mkdir $MAKEDIR \
+    && cd $MAKEDIR \
     && git clone https://github.com/luvres/occt7.git \
-    && cd occt7 \
-  \
-    && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtk/EXTERNLIB >& /tmp/EXTERNLIB" \
-    && cp /tmp/EXTERNLIB src/TKIVtk/EXTERNLIB \
-    && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtkDraw/EXTERNLIB >& /tmp/EXTERNLIB" \
-    && cp /tmp/EXTERNLIB src/TKIVtkDraw/EXTERNLIB \
-  # building OCCT
-    && cd .. \
     && mkdir build \
     && cd build \
-  \    
+  \
     && cmake \
         ../occt7 \
         -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
@@ -348,3 +341,4 @@ RUN \
     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
+
