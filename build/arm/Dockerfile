@@ -14,7 +14,6 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 ENV FREECAD=/opt/FreeCAD
 RUN mkdir -p $FREECAD 
 
-
 ### Packages deps
 #-----------------
 RUN apt-get update \
@@ -73,7 +72,6 @@ RUN apt-get install -y \
 		libboost-system1.55-dev \
 		libboost-thread1.55-dev
 
-
 ### libMED 3.0.6
 #----------------
 RUN apt-get install -y \
@@ -100,7 +98,7 @@ RUN \
     && mkdir $MAKEDIR \
     && cd $MAKEDIR \
     && git clone https://github.com/luvres/occt7.git \
-    && cd occt7 \
+#    && cd occt7 
   \
 #  # Patch
 #    && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtk/EXTERNLIB >& /tmp/EXTERNLIB" 
@@ -109,7 +107,7 @@ RUN \
 #    && cp /tmp/EXTERNLIB src/TKIVtkDraw/EXTERNLIB 
   \
   # building OCCT
-    && cd .. \
+ #   && cd .. 
     && mkdir build \
     && cd build \
   \    
