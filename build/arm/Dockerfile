@@ -107,9 +107,9 @@ RUN \
         -DUSE_VTK:BOOL=OFF \
   \
     && make -j$(nproc) \
-    && make install \
-  \
-    && cd && rm $MAKEDIR -fR
+    && make install 
+#  \
+#    && cd && rm $MAKEDIR -fR
 
 ### Netgen 5.3.1
 #----------------
@@ -140,9 +140,9 @@ RUN \
     && make -j$(nproc) \
     && make install \
   \
-    && cp -rf libsrc $FREECAD/libsrc \
-  \
-    && cd && rm netgen -fR
+    && cp -rf libsrc $FREECAD/libsrc 
+#  \
+#    && cd && rm netgen -fR
 
 
 ### VTK 7.1.1
