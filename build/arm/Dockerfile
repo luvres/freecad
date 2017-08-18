@@ -149,7 +149,7 @@ RUN \
 #-------------
 RUN \
     vtk_VERSION=7.1.1 && \
-    wget -c http://raspberrypi/FreeCAD/packages/vtk_${vtk_VERSION}-jessie_amd64.deb \
+    wget -c http://pi/FreeCAD/packages/vtk_${vtk_VERSION}-jessie_amd64.deb \
     && dpkg -i vtk_${vtk_VERSION}-jessie_amd64.deb
 
 
