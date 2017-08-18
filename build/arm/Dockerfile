@@ -19,42 +19,42 @@ RUN mkdir -p $FREECAD
 #-----------------
 RUN apt-get update \
     && apt-get install -y \
-        doxygen \
-        libpyside-dev \
-        libqtcore4 \
-        libshiboken-dev \
-        libxerces-c-dev \
-        libxmu-dev \
-        libxmu-headers \
-        libxmu6 \
-        libxmuu-dev \
-        libxmuu1 \
-        pyside-tools \
-        python-dev \
-        python-pyside \
-        python-matplotlib \
-        qt4-dev-tools \
-        qt4-qmake \
-        libqtwebkit-dev \
-        shiboken \
-        swig
+		doxygen \
+		libpyside-dev \
+		libqtcore4 \
+		libshiboken-dev \
+		libxerces-c-dev \
+		libxmu-dev \
+		libxmu-headers \
+		libxmu6 \
+		libxmuu-dev \
+		libxmuu1 \
+		pyside-tools \
+		python-dev \
+		python-pyside \
+		python-matplotlib \
+		qt4-dev-tools \
+		qt4-qmake \
+		libqtwebkit-dev \
+		shiboken \
+		swig
 
 ### Packages build
 #------------------
 RUN apt-get install -y \
-        python-pivy \
-        g++ \
-        libfreetype6-dev \
-        tcl8.5-dev \
-        tk8.5-dev \
-        automake \
-        libtogl-dev \
-        libhdf5-dev \
-    \
-        dictionaries-common \
-        wget \
-        git \
-        gmsh
+		python-pivy \
+		g++ \
+		libfreetype6-dev \
+		tcl8.5-dev \
+		tk8.5-dev \
+		automake \
+		libtogl-dev \
+		libhdf5-dev \
+	  \
+		dictionaries-common \
+		wget \
+		git \
+		gmsh
 
 ### cmake 3.0.2
 #---------------
@@ -64,66 +64,33 @@ RUN apt-get install -y \
 ### libBoost 1.55
 #-----------------
 RUN apt-get install -y \
-    libboost1.55-dev \
-    libboost-filesystem1.55-dev \
-    libboost-program-options1.55-dev \
-    libboost-python1.55-dev \
-    libboost-regex1.55-dev \
-    libboost-signals1.55-dev \
-    libboost-system1.55-dev \
-    libboost-thread1.55-dev
+		libboost1.55-dev \
+		libboost-filesystem1.55-dev \
+		libboost-program-options1.55-dev \
+		libboost-python1.55-dev \
+		libboost-regex1.55-dev \
+		libboost-signals1.55-dev \
+		libboost-system1.55-dev \
+		libboost-thread1.55-dev
 
 
 ### libMED 3.0.6
 #----------------
 RUN apt-get install -y \
-    libmed-dev \
-    libmedc-dev
+		libmed-dev \
+		libmedc-dev
 
 ### libCoin 3.1.4
 #-----------------
 RUN apt-get install -y \
-    libcoin80 \
-    libcoin80-dev 
+		libcoin80 \
+		libcoin80-dev 
 
 ### Eigen 3.2.2 - 3.3.0(backports)
 #----------------------------------
 RUN apt-get install -y \
-    libeigen3-dev 
+  	  libeigen3-dev 
 
-
-### VTK 7.1.1
-#-------------
-#RUN \
-#    wget -c http://raspberrypi/FreeCAD/packages/vtk_7.1.1-jessie_amd64.deb \
-#    && dpkg -i vtk_7.1.1-jessie_amd64.deb
-
-#RUN \
-#    MAKEDIR=vtk && \
-#    vtk_VERSION_MAJOR=7.1 && \
-#    vtk_VERSION_MINOR=7.1.1 && \
-#  \
-#    cd \
-#    && mkdir $MAKEDIR \
-#    && cd $MAKEDIR \
-#    && wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
-#    && gunzip VTK-${vtk_VERSION_MINOR}.tar.gz \
-#    && tar xf VTK-${vtk_VERSION_MINOR}.tar \
-#    && rm VTK-${vtk_VERSION_MINOR}.tar \
-#  # building VTK
-#    && mkdir build \
-#    && cd build \
-#  \
-#    && cmake ../VTK-${vtk_VERSION_MINOR} \
-#            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#            -DVTK_Group_Rendering:BOOL=OFF \
-#            -DVTK_Group_StandAlone:BOOL=ON \
-#            -DVTK_RENDERING_BACKEND=None \
-#  \
-#    && make -j$(nproc) \
-#    && make install \
-#  \
-#    && cd && rm $MAKEDIR -fR
 
 ### OCCT 7.1.0
 #--------------
@@ -190,6 +157,13 @@ RUN \
     && cd && rm netgen -fR
 
 
+### VTK 7.1.1
+#-------------
+RUN \
+    vtk_VERSION=7.1.1 && \
+    wget -c http://raspberrypi/FreeCAD/packages/vtk_${vtk_VERSION}-jessie_amd64.deb \
+    && dpkg -i vtk_7.1.1-jessie_amd64.deb
+
 
 ### FreeCAD latest Github commit
 #--------------------------------
@@ -197,12 +171,6 @@ RUN \
 RUN \
     cd \
     && git clone https://github.com/FreeCAD/FreeCAD 
-
-### VTK 7.1.1
-#-------------
-RUN \
-    wget -c http://raspberrypi/FreeCAD/packages/vtk_7.1.1-jessie_amd64.deb \
-    && dpkg -i vtk_7.1.1-jessie_amd64.deb
 
 # building FreeCAD
 RUN \
@@ -224,12 +192,12 @@ RUN \
 RUN \
     cd \
     && cd build \
-    && make -j$(nproc) \
+    && make -j$(nproc) 
     
-    && make install \
-  \
-  # Clean
-    && cd && rm FreeCAD/ build/ -fR 
+#    && make install \
+#  \
+#  # Clean
+#    && cd && rm FreeCAD/ build/ -fR 
  
 ## start FreeCAD
 # $FREECAD/bin/FreeCAD
