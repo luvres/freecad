@@ -92,39 +92,38 @@ RUN apt-get install -y \
     libeigen3-dev 
 
 
-### VTK 6
-#---------
-#RUN apt-get install -y \
-#    vtk6
-
 ### VTK 7.1.1
 #-------------
-RUN \
-    MAKEDIR=vtk && \
-    vtk_VERSION_MAJOR=7.1 && \
-    vtk_VERSION_MINOR=7.1.1 && \
-  \
-    cd \
-    && mkdir $MAKEDIR \
-    && cd $MAKEDIR \
-    && wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
-    && gunzip VTK-${vtk_VERSION_MINOR}.tar.gz \
-    && tar xf VTK-${vtk_VERSION_MINOR}.tar \
-    && rm VTK-${vtk_VERSION_MINOR}.tar \
-  # building VTK
-    && mkdir build \
-    && cd build \
-  \
-    && cmake ../VTK-${vtk_VERSION_MINOR} \
-            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-            -DVTK_Group_Rendering:BOOL=OFF \
-            -DVTK_Group_StandAlone:BOOL=ON \
-            -DVTK_RENDERING_BACKEND=None \
-  \
-    && make -j$(nproc) \
-    && make install \
-  \
-    && cd && rm $MAKEDIR -fR
+#RUN \
+#    wget -c http://raspberrypi/FreeCAD/packages/vtk_7.1.1-jessie_amd64.deb \
+#    && dpkg -i vtk_7.1.1-jessie_amd64.deb
+
+#RUN \
+#    MAKEDIR=vtk && \
+#    vtk_VERSION_MAJOR=7.1 && \
+#    vtk_VERSION_MINOR=7.1.1 && \
+#  \
+#    cd \
+#    && mkdir $MAKEDIR \
+#    && cd $MAKEDIR \
+#    && wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
+#    && gunzip VTK-${vtk_VERSION_MINOR}.tar.gz \
+#    && tar xf VTK-${vtk_VERSION_MINOR}.tar \
+#    && rm VTK-${vtk_VERSION_MINOR}.tar \
+#  # building VTK
+#    && mkdir build \
+#    && cd build \
+#  \
+#    && cmake ../VTK-${vtk_VERSION_MINOR} \
+#            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+#            -DVTK_Group_Rendering:BOOL=OFF \
+#            -DVTK_Group_StandAlone:BOOL=ON \
+#            -DVTK_RENDERING_BACKEND=None \
+#  \
+#    && make -j$(nproc) \
+#    && make install \
+#  \
+#    && cd && rm $MAKEDIR -fR
 
 ### OCCT 7.1.0
 #--------------
@@ -136,10 +135,12 @@ RUN \
     && git clone https://github.com/luvres/occt7.git \
     && cd occt7 \
   \
-    && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtk/EXTERNLIB >& /tmp/EXTERNLIB" \
-    && cp /tmp/EXTERNLIB src/TKIVtk/EXTERNLIB \
-    && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtkDraw/EXTERNLIB >& /tmp/EXTERNLIB" \
-    && cp /tmp/EXTERNLIB src/TKIVtkDraw/EXTERNLIB \
+#  # Patch
+#    && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtk/EXTERNLIB >& /tmp/EXTERNLIB" 
+#    && cp /tmp/EXTERNLIB src/TKIVtk/EXTERNLIB 
+#    && bash -c "grep -v vtkRenderingFreeTypeOpenGL src/TKIVtkDraw/EXTERNLIB >& /tmp/EXTERNLIB" 
+#    && cp /tmp/EXTERNLIB src/TKIVtkDraw/EXTERNLIB 
+  \
   # building OCCT
     && cd .. \
     && mkdir build \
@@ -193,25 +194,31 @@ RUN \
 ### FreeCAD latest Github commit
 #--------------------------------
 # get FreeCAD
-##RUN \
-##    cd \
-##    && git clone https://github.com/FreeCAD/FreeCAD 
+RUN \
+    cd \
+    && git clone https://github.com/FreeCAD/FreeCAD 
 
-### building FreeCAD
-##RUN \
-##    cd \
-##    && mkdir build \
-##    && cd build \
-##  \
-##    && cmake ../FreeCAD \
-##            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-##            -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
-##            -DNETGEN_ROOT=$FREECAD \
-##            -DBUILD_FEM_NETGEN=ON 
-##            #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
-##            #-DFREECAD_USE_OCC_VARIANT="Official Version"  
-##            #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
-##            #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
+### VTK 7.1.1
+#-------------
+RUN \
+    wget -c http://raspberrypi/FreeCAD/packages/vtk_7.1.1-jessie_amd64.deb \
+    && dpkg -i vtk_7.1.1-jessie_amd64.deb
+
+# building FreeCAD
+RUN \
+    cd \
+    && mkdir build \
+    && cd build \
+  \
+    && cmake ../FreeCAD \
+            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+            -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
+            -DNETGEN_ROOT=$FREECAD \
+            -DBUILD_FEM_NETGEN=ON 
+            #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
+            #-DFREECAD_USE_OCC_VARIANT="Official Version"  
+            #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
+            #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
 
 ### Make FreeCAD
 ##RUN \
