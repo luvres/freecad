@@ -173,6 +173,10 @@ RUN apt-get install -y \
 ### OCCT 7.1.0
 #--------------
 RUN \
+	apt-get install -y \
+		libfreeimage-dev \
+		libtbb-dev \
+	&& \
     MAKEDIR=occt && \
     cd \
     && mkdir $MAKEDIR \
@@ -182,9 +186,12 @@ RUN \
     && cd build \
   \
     && cmake \
-        ../occt7 \
-        -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-        -DUSE_VTK:BOOL=OFF \
+		../occt7 \
+		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+		-DUSE_VTK:BOOL=OFF \
+		-DUSE_TBB:BOOL=ON \
+		-DUSE_FREEIMAGE:BOOL=ON \
+		-DCMAKE_BUILD_TYPE=Release \
   \
     && make -j$(nproc) \
     && make install
