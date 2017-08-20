@@ -91,30 +91,41 @@ RUN apt-get install -y \
 
 
 ### OCCT 7.1.0
-#--------------
+#-------------
 RUN \
 	apt-get install -y \
-		libfreeimage-dev \
-		libtbb-dev \
+		libfreeimage3 \
+		libtbb2 \
 	&& \
-    MAKEDIR=occt && \
-    cd \
-    && mkdir $MAKEDIR \
-    && cd $MAKEDIR \
-    && git clone https://github.com/luvres/occt7.git \
-    && mkdir build \
-    && cd build \
-  \
-    && cmake \
-		../occt7 \
-		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-		-DUSE_VTK:BOOL=OFF \
-		-DUSE_TBB:BOOL=ON \
-		-DUSE_FREEIMAGE:BOOL=ON \
-		-DCMAKE_BUILD_TYPE=Release \
-  \
-    && make -j$(nproc) \
-    && make install 
+    occt_VERSION=7.1.0 && \
+    wget -c http://pi/FreeCAD/packages/occt_${occt_VERSION}-jessie_amd64.deb \
+    && dpkg -i occt_${occt_VERSION}-jessie_amd64.deb
+
+### OCCT 7.1.0
+##--------------
+#RUN \
+#	apt-get install -y \
+#		libfreeimage-dev \
+#		libtbb-dev \
+#	&& \
+#    MAKEDIR=occt && \
+#    cd \
+#    && mkdir $MAKEDIR \
+#    && cd $MAKEDIR \
+#    && git clone https://github.com/luvres/occt7.git \
+#    && mkdir build \
+#    && cd build \
+#  \
+#    && cmake \
+#		../occt7 \
+#		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+#		-DUSE_VTK:BOOL=OFF \
+#		-DUSE_TBB:BOOL=ON \
+#		-DUSE_FREEIMAGE:BOOL=ON \
+#		-DCMAKE_BUILD_TYPE=Release \
+#  \
+#    && make -j$(nproc) \
+#    && make install 
 #  \
 #    && cd && rm $MAKEDIR -fR
 
@@ -135,7 +146,7 @@ RUN \
             #--with-togl=/usr/lib/
             --with-tcl=/usr/lib/tcl8.5 \
             --with-tk=/usr/lib/tk8.5 \
-            --with-occ=$FREECAD \
+            --with-occ=/usr \
             --enable-occ \
             --enable-shared \
             --enable-nglib \
