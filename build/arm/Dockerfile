@@ -148,11 +148,11 @@ RUN \
             --with-tk=/usr/lib/tk8.5 \
             --with-occ=/usr \
             --enable-occ \
-            --enable-shared \
+#            --enable-shared 
             --enable-nglib \
             --disable-gui \
             --disable-dependency-tracking \
-            CPPFLAGS="-I/usr/lib/openmpi/include/" \
+#            CPPFLAGS="-I/usr/lib/openmpi/include/" 
             CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
   \
     && make -j$(nproc) \
