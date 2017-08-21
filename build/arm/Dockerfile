@@ -47,7 +47,6 @@ RUN apt-get install -y \
 		tcl8.5-dev \
 		tk8.5-dev \
 		automake \
-		libtogl-dev \
 		libhdf5-dev \
 	  \
 		dictionaries-common \
@@ -134,7 +133,9 @@ RUN \
 RUN \
     cd \
     && apt-get install -y \
-    openmpi-bin libopenmpi-dev \
+		openmpi-bin \
+		libopenmpi-dev \
+#		libtogl-dev 
     && git clone https://github.com/luvres/netgen.git \
     && cd netgen \
   \
@@ -143,15 +144,15 @@ RUN \
             --prefix=$FREECAD \
             #--with-sysroot=/usr/lib/
             #--with-metis=/usr/lib/x86_64-linux-gnu/
-            #--with-togl=/usr/lib/
+            --enable-occ \
+            --with-occ=/usr \
             --with-tcl=/usr/lib/tcl8.5 \
             --with-tk=/usr/lib/tk8.5 \
-            --with-occ=/usr \
-            --enable-occ \
+#            --with-togl=/usr/lib/ 
 #            --enable-shared 
             --enable-nglib \
             --disable-gui \
-            --disable-dependency-tracking \
+#            --disable-dependency-tracking 
 #            CPPFLAGS="-I/usr/lib/openmpi/include/" 
             CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
   \
@@ -173,32 +174,32 @@ RUN \
 
 ### FreeCAD latest Github commit
 #--------------------------------
-# get FreeCAD
-RUN \
-    cd \
-    && git clone https://github.com/FreeCAD/FreeCAD 
+### get FreeCAD
+##RUN \
+##    cd \
+##    && git clone https://github.com/FreeCAD/FreeCAD 
 
-# building FreeCAD
-RUN \
-    cd \
-    && mkdir build \
-    && cd build \
-  \
-    && cmake ../FreeCAD \
-            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-            -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
-            -DNETGEN_ROOT=$FREECAD \
-            -DBUILD_FEM_NETGEN=ON 
-            #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
-            #-DFREECAD_USE_OCC_VARIANT="Official Version"  
-            #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
-            #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
+### building FreeCAD
+##RUN \
+##    cd \
+##    && mkdir build \
+##    && cd build \
+##  \
+##    && cmake ../FreeCAD \
+##            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+##            -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
+##            -DNETGEN_ROOT=$FREECAD \
+##            -DBUILD_FEM_NETGEN=ON 
+##            #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
+##            #-DFREECAD_USE_OCC_VARIANT="Official Version"  
+##            #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
+##            #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
 
-# Make FreeCAD
-RUN \
-    cd \
-    && cd build \
-    && make -j$(nproc) 
+### Make FreeCAD
+##RUN \
+##    cd \
+##    && cd build \
+##    && make -j$(nproc) 
     
 #    && make install \
 #  \
