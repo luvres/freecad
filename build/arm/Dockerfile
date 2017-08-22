@@ -100,83 +100,8 @@ RUN \
     wget -c http://pi/FreeCAD/packages/occt_${occt_VERSION}-jessie_amd64.deb \
     && dpkg -i occt_${occt_VERSION}-jessie_amd64.deb
 
-### OCCT 7.1.0
-##--------------
-#RUN \
-#	apt-get install -y \
-#		libfreeimage-dev \
-#		libtbb-dev \
-#	&& \
-#    MAKEDIR=occt && \
-#    cd \
-#    && mkdir $MAKEDIR \
-#    && cd $MAKEDIR \
-#    && git clone https://github.com/luvres/occt7.git \
-#    && mkdir build \
-#    && cd build \
-#  \
-#    && cmake \
-#		../occt7 \
-#		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#		-DUSE_VTK:BOOL=OFF \
-#		-DUSE_TBB:BOOL=ON \
-#		-DUSE_FREEIMAGE:BOOL=ON \
-#		-DCMAKE_BUILD_TYPE=Release \
-#  \
-#    && make -j$(nproc) \
-#    && make install 
-#  \
-#    && cd && rm $MAKEDIR -fR
 
-
-### Netgen 5.3.1
-#----------------
-#RUN \
-#	apt-get install -y \
-#		liboce-ocaf-lite8 \
-#		liboce-ocaf8 \
-#		liboce-visualization8 \
-#	&& \
-#  \
-#    netgen_VERSION=5.3.1 && \
-#    wget -c http://pi/FreeCAD/packages/netgen_${netgen_VERSION}-jessie_amd64.deb \
-#    && dpkg -i netgen_${netgen_VERSION}-jessie_amd64.deb
-### Netgen 5.3.1
-#----------------
-RUN \
-    cd \
-    && apt-get install -y \
-		openmpi-bin \
-		libopenmpi-dev \
-#		libtogl-dev 
-    && git clone https://github.com/luvres/netgen.git \
-    && cd netgen \
-  \
-  # building Netgen
-    && ./configure \
-            --prefix=/usr \
-            #--with-sysroot=/usr/lib/
-            #--with-metis=/usr/lib/x86_64-linux-gnu/
-            --enable-occ \
-            --with-occ=/usr \
-            --with-tcl=/usr/lib/tcl8.5 \
-            --with-tk=/usr/lib/tk8.5 \
-#            --with-togl=/usr/lib/ 
-#            --enable-shared 
-            --enable-nglib \
-            --disable-gui \
-#            --disable-dependency-tracking 
-#            CPPFLAGS="-I/usr/lib/openmpi/include/" 
-            CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
-  \
-    && make -j$(nproc) \
-    && make install \
-  \
-    && cp -rf libsrc /usr/share/netgen 
-#  \
-#    && cd && rm netgen -fR
-
-
+####################
 ### VTK 7.1.1
 #-------------
 RUN \
@@ -191,6 +116,54 @@ RUN \
 RUN \
     cd \
     && git clone https://github.com/FreeCAD/FreeCAD 
+####################
+####################
+
+
+### Netgen 5.3.1
+#----------------
+RUN \
+	apt-get install -y \
+		liboce-ocaf-lite8 \
+		liboce-ocaf8 \
+		liboce-visualization8 \
+	&& \
+    netgen_VERSION=5.3.1 && \
+    wget -c http://pi/FreeCAD/packages/netgen_${netgen_VERSION}-jessie_amd64.deb \
+    && dpkg -i netgen_${netgen_VERSION}-jessie_amd64.deb
+#
+### Netgen 5.3.1
+#----------------
+#RUN \
+#    cd \
+#    && apt-get install -y \
+#		openmpi-bin \
+#		libopenmpi-dev \
+#		libtogl-dev \
+#    && git clone https://github.com/luvres/netgen.git \
+#    && cd netgen \
+#  \
+#  # building Netgen
+#    && ./configure \
+#            --prefix=/usr \
+#            --enable-occ \
+#            --with-occ=/usr \
+#            --with-tcl=/usr/lib/tcl8.5 \
+#            --with-tk=/usr/lib/tk8.5 \
+#            --with-togl=/usr/lib/ \
+#            --enable-shared \
+#            --enable-nglib \
+#            --disable-gui \
+#            --disable-dependency-tracking \
+#            CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
+#  \
+#    && make -j$(nproc) \
+#    && make install \
+#  \
+#    && cp -fR libsrc /usr/share/netgen \
+#  \
+#    && cd && rm netgen -fR 
+
 
 # building FreeCAD
 RUN \
@@ -225,14 +198,14 @@ RUN \
 
 ### Calculix 2.12 and CGX
 #-------------------------
-# RUN \
-#     ccx_VERSION=2.12 && \
-#     apt-get install -y gfortran cpio \
-#     && cd \
-#     && git clone https://github.com/luvres/calculix.git \
-#     && cd calculix/ \
-#     && ./install \
-#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-#     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
-#     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
+ RUN \
+     ccx_VERSION=2.12 && \
+     apt-get install -y gfortran cpio \
+     && cd \
+     && git clone https://github.com/luvres/calculix.git \
+     && cd calculix/ \
+     && ./install \
+     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
 
