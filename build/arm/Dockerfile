@@ -128,40 +128,52 @@ RUN \
 #  \
 #    && cd && rm $MAKEDIR -fR
 
+
 ### Netgen 5.3.1
 #----------------
 RUN \
-    cd \
-    && apt-get install -y \
-		openmpi-bin \
-		libopenmpi-dev \
-#		libtogl-dev 
-    && git clone https://github.com/luvres/netgen.git \
-    && cd netgen \
-  \
-  # building Netgen
-    && ./configure \
-            --prefix=$FREECAD \
-            #--with-sysroot=/usr/lib/
-            #--with-metis=/usr/lib/x86_64-linux-gnu/
-            --enable-occ \
-            --with-occ=/usr \
-            --with-tcl=/usr/lib/tcl8.5 \
-            --with-tk=/usr/lib/tk8.5 \
-#            --with-togl=/usr/lib/ 
-#            --enable-shared 
-            --enable-nglib \
-            --disable-gui \
-#            --disable-dependency-tracking 
-#            CPPFLAGS="-I/usr/lib/openmpi/include/" 
-            CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
-  \
-    && make -j$(nproc) \
-    && make install \
-  \
-    && cp -rf libsrc $FREECAD/libsrc 
+	apt-get install -y \
+		liboce-ocaf-lite8 \
+		liboce-ocaf8 \
+		liboce-visualization8 \
+	&& \
+    netgen_VERSION=5.3.1 && \
+    wget -c http://pi/FreeCAD/packages/netgen_${netgen_VERSION}-jessie_amd64.deb \
+    && dpkg -i netgen_${netgen_VERSION}-jessie_amd64.deb
+### Netgen 5.3.1
+#----------------
+#RUN \
+#    cd \
+#    && apt-get install -y \
+#		openmpi-bin \
+#		libopenmpi-dev \
+##		libtogl-dev 
+#    && git clone https://github.com/luvres/netgen.git \
+#    && cd netgen \
 #  \
-#    && cd && rm netgen -fR
+#  # building Netgen
+#    && ./configure \
+#            --prefix=$FREECAD \
+#            #--with-sysroot=/usr/lib/
+#            #--with-metis=/usr/lib/x86_64-linux-gnu/
+#            --enable-occ \
+#            --with-occ=/usr \
+#            --with-tcl=/usr/lib/tcl8.5 \
+#            --with-tk=/usr/lib/tk8.5 \
+##            --with-togl=/usr/lib/ 
+##            --enable-shared 
+#            --enable-nglib \
+#            --disable-gui \
+##            --disable-dependency-tracking 
+##            CPPFLAGS="-I/usr/lib/openmpi/include/" 
+#            CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
+#  \
+#    && make -j$(nproc) \
+#    && make install \
+#  \
+#    && cp -rf libsrc $FREECAD/libsrc 
+##  \
+##    && cd && rm netgen -fR
 
 
 ### VTK 7.1.1
@@ -174,26 +186,26 @@ RUN \
 
 ### FreeCAD latest Github commit
 #--------------------------------
-### get FreeCAD
-##RUN \
-##    cd \
-##    && git clone https://github.com/FreeCAD/FreeCAD 
+# get FreeCAD
+RUN \
+    cd \
+    && git clone https://github.com/FreeCAD/FreeCAD 
 
-### building FreeCAD
-##RUN \
-##    cd \
-##    && mkdir build \
-##    && cd build \
-##  \
-##    && cmake ../FreeCAD \
-##            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-##            -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
-##            -DNETGEN_ROOT=$FREECAD \
-##            -DBUILD_FEM_NETGEN=ON 
-##            #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
-##            #-DFREECAD_USE_OCC_VARIANT="Official Version"  
-##            #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
-##            #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
+# building FreeCAD
+RUN \
+    cd \
+    && mkdir build \
+    && cd build \
+  \
+    && cmake ../FreeCAD \
+            -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+            -DOCC_INCLUDE_DIR=/usr/include/opencascade \
+            -DNETGEN_ROOT=/usr/share/netgen \
+            -DBUILD_FEM_NETGEN=ON 
+            #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
+            #-DFREECAD_USE_OCC_VARIANT="Official Version"  
+            #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
+            #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
 
 ### Make FreeCAD
 ##RUN \

@@ -255,6 +255,31 @@ RUN \
         -DCMAKE_VERBOSE_MAKEFILE=ON \
   \
     && make install
+#
+### Eigen 3.3.4
+#---------------
+# http://eigen.tuxfamily.org/index.php?title=Main_Page
+#RUN \
+#	eigen_VERSION=3.3.4 && \
+#  \
+#    cd \
+#    && mkdir eigen \
+#    && cd eigen \
+#    && wget -c http://bitbucket.org/eigen/eigen/get/${eigen_VERSION}.tar.gz \
+#	&& tar zxf ${eigen_VERSION}.tar.gz \
+#	&& rm ${eigen_VERSION}.tar.gz \
+#	&& mv eigen-* eigen-${eigen_VERSION} \
+#	&& mkdir build \
+#    && cd build \
+#  \
+#    && cmake ../eigen-${eigen_VERSION} \
+#        -DCMAKE_INSTALL_PREFIX=$FREECAD \
+#        -DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
+#        -DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
+#        -DCMAKE_BUILD_TYPE=Release \
+#        -DCMAKE_VERBOSE_MAKEFILE=ON \
+#  \
+#    && make install
 
 
 ### VTK 8.0.0
