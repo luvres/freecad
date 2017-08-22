@@ -131,50 +131,50 @@ RUN \
 
 ### Netgen 5.3.1
 #----------------
-RUN \
-	apt-get install -y \
-		liboce-ocaf-lite8 \
-		liboce-ocaf8 \
-		liboce-visualization8 \
-	&& \
-  \
-    netgen_VERSION=5.3.1 && \
-    wget -c http://pi/FreeCAD/packages/netgen_${netgen_VERSION}-jessie_amd64.deb \
-    && dpkg -i netgen_${netgen_VERSION}-jessie_amd64.deb
+#RUN \
+#	apt-get install -y \
+#		liboce-ocaf-lite8 \
+#		liboce-ocaf8 \
+#		liboce-visualization8 \
+#	&& \
+#  \
+#    netgen_VERSION=5.3.1 && \
+#    wget -c http://pi/FreeCAD/packages/netgen_${netgen_VERSION}-jessie_amd64.deb \
+#    && dpkg -i netgen_${netgen_VERSION}-jessie_amd64.deb
 ### Netgen 5.3.1
 #----------------
-#RUN \
-#    cd \
-#    && apt-get install -y \
-#		openmpi-bin \
-#		libopenmpi-dev \
-##		libtogl-dev 
-#    && git clone https://github.com/luvres/netgen.git \
-#    && cd netgen \
+RUN \
+    cd \
+    && apt-get install -y \
+		openmpi-bin \
+		libopenmpi-dev \
+#		libtogl-dev 
+    && git clone https://github.com/luvres/netgen.git \
+    && cd netgen \
+  \
+  # building Netgen
+    && ./configure \
+            --prefix=/usr \
+            #--with-sysroot=/usr/lib/
+            #--with-metis=/usr/lib/x86_64-linux-gnu/
+            --enable-occ \
+            --with-occ=/usr \
+            --with-tcl=/usr/lib/tcl8.5 \
+            --with-tk=/usr/lib/tk8.5 \
+#            --with-togl=/usr/lib/ 
+#            --enable-shared 
+            --enable-nglib \
+            --disable-gui \
+#            --disable-dependency-tracking 
+#            CPPFLAGS="-I/usr/lib/openmpi/include/" 
+            CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
+  \
+    && make -j$(nproc) \
+    && make install \
+  \
+    && cp -rf libsrc /usr/share/netgen 
 #  \
-#  # building Netgen
-#    && ./configure \
-#            --prefix=$FREECAD \
-#            #--with-sysroot=/usr/lib/
-#            #--with-metis=/usr/lib/x86_64-linux-gnu/
-#            --enable-occ \
-#            --with-occ=/usr \
-#            --with-tcl=/usr/lib/tcl8.5 \
-#            --with-tk=/usr/lib/tk8.5 \
-##            --with-togl=/usr/lib/ 
-##            --enable-shared 
-#            --enable-nglib \
-#            --disable-gui \
-##            --disable-dependency-tracking 
-##            CPPFLAGS="-I/usr/lib/openmpi/include/" 
-#            CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
-#  \
-#    && make -j$(nproc) \
-#    && make install \
-#  \
-#    && cp -rf libsrc $FREECAD/libsrc 
-##  \
-##    && cd && rm netgen -fR
+#    && cd && rm netgen -fR
 
 
 ### VTK 7.1.1
