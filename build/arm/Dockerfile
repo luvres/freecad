@@ -73,9 +73,15 @@ RUN apt-get install -y \
 
 ### libMED 3.0.6
 #----------------
-RUN apt-get install -y \
-		libmed-dev \
-		libmedc-dev
+#RUN apt-get install -y \
+#		libmed-dev \
+#		libmedc-dev
+### libMED 3.2.0
+#-------------
+RUN \
+    med_VERSION=3.2.0 && \
+    wget -c http://pi/FreeCAD/packages/med_${med_VERSION}-jessie_amd64.deb \
+    &&dpkg -i med_${med_VERSION}-jessie_amd64.deb
 
 ### libCoin 3.1.4
 #-----------------
@@ -127,21 +133,63 @@ RUN \
 #		liboce-ocaf-lite8 \
 #		liboce-ocaf8 \
 #		liboce-visualization8 \
-#	&& \
+#		&& \
 #    netgen_VERSION=5.3.1 && \
 #    wget -c http://pi/FreeCAD/packages/netgen_${netgen_VERSION}-jessie_amd64.deb \
 #    && dpkg -i netgen_${netgen_VERSION}-jessie_amd64.deb
 #
-### Netgen 5.3.1
-#----------------
+#### Netgen 5.3.1
+##----------------
+#RUN \
+#    cd \
+#    && apt-get install -y \
+#		openmpi-bin \
+#		libopenmpi-dev \
+#		libtogl-dev \
+#    && git clone https://github.com/luvres/netgen.git \
+#    && cd netgen \
+#  \
+#  # building Netgen
+#    && ./configure \
+#            --prefix=/usr \
+#            --enable-occ \
+#            --with-occ=/usr \
+#            --with-tcl=/usr/lib/tcl8.5 \
+#            --with-tk=/usr/lib/tk8.5 \
+#            --with-togl=/usr/lib/ \
+#            --enable-shared \
+#            --enable-nglib \
+#            --disable-gui \
+#            --disable-dependency-tracking \
+#            CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
+#  \
+#    && make -j$(nproc) \
+#    && make install \
+#  \
+#    && cp -fR libsrc /usr/share/netgen 
+#  \
+#    && cd && rm netgen -fR 
+
+#### Netgen 5.3.1
+##----------------
 RUN \
     cd \
-    && apt-get install -y \
+    && apt-get install -y curl \
 		openmpi-bin \
 		libopenmpi-dev \
 		libtogl-dev \
-    && git clone https://github.com/luvres/netgen.git \
-    && cd netgen \
+    && wget https://sourceforge.net/projects/netgen-mesher/files/netgen-mesher/5.3/netgen-5.3.1.tar.gz \
+	&& tar zxf netgen-5.3.1.tar.gz \
+	&& rm netgen-5.3.1.tar.gz \
+    && cd netgen-5.3.1 \
+  \
+	&& curl -L https://git.launchpad.net/~freecad-maintainers/+git/netgen/plain/debian/patches/nglib-occt7.patch | patch -p1 \
+#	&& curl -L https://raw.githubusercontent.com/luvres/netgen/master/nglib-occt7.patch | patch -p1 
+  \
+#	&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure 
+#	&& sed -i '/DOCCGEOMETRY/s/inc/include/' configure 
+#	&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure.ac 
+#	&& sed -i '/DOCCGEOMETRY/s/inc/include/' configure.ac 
   \
   # building Netgen
     && ./configure \
@@ -161,9 +209,6 @@ RUN \
     && make install \
   \
     && cp -fR libsrc /usr/share/netgen 
-#  \
-#    && cd && rm netgen -fR 
-
 
 # building FreeCAD
 RUN \
@@ -181,7 +226,7 @@ RUN \
             -DOCC_LIBRARY=/usr/lib/libTKernel.so 
             #-DEIGEN3_INCLUDE_DIR=/usr/include/eigen3 
 
-# Make FreeCAD
+### Make FreeCAD
 RUN \
     cd \
     && cd build \
