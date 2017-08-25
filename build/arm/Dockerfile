@@ -254,3 +254,5 @@ RUN \
      && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
      && cd && rm CalculiX-${ccx_VERSION} calculix -fR
 
+
+WORKDIR /root
