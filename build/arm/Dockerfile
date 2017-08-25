@@ -81,7 +81,8 @@ RUN apt-get install -y \
 RUN \
     med_VERSION=3.2.0 && \
     wget -c http://pi/FreeCAD/packages/med_${med_VERSION}-jessie_amd64.deb \
-    &&dpkg -i med_${med_VERSION}-jessie_amd64.deb
+    && dpkg -i med_${med_VERSION}-jessie_amd64.deb \
+    && rm med_${med_VERSION}-jessie_amd64.deb
 
 ### libCoin 3.1.4
 #-----------------
@@ -104,16 +105,16 @@ RUN \
 	&& \
     occt_VERSION=7.1.0 && \
     wget -c http://pi/FreeCAD/packages/occt_${occt_VERSION}-jessie_amd64.deb \
-    && dpkg -i occt_${occt_VERSION}-jessie_amd64.deb
+    && dpkg -i occt_${occt_VERSION}-jessie_amd64.deb \
+    && rm occt_${occt_VERSION}-jessie_amd64.deb
 
-
-####################
 ### VTK 7.1.1
 #-------------
 RUN \
     vtk_VERSION=7.1.1 && \
     wget -c http://pi/FreeCAD/packages/vtk_${vtk_VERSION}-jessie_amd64.deb \
-    && dpkg -i vtk_${vtk_VERSION}-jessie_amd64.deb
+    && dpkg -i vtk_${vtk_VERSION}-jessie_amd64.deb \
+    && rm vtk_${vtk_VERSION}-jessie_amd64.deb
 
 
 ### FreeCAD latest Github commit
@@ -122,8 +123,6 @@ RUN \
 RUN \
     cd \
     && git clone https://github.com/FreeCAD/FreeCAD 
-####################
-####################
 
 
 ### Netgen 5.3.1
@@ -136,7 +135,8 @@ RUN \
 #		&& \
 #    netgen_VERSION=5.3.1 && \
 #    wget -c http://pi/FreeCAD/packages/netgen_${netgen_VERSION}-jessie_amd64.deb \
-#    && dpkg -i netgen_${netgen_VERSION}-jessie_amd64.deb
+#    && dpkg -i netgen_${netgen_VERSION}-jessie_amd64.deb \
+#    && rm netgen_${netgen_VERSION}-jessie_amd64.deb
 #
 #### Netgen 5.3.1
 ##----------------
@@ -220,10 +220,10 @@ RUN \
             -DCMAKE_INSTALL_PREFIX:PATH=/usr \
             -DOCC_INCLUDE_DIR=/usr/include/opencascade \
             -DNETGEN_ROOT=/usr/share/netgen \
-            -DBUILD_FEM_NETGEN=ON \
+            -DBUILD_FEM_NETGEN=ON 
             #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
             #-DFREECAD_USE_OCC_VARIANT="Official Version"  
-            -DOCC_LIBRARY=/usr/lib/libTKernel.so 
+            #-DOCC_LIBRARY=/usr/lib/libTKernel.so 
             #-DEIGEN3_INCLUDE_DIR=/usr/include/eigen3 
 
 ### Make FreeCAD
