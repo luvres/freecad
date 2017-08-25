@@ -35,7 +35,6 @@ RUN apt-get update \
 		qt4-dev-tools \
 		qt4-qmake \
 		libqtwebkit-dev \
-		shiboken \
 		swig
 
 ### Packages build
@@ -120,10 +119,14 @@ RUN \
 ### FreeCAD latest Github commit
 #--------------------------------
 # get FreeCAD
+#RUN \
+#    cd \
+#    && git clone https://github.com/FreeCAD/FreeCAD 
 RUN \
     cd \
-    && git clone https://github.com/FreeCAD/FreeCAD 
-
+	&& wget -c http://pi/FreeCAD/packages/master.tar.gz \
+	&& tar zxf master.tar.gz \
+	&& rm master.tar.gz
 
 ### Netgen 5.3.1
 #----------------
@@ -218,9 +221,9 @@ RUN \
   \
     && cmake ../FreeCAD \
             -DCMAKE_INSTALL_PREFIX:PATH=/usr \
-            -DOCC_INCLUDE_DIR=/usr/include/opencascade \
-            -DNETGEN_ROOT=/usr/share/netgen \
-            -DBUILD_FEM_NETGEN=ON 
+            -DBUILD_FEM_NETGEN=ON \
+            -DOCC_INCLUDE_DIR=/usr/include/opencascade 
+            #-DNETGEN_ROOT=/usr/share/netgen 
             #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
             #-DFREECAD_USE_OCC_VARIANT="Official Version"  
             #-DOCC_LIBRARY=/usr/lib/libTKernel.so 
