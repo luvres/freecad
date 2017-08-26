@@ -57,19 +57,6 @@ RUN apt-get install -y \
 #---------------
 RUN apt-get install -y \
     cmake 
-### cmake (Git)
-#---------------
-#RUN \
-#    cd \
-#    #&& apt-get install -y 
-#    #    git g++ make 
-#    && git clone https://gitlab.kitware.com/cmake/cmake.git \
-#    && cd cmake \
-#    && ./bootstrap --prefix=/usr \
-#    && make -j$(nproc) \
-#    #cp bin/cmake /usr/bin/
-#    #alias cmake='/root/cmake/bin/cmake'
-#    && make install
 
 ### libBoost 1.55
 #-----------------
@@ -82,20 +69,6 @@ RUN apt-get install -y \
 		libboost-signals1.55-dev \
 		libboost-system1.55-dev \
 		libboost-thread1.55-dev
-### libBoost 1.64 
-#-----------------
-# http://www.boost.org/doc/libs/1_64_0/more/getting_started/unix-variants.html
-#RUN \
-#    VERSION=64 && \
-#  \
-#    cd \
-#    && wget https://downloads.sourceforge.net/project/boost/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.bz2 \
-#    && tar jxf boost_1_${VERSION}_0.tar.bz2 \
-#    && rm boost_1_${VERSION}_0.tar.bz2 \
-#    && cd boost_1_${VERSION}_0/ \
-#  \
-#    && ./bootstrap.sh --prefix=$FREECAD \
-#    && ./b2 -j$(nproc) install
 
 ### libMED 3.0.6
 #----------------
@@ -105,20 +78,10 @@ RUN apt-get install -y \
 ### libMED 3.2.0
 #-------------
 RUN \
-    cd \
-    && mkdir med \
-    && cd med \
-    && git clone https://github.com/luvres/libMED.git \
-  \
-  # building MED
-    && mkdir build \
-    && cd build \
-  \
-    && cmake ../libMED \
-        -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-  \
-    && make -j$(nproc) \
-    && make install
+    med_VERSION=3.2.0 && \
+    wget -c http://pi/FreeCAD/packages/med_${med_VERSION}-jessie_amd64.deb \
+    && dpkg -i med_${med_VERSION}-jessie_amd64.deb \
+    && rm med_${med_VERSION}-jessie_amd64.deb
 
 ### libCoin 3.1.4
 #-----------------
@@ -130,105 +93,40 @@ RUN apt-get install -y \
 #----------------------------------
 RUN apt-get install -y \
   	  libeigen3-dev 
-### Eigen 3.3.4
-#---------------
-# http://eigen.tuxfamily.org/index.php?title=Main_Page
-#RUN \
-#	eigen_VERSION=3.3.4 && \
-#  \
-#    cd \
-#    && mkdir eigen \
-#    && cd eigen \
-#    && wget -c http://bitbucket.org/eigen/eigen/get/${eigen_VERSION}.tar.gz \
-#	&& tar zxf ${eigen_VERSION}.tar.gz \
-#	&& rm ${eigen_VERSION}.tar.gz \
-#	&& mv eigen-* eigen-${eigen_VERSION} \
-#	&& mkdir build \
-#    && cd build \
-#  \
-#    && cmake ../eigen-${eigen_VERSION} \
-#        -DCMAKE_INSTALL_PREFIX=$FREECAD \
-#        -DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
-#        -DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
-#        -DCMAKE_BUILD_TYPE=Release \
-#        -DCMAKE_VERBOSE_MAKEFILE=ON \
-#  \
-#    && make install
+
 
 ### OCCT 7.1.0
 #-------------
 RUN \
 	apt-get install -y \
-		libfreeimage-dev \
-		libtbb-dev \
+		libfreeimage3 \
+		libtbb2 \
 	&& \
-    MAKEDIR=occt && \
-    cd \
-    && mkdir $MAKEDIR \
-    && cd $MAKEDIR \
-    && git clone https://github.com/luvres/occt7.git \
-    && mkdir build \
-    && cd build \
-  \
-    && cmake \
-		../occt7 \
-		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-		-DUSE_VTK:BOOL=OFF \
-		-DUSE_TBB:BOOL=ON \
-		-DUSE_FREEIMAGE:BOOL=ON \
-		-DCMAKE_BUILD_TYPE=Release \
-  \
-    && make -j$(nproc) \
-    && make install
-
+    occt_VERSION=7.1.0 && \
+    wget -c http://pi/FreeCAD/packages/occt_${occt_VERSION}-jessie_amd64.deb \
+    && dpkg -i occt_${occt_VERSION}-jessie_amd64.deb \
+    && rm occt_${occt_VERSION}-jessie_amd64.deb
 
 ### VTK 7.1.1
 #-------------
-# 8.0.0
 RUN \
-	vtk_VERSION_MAJOR=7.1 && \
-	vtk_VERSION_MINOR=7.1.1 && \
-	\
-	cd \
-	&& mkdir vtk \
-	&& cd vtk \
-	&& wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
-	&& gunzip VTK-${vtk_VERSION_MINOR}.tar.gz \
-	&& tar xf VTK-${vtk_VERSION_MINOR}.tar \
-	&& rm VTK-${vtk_VERSION_MINOR}.tar \
-  # building VTK
-	&& mkdir build \
-	&& cd build \
-  \
-	&& cmake ../VTK-${vtk_VERSION_MINOR} \
-			-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-			-DVTK_Group_Rendering:BOOL=OFF \
-			-DVTK_Group_StandAlone:BOOL=ON \
-			-DVTK_RENDERING_BACKEND=None \
-  \
-	&& make -j$(nproc) \
-	&& make install
-#
-### VTK (Git)
-#-------------
+    vtk_VERSION=7.1.1 && \
+    wget -c http://pi/FreeCAD/packages/vtk_${vtk_VERSION}-jessie_amd64.deb \
+    && dpkg -i vtk_${vtk_VERSION}-jessie_amd64.deb \
+    && rm vtk_${vtk_VERSION}-jessie_amd64.deb
+
+
+### FreeCAD latest Github commit
+#--------------------------------
+# get FreeCAD
 #RUN \
 #    cd \
-#    && mkdir vtk \
-#    && cd vtk \
-#    && git clone https://gitlab.kitware.com/vtk/vtk.git \
-#  # building VTK
-#    && mkdir build \
-#    && cd build \
-#  \
-#    && cmake ../vtk \
-#            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#            -DVTK_Group_Rendering:BOOL=OFF \
-#            -DVTK_Group_StandAlone:BOOL=ON \
-#            -DVTK_RENDERING_BACKEND=None \
-#  \
-#    && make -j$(nproc) \
-#    && make install
-
+#    && git clone https://github.com/FreeCAD/FreeCAD 
+RUN \
+    cd \
+	&& wget -c http://pi/FreeCAD/packages/master.tar.gz \
+	&& tar zxf master.tar.gz \
+	&& rm master.tar.gz
 
 ### Netgen 5.3.1
 #----------------
@@ -315,19 +213,6 @@ RUN \
   \
     && cp -fR libsrc /usr/share/netgen 
 
-
-### FreeCAD latest Github commit
-#--------------------------------
-# get FreeCAD
-#RUN \
-#    cd \
-#    && git clone https://github.com/FreeCAD/FreeCAD 
-RUN \
-    cd \
-	&& wget -c http://pi/FreeCAD/packages/master.tar.gz \
-	&& tar zxf master.tar.gz \
-	&& rm master.tar.gz
-
 # building FreeCAD
 RUN \
     cd \
@@ -361,14 +246,16 @@ RUN \
 
 ### Calculix 2.12 and CGX
 #-------------------------
-#RUN \
-#	ccx_VERSION=2.12 && \
-#	apt-get install -y gfortran cpio \
-#	&& cd \
-#	&& git clone https://github.com/luvres/calculix.git \
-#	&& cd calculix/ \
-#	&& ./install \
-#	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-#	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
-#	&& cd && rm CalculiX-${ccx_VERSION} calculix -fR
+ RUN \
+     ccx_VERSION=2.12 && \
+     apt-get install -y gfortran cpio \
+     && cd \
+     && git clone https://github.com/luvres/calculix.git \
+     && cd calculix/ \
+     && ./install \
+     && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+     && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+     && cd && rm CalculiX-${ccx_VERSION} calculix -fR
 
+
+WORKDIR /root
