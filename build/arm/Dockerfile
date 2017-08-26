@@ -1,15 +1,7 @@
-#FROM izone/freecad:nvidia-jessie
 FROM arm32v7/debian:jessie-slim
-#FROM arm64v8/debian:jessie-slim
-
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
-## References:
-# https://gist.github.com/berndhahnebach/38d5bfe73134928c0a1ad001a94df05f
-# https://github.com/berndhahnebach/Netgen
-# https://sourceforge.net/p/netgen-mesher/wiki/Home/
-# https://aur.archlinux.org/packages
-# http://www.boost.org/doc/libs/1_64_0/more/getting_started/unix-variants.html
+COPY qemu-arm-static /usr/bin/qemu-arm-static
 
 ENV FREECAD=/opt/FreeCAD
 RUN mkdir -p $FREECAD 
