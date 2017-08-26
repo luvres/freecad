@@ -1,5 +1,5 @@
-FROM izone/freecad:nvidia-jessie
-#FROM arm32v7/debian:jessie-slim
+#FROM izone/freecad:nvidia-jessie
+FROM arm32v7/debian:jessie-slim
 #FROM arm64v8/debian:jessie-slim
 
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
