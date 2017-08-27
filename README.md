@@ -188,7 +188,7 @@ docker run -ti --rm --name FreeCAD \
 izone/freecad:armhf freecad
 ```
 
-##### Run Docker QEMU
+### Run Docker QEMU (amd64)
 ```
 sudo apt-get install qemu-user-static
 ```
@@ -202,7 +202,7 @@ docker run -ti --rm --name FreeCAD \
 izone/freecad:armhf freecad
 ```
 
-##### Build Docker QEMU
+### Build Docker QEMU (amd64)
 ```
 sudo apt-get install qemu-user-static binfmt-support
 sudo update-binfmts --enable qemu-arm
