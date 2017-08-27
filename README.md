@@ -168,7 +168,16 @@ docker build -t freecad:build-jessie ./build/jessie/
 ```
 docker build -t freecad:build-xenial ./build/xenial/
 ```
+```
+```
+-----
 
+### Builds ..
+```
+docker build -t freecad:build-xenial ./build/xenial/
+
+docker build -t freecad:build-jessie ./build/jessie/
+```
 -----
 ### Raspberry Pi 2
 ##### Pull image
@@ -213,16 +222,3 @@ cp /usr/bin/qemu-arm-static .
 docker build -t izone/freecad:armhf ./build/armhf/
 ```
 
-
-```
-```
-```
-```
------
-
-### Builds ..
-```
-docker build -t freecad:build-xenial ./build/xenial/
-
-docker build -t freecad:build-jessie ./build/jessie/
-```
