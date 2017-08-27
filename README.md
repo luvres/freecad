@@ -171,7 +171,7 @@ docker build -t freecad:build-xenial ./build/xenial/
 
 -----
 ### Raspberry Pi 2
-##### Build docker QEMU
+##### Build Docker QEMU
 ```
 sudo apt-get install qemu-user-static binfmt-support
 sudo update-binfmts --enable qemu-arm
