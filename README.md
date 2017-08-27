@@ -170,8 +170,6 @@ docker build -t freecad:build-xenial ./build/xenial/
 ```
 ```
 ```
------
-
 ### Builds ..
 ```
 docker build -t freecad:build-xenial ./build/xenial/
