@@ -183,7 +183,6 @@ docker pull izone/freecad:armhf
 docker run -ti --rm --name FreeCAD \
 --net=host \
 -e DISPLAY=unix$DISPLAY \
--v /usr/bin/qemu-arm-static:/usr/bin/qemu-arm-static \
 -v /tmp/.X11-unix \
 -v $HOME/.Xauthority:/root/.Xauthority \
 izone/freecad:armhf freecad
@@ -192,6 +191,15 @@ izone/freecad:armhf freecad
 ##### Run Docker QEMU
 ```
 sudo apt-get install qemu-user-static
+```
+```
+docker run -ti --rm --name FreeCAD \
+--net=host \
+-e DISPLAY=unix$DISPLAY \
+-v /usr/bin/qemu-arm-static:/usr/bin/qemu-arm-static \
+-v /tmp/.X11-unix \
+-v $HOME/.Xauthority:/root/.Xauthority \
+izone/freecad:armhf freecad
 ```
 
 ##### Build Docker QEMU
