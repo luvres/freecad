@@ -171,6 +171,29 @@ docker build -t freecad:build-xenial ./build/xenial/
 
 -----
 ### Raspberry Pi 2
+##### Pull image
+```
+docker pull izone/freecad:armhf
+```
+##### Run in Raspberry Pi
+```
+docker pull izone/freecad:armhf
+```
+```
+docker run -ti --rm --name FreeCAD \
+--net=host \
+-e DISPLAY=unix$DISPLAY \
+-v /usr/bin/qemu-arm-static:/usr/bin/qemu-arm-static \
+-v /tmp/.X11-unix \
+-v $HOME/.Xauthority:/root/.Xauthority \
+izone/freecad:armhf freecad
+```
+
+##### Run Docker QEMU
+```
+sudo apt-get install qemu-user-static
+```
+
 ##### Build Docker QEMU
 ```
 sudo apt-get install qemu-user-static binfmt-support
@@ -181,16 +204,7 @@ cp /usr/bin/qemu-arm-static .
 ```
 docker build -t izone/freecad:armhf ./build/armhf/
 ```
-##### Run in Raspberry Pi
-```
-docker run -ti --rm --name FreeCAD \
---net=host \
--e DISPLAY=unix$DISPLAY \
--v /usr/bin/qemu-arm-static:/usr/bin/qemu-arm-static \
--v /tmp/.X11-unix \
--v $HOME/.Xauthority:/root/.Xauthority \
-izone/freecad:armhf freecad
-```
+
 
 ```
 ```
