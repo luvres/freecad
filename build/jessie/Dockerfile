@@ -102,30 +102,29 @@ RUN \
 
 ### libMED 3.0.6
 #----------------
-RUN apt-get install -y \
-	libmed-dev \
-	libmedc-dev
+#RUN apt-get install -y \
+#	libmed-dev \
+#	libmedc-dev
 #
 ### libMED 3.2.0
 #----------------
-#RUN \
-#	cd \
-#	MAKEDIR=med && \
-#	cd \
-#	&& mkdir $MAKEDIR \
-#	&& cd $MAKEDIR
-#	&& git clone https://github.com/luvres/libMED.git \
-#  \
-#  # building MED
-#	&& mkdir build \
-#	&& cd build \
-#  \
-#	&& cmake ../libMED \
-#		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#  \
-#	&& make -j$(nproc) \
-#	&& make install \
-#	&& cd && rm $MAKEDIR -fR
+RUN \
+	MAKEDIR=med && \
+	cd \
+	&& mkdir $MAKEDIR \
+	&& cd $MAKEDIR \
+	&& git clone https://github.com/luvres/libMED.git \
+  \
+  # building MED
+	&& mkdir build \
+	&& cd build \
+  \
+	&& cmake ../libMED \
+		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+  \
+	&& make -j$(nproc) \
+	&& make install \
+	&& cd && rm $MAKEDIR -fR
 
 ### libCoin 3.1.4
 #-----------------
