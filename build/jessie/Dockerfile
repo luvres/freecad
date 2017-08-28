@@ -39,15 +39,15 @@ ENV pack_tools=" dictionaries-common \
 				 git "
 
 RUN \
-    cd \
-    && mkdir -p $FREECAD \
+	cd \
+	&& mkdir -p $FREECAD \
   # Enable backports (cmake 3.6.2)
 	&& echo 'deb http://deb.debian.org/debian jessie-backports main' \
-								>/etc/apt/sources.list.d/backports.list \
-    && apt-get update \
-    && apt-get install -y \
-        $pack_dev \
-        $pack_build \
+									>/etc/apt/sources.list.d/backports.list \
+	&& apt-get update \
+	&& apt-get install -y \
+		$pack_dev \
+		$pack_build \
 		$pack_tools \
   # "cmake 3.3 or higher" required by VTK 8
 	&& apt-get -t jessie-backports install -y \
@@ -137,15 +137,15 @@ RUN \
 		libfreeimage-dev \
 		libtbb-dev \
 	&& \
-    MAKEDIR=occt && \
-    cd \
-    && mkdir $MAKEDIR \
-    && cd $MAKEDIR \
-    && git clone https://github.com/luvres/occt7.git \
-    && mkdir build \
-    && cd build \
+	MAKEDIR=occt && \
+	cd \
+	&& mkdir $MAKEDIR \
+	&& cd $MAKEDIR \
+	&& git clone https://github.com/luvres/occt7.git \
+	&& mkdir build \
+	&& cd build \
   \
-    && cmake \
+	&& cmake \
 		../occt7 \
 		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
 		-DUSE_VTK:BOOL=OFF \
@@ -153,41 +153,41 @@ RUN \
 		-DUSE_FREEIMAGE:BOOL=ON \
 		-DCMAKE_BUILD_TYPE=Release \
   \
-    && make -j$(nproc) \
-    && make install \
-    && cd && rm $MAKEDIR -fR
+	&& make -j$(nproc) \
+	&& make install \
+	&& cd && rm $MAKEDIR -fR
 
 ### Netgen 5.3.1
 #----------------
 RUN \
-    cd \
-    && apt-get install -y \
+	cd \
+	&& apt-get install -y \
 		openmpi-bin \
 		libopenmpi-dev \
 		libtogl-dev \
-    && git clone https://github.com/luvres/netgen.git \
-    && cd netgen \
+	&& git clone https://github.com/luvres/netgen.git \
+	&& cd netgen \
   \
-  # building Netgen
-    && ./configure \
-            --prefix=$FREECAD \
-            --enable-occ \
-            --with-occ=$FREECAD \
-            --with-tcl=/usr/lib/tcl8.5 \
-            --with-tk=/usr/lib/tk8.5 \
-            --with-togl=/usr/lib/ \
-            --enable-shared \
-            --enable-nglib \
-            --disable-gui \
-            --disable-dependency-tracking \
-            CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
+	# building Netgen
+	&& ./configure \
+			--prefix=$FREECAD \
+			--enable-occ \
+			--with-occ=$FREECAD \
+			--with-tcl=/usr/lib/tcl8.5 \
+			--with-tk=/usr/lib/tk8.5 \
+			--with-togl=/usr/lib/ \
+			--enable-shared \
+			--enable-nglib \
+			--disable-gui \
+			--disable-dependency-tracking \
+			CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
   \
-    && make -j$(nproc) \
-    && make install \
+	&& make -j$(nproc) \
+	&& make install \
   \
-    && cp -fR libsrc $FREECAD/libsrc \
+	&& cp -fR libsrc $FREECAD/libsrc \
   \
-    && cd && rm netgen -fR
+	&& cd && rm netgen -fR
 
 ### Eigen 3.2.2 - 3.3.0(backports)
 #----------------------------------
@@ -274,48 +274,48 @@ RUN \
 #--------------------------------
 # get FreeCAD
 RUN \
-    cd \
-    && git clone https://github.com/FreeCAD/FreeCAD
+	cd \
+	&& git clone https://github.com/FreeCAD/FreeCAD
 
 # building FreeCAD
 RUN \
-    cd \
-    && mkdir build \
-    && cd build \
+	cd \
+	&& mkdir build \
+	&& cd build \
   \
-    && cmake ../FreeCAD \
-            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-            -DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
-            -DNETGEN_ROOT=$FREECAD \
-            -DBUILD_FEM_NETGEN=ON 
-            #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
-            #-DFREECAD_USE_OCC_VARIANT="Official Version"  
-            #-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
-            #-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
+	&& cmake ../FreeCAD \
+				-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+				-DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
+				-DNETGEN_ROOT=$FREECAD \
+				-DBUILD_FEM_NETGEN=ON 
+				#-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
+				#-DFREECAD_USE_OCC_VARIANT="Official Version"  
+				#-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
+				#-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
 
 # Make FreeCAD
 RUN \
-    cd \
-    && cd build \
-    && make -j$(nproc)
+	cd \
+	&& cd build \
+	&& make -j$(nproc)
 
 # Install
 RUN \
-    cd \
-    && cd build \
-    && make install \
-    && cd && rm FreeCAD/ build/ -fR
+	cd \
+	&& cd build \
+	&& make install \
+	&& cd && rm FreeCAD/ build/ -fR
 
 
 ### Calculix 2.12 and CGX
 #-------------------------
 #RUN \
-#    ccx_VERSION=2.12 && \
-#    apt-get install -y gfortran cpio \
-#    && cd \
-#    && git clone https://github.com/luvres/calculix.git \
-#    && cd calculix/ \
-#    && ./install \
-#    && cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-#    && cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
-#    && cd && rm CalculiX-${ccx_VERSION} calculix -fR
+#	ccx_VERSION=2.12 && \
+#	apt-get install -y gfortran cpio \
+#	&& cd \
+#	&& git clone https://github.com/luvres/calculix.git \
+#	&& cd calculix/ \
+#	&& ./install \
+#	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+#	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+#	&& cd && rm CalculiX-${ccx_VERSION} calculix -fR
