@@ -76,7 +76,6 @@ RUN \
 ### libBoost 1.55
 #-----------------
 RUN apt-get install -y \
-	libboost1.55-dev \
 	libboost-filesystem1.55-dev \
 	libboost-program-options1.55-dev \
 	libboost-python1.55-dev \
@@ -89,16 +88,17 @@ RUN apt-get install -y \
 #-----------------
 # http://www.boost.org/doc/libs/1_64_0/more/getting_started/unix-variants.html
 #RUN \
-#    VERSION=64 && \
+#	VERSION=65 && \
 #  \
-#    cd \
-#    && wget https://downloads.sourceforge.net/project/boost/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.bz2 \
-#    && tar jxf boost_1_${VERSION}_0.tar.bz2 \
-#    && rm boost_1_${VERSION}_0.tar.bz2 \
-#    && cd boost_1_${VERSION}_0/ \
+#	cd \
+#	&& wget https://downloads.sourceforge.net/project/boost/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.bz2 \
+#	&& tar jxf boost_1_${VERSION}_0.tar.bz2 \
+#	&& rm boost_1_${VERSION}_0.tar.bz2 \
+#	&& cd boost_1_${VERSION}_0/ \
 #  \
-#    && ./bootstrap.sh --prefix=$FREECAD \
-#    && ./b2 -j$(nproc) install
+#	&& ./bootstrap.sh --prefix=$FREECAD \
+#	&& ./b2 -j$(nproc) install \
+#	&& cd && rm boost_1_${VERSION}_0/ -fR
 
 ### libMED 3.0.6
 #----------------

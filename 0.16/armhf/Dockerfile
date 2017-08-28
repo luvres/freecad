@@ -1,5 +1,6 @@
 FROM arm32v7/debian:jessie-slim
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
+
 COPY qemu-arm-static /usr/bin/qemu-arm-static
 
 ENV FREECAD=/opt/FreeCAD
@@ -9,6 +10,46 @@ RUN mkdir -p $FREECAD
 #-----------------
 RUN apt-get update \
     && apt-get install -y \
+		git \
+		build-essential \
+		cmake \
+		python \
+		python-matplotlib \
+		libtool \
+		libcoin80-dev \
+		libsoqt4-dev \
+		libxerces-c-dev \
+		libboost-dev \
+		libboost-filesystem-dev \
+		libboost-regex-dev \
+		libboost-program-options-dev \
+		libboost-signals-dev \
+		libboost-thread-dev \
+		libboost-python-dev \
+		libqt4-dev \
+		libqt4-opengl-dev \
+		qt4-dev-tools \
+		python-dev \
+		python-pyside \
+		pyside-tools \
+		liboce-modeling-dev \
+		liboce-visualization-dev \
+		liboce-foundation-dev \
+		liboce-ocaf-lite-dev \
+		liboce-ocaf-dev
+		oce-draw \
+		libeigen3-dev \
+		libqtwebkit-dev \
+		libshiboken-dev \
+		libpyside-dev \
+		libode-dev \
+		swig \
+		libzipios++-dev \
+		libfreetype6 \
+		libfreetype6-dev \
+		netgen-headers
+
+
 		doxygen \
 		libpyside-dev \
 		libqtcore4 \
@@ -305,6 +346,18 @@ RUN \
     && make install \
   \
     && cp -fR libsrc /usr/share/netgen 
+
+
+
+git clone https://github.com/luvres/FreeCAD-0.16.6712.git
+mkdir freecad-build && cd freecad-build
+
+cmake \
+../FreeCAD-0.16.6712 \
+-DBUILD_FEM_NETGEN=ON \
+-DCMAKE_INSTALL_PREFIX="/usr/lib/freecad"
+
+time make -j$(nproc)
 
 
 ### FreeCAD latest Github commit

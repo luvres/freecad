@@ -1,16 +1,16 @@
 FROM izone/freecad:nvidia-xenial
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
-RUN apt update \
+RUN apt-get update \
   \
-    && apt install -y --no-install-recommends software-properties-common \
+    && apt-get install -y --no-install-recommends software-properties-common \
     && add-apt-repository -y ppa:freecad-maintainers/freecad-stable \
-    && apt update \
-    && apt install -y \
+    && apt-get update \
+    && apt-get install -y \
   \
     freecad gmsh \
   \
-    && apt clean \
+    && apt-get clean \
     && rm /var/lib/apt/lists/* \
           /usr/share/doc/* \
           /usr/share/locale/* \
