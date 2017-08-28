@@ -102,27 +102,31 @@ RUN apt-get install -y \
 #-------------
 #RUN \
 #	apt-get install -y \
-#		libfreeimage-dev \
-#		libtbb-dev \
-#	&& \
-#    MAKEDIR=occt && \
-#    cd \
-#    && mkdir $MAKEDIR \
-#    && cd $MAKEDIR \
-#    && git clone https://github.com/luvres/occt7.git \
-#    && mkdir build \
-#    && cd build \
-#  \
-#    && cmake \
-#		../occt7 \
-#		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#		-DUSE_VTK:BOOL=OFF \
-#		-DUSE_TBB:BOOL=ON \
-#		-DUSE_FREEIMAGE:BOOL=ON \
-#		-DCMAKE_BUILD_TYPE=Release \
-#  \
-#    && make -j$(nproc) \
-#    && make install
+#		libfreeimage3 \
+#		libtbb2
+RUN \
+	apt-get install -y \
+		libfreeimage-dev \
+		libtbb-dev \
+	&& \
+    MAKEDIR=occt && \
+    cd \
+    && mkdir $MAKEDIR \
+    && cd $MAKEDIR \
+    && git clone https://github.com/luvres/occt7.git \
+    && mkdir build \
+    && cd build \
+  \
+    && cmake \
+		../occt7 \
+		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+		-DUSE_VTK:BOOL=OFF \
+		-DUSE_TBB:BOOL=ON \
+		-DUSE_FREEIMAGE:BOOL=ON \
+		-DCMAKE_BUILD_TYPE=Release \
+  \
+    && make -j$(nproc) \
+    && make install
 
 ### VTK 7.1.1
 #-------------
@@ -135,29 +139,29 @@ RUN apt-get install -y \
 ### VTK 7.1.1
 #-------------
 # 8.0.0
-#RUN \
-#	vtk_VERSION_MAJOR=7.1 && \
-#	vtk_VERSION_MINOR=7.1.1 && \
-#	\
-#	cd \
-#	&& mkdir vtk \
-#	&& cd vtk \
-#	&& wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
-#	&& gunzip VTK-${vtk_VERSION_MINOR}.tar.gz \
-#	&& tar xf VTK-${vtk_VERSION_MINOR}.tar \
-#	&& rm VTK-${vtk_VERSION_MINOR}.tar \
-#  # building VTK
-#	&& mkdir build \
-#	&& cd build \
-#  \
-#	&& cmake ../VTK-${vtk_VERSION_MINOR} \
-#			-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#			-DVTK_Group_Rendering:BOOL=OFF \
-#			-DVTK_Group_StandAlone:BOOL=ON \
-#			-DVTK_RENDERING_BACKEND=None \
-#  \
-#	&& make -j$(nproc) \
-#	&& make install
+RUN \
+	vtk_VERSION_MAJOR=7.1 && \
+	vtk_VERSION_MINOR=7.1.1 && \
+	\
+	cd \
+	&& mkdir vtk \
+	&& cd vtk \
+	&& wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
+	&& gunzip VTK-${vtk_VERSION_MINOR}.tar.gz \
+	&& tar xf VTK-${vtk_VERSION_MINOR}.tar \
+	&& rm VTK-${vtk_VERSION_MINOR}.tar \
+  # building VTK
+	&& mkdir build \
+	&& cd build \
+  \
+	&& cmake ../VTK-${vtk_VERSION_MINOR} \
+			-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+			-DVTK_Group_Rendering:BOOL=OFF \
+			-DVTK_Group_StandAlone:BOOL=ON \
+			-DVTK_RENDERING_BACKEND=None \
+  \
+	&& make -j$(nproc) \
+	&& make install
 
 ### Netgen 5.3.1
 #----------------
@@ -187,7 +191,7 @@ RUN apt-get install -y \
 #    && ./configure \
 #            --prefix=/usr \
 #            --enable-occ \
-#            --with-occ=/usr \
+#            --with-occ=$FREECAD \
 #            --with-tcl=/usr/lib/tcl8.5 \
 #            --with-tk=/usr/lib/tk8.5 \
 #            --with-togl=/usr/lib/ \
@@ -206,78 +210,78 @@ RUN apt-get install -y \
 
 #### Netgen 5.3.1
 ##----------------
-#RUN \
-#    cd \
-#    && apt-get install -y curl \
-#		openmpi-bin \
-#		libopenmpi-dev \
-#		libtogl-dev \
-#    && wget https://sourceforge.net/projects/netgen-mesher/files/netgen-mesher/5.3/netgen-5.3.1.tar.gz \
-#	&& tar zxf netgen-5.3.1.tar.gz \
-#	&& rm netgen-5.3.1.tar.gz \
-#    && cd netgen-5.3.1 \
-#  \
+RUN \
+    cd \
+    && apt-get install -y curl \
+		openmpi-bin \
+		libopenmpi-dev \
+		libtogl-dev \
+    && wget https://sourceforge.net/projects/netgen-mesher/files/netgen-mesher/5.3/netgen-5.3.1.tar.gz \
+	&& tar zxf netgen-5.3.1.tar.gz \
+	&& rm netgen-5.3.1.tar.gz \
+    && cd netgen-5.3.1 \
+  \
 #	&& curl -L https://git.launchpad.net/~freecad-maintainers/+git/netgen/plain/debian/patches/nglib-occt7.patch | patch -p1 \
-##	&& curl -L https://raw.githubusercontent.com/luvres/netgen/master/nglib-occt7.patch | patch -p1 
-#  \
-##	&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure 
-##	&& sed -i '/DOCCGEOMETRY/s/inc/include/' configure 
-##	&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure.ac 
-##	&& sed -i '/DOCCGEOMETRY/s/inc/include/' configure.ac 
-#  \
-#  # building Netgen
-#    && ./configure \
-#            --prefix=/usr \
-#            --enable-occ \
-#            --with-occ=/usr \
-#            --with-tcl=/usr/lib/tcl8.5 \
-#            --with-tk=/usr/lib/tk8.5 \
-#            --with-togl=/usr/lib/ \
-#            --enable-shared \
-#            --enable-nglib \
-#            --disable-gui \
-#            --disable-dependency-tracking \
-#            CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
-#  \
-#    && make -j$(nproc) \
-#    && make install \
-#  \
-#    && cp -fR libsrc /usr/share/netgen 
+	&& curl -L https://raw.githubusercontent.com/luvres/netgen/master/nglib-occt7.patch | patch -p1 \
+  \
+	&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure \
+	&& sed -i '/DOCCGEOMETRY/s/inc/include/' configure \
+	&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure.ac \
+	&& sed -i '/DOCCGEOMETRY/s/inc/include/' configure.ac \
+  \
+  # building Netgen
+    && ./configure \
+            --prefix=$FREECAD \
+            --enable-occ \
+            --with-occ=$FREECAD \
+            --with-tcl=/usr/lib/tcl8.5 \
+            --with-tk=/usr/lib/tk8.5 \
+            --with-togl=/usr/lib/ \
+            --enable-shared \
+            --enable-nglib \
+            --disable-gui \
+            --disable-dependency-tracking \
+            CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
+  \
+    && make -j$(nproc) \
+    && make install \
+  \
+    && cp -fR libsrc /usr/share/netgen 
 
 
 ### FreeCAD latest Github commit
 #--------------------------------
 ## get FreeCAD
-#RUN \
-#    cd \
-#    && git clone https://github.com/FreeCAD/FreeCAD 
+RUN \
+    cd \
+    && git clone https://github.com/FreeCAD/FreeCAD 
 #RUN \
 #    cd \
 #	&& wget -c http://pi/FreeCAD/packages/master.tar.gz \
 #	&& tar zxf master.tar.gz \
 #	&& rm master.tar.gz
 ## building FreeCAD
-#RUN \
-#    cd \
-#    && mkdir build \
-#    && cd build \
-#  \
-#    && cmake ../FreeCAD \
-#            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#            -DBUILD_FEM_NETGEN=ON \
-#            -DOCC_INCLUDE_DIR="/usr/include/opencascade" \
-#            #-DNETGEN_ROOT=/usr/share/netgen 
-#            #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
-#            #-DFREECAD_USE_OCC_VARIANT="Official Version"  
-#            #-DOCC_LIBRARY=/usr/lib/libTKernel.so 
-#            #-DEIGEN3_INCLUDE_DIR=/usr/include/eigen3 
-#			-DCMAKE_INSTALL_PREFIX="/usr/lib/freecad" 
+RUN \
+    cd \
+    && mkdir build \
+    && cd build \
+  \
+    && cmake ../FreeCAD \
+            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+            -DBUILD_FEM_NETGEN=ON \
+            -DOCC_INCLUDE_DIR="$FREECAD/include/opencascade" 
+            #-DNETGEN_ROOT=/usr/share/netgen 
+            #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
+            #-DFREECAD_USE_OCC_VARIANT="Official Version"  
+            #-DOCC_LIBRARY=/usr/lib/libTKernel.so 
+            #-DEIGEN3_INCLUDE_DIR=/usr/include/eigen3 
+			#-DCMAKE_INSTALL_PREFIX="/usr/lib/freecad" 
 
-### Make FreeCAD
-#RUN \
-#    cd \
-#    && cd build \
-#    && make -j$(nproc) 
+## Make FreeCAD
+RUN \
+    cd \
+    && cd build \
+    && make -j$(nproc) 
     
 #    && make install \
 #  \
