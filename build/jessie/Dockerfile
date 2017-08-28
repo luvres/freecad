@@ -75,30 +75,30 @@ RUN \
 
 ### libBoost 1.55
 #-----------------
-RUN apt-get install -y \
-	libboost-filesystem1.55-dev \
-	libboost-program-options1.55-dev \
-	libboost-python1.55-dev \
-	libboost-regex1.55-dev \
-	libboost-signals1.55-dev \
-	libboost-system1.55-dev \
-	libboost-thread1.55-dev
+#RUN apt-get install -y \
+#	libboost-filesystem1.55-dev \
+#	libboost-program-options1.55-dev \
+#	libboost-python1.55-dev \
+#	libboost-regex1.55-dev \
+#	libboost-signals1.55-dev \
+#	libboost-system1.55-dev \
+#	libboost-thread1.55-dev
 #
-### libBoost 1.64
+### libBoost 1.65
 #-----------------
 # http://www.boost.org/doc/libs/1_64_0/more/getting_started/unix-variants.html
-#RUN \
-#	VERSION=65 && \
-#  \
-#	cd \
-#	&& wget https://downloads.sourceforge.net/project/boost/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.bz2 \
-#	&& tar jxf boost_1_${VERSION}_0.tar.bz2 \
-#	&& rm boost_1_${VERSION}_0.tar.bz2 \
-#	&& cd boost_1_${VERSION}_0/ \
-#  \
-#	&& ./bootstrap.sh --prefix=$FREECAD \
-#	&& ./b2 -j$(nproc) install \
-#	&& cd && rm boost_1_${VERSION}_0/ -fR
+RUN \
+	VERSION=65 && \
+  \
+	cd \
+	&& wget https://downloads.sourceforge.net/project/boost/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.bz2 \
+	&& tar jxf boost_1_${VERSION}_0.tar.bz2 \
+	&& rm boost_1_${VERSION}_0.tar.bz2 \
+	&& cd boost_1_${VERSION}_0/ \
+  \
+	&& ./bootstrap.sh --prefix=$FREECAD \
+	&& ./b2 -j$(nproc) install \
+	&& cd && rm boost_1_${VERSION}_0/ -fR
 
 ### libMED 3.0.6
 #----------------
@@ -109,20 +109,23 @@ RUN apt-get install -y \
 ### libMED 3.2.0
 #----------------
 #RUN \
-#    cd \
-#    && mkdir med \
-#    && cd med \
-#    && git clone https://github.com/luvres/libMED.git \
+#	cd \
+#	MAKEDIR=med && \
+#	cd \
+#	&& mkdir $MAKEDIR \
+#	&& cd $MAKEDIR
+#	&& git clone https://github.com/luvres/libMED.git \
 #  \
 #  # building MED
-#    && mkdir build \
-#    && cd build \
+#	&& mkdir build \
+#	&& cd build \
 #  \
-#    && cmake ../libMED \
-#        -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+#	&& cmake ../libMED \
+#		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
 #  \
-#    && make -j$(nproc) \
-#    && make install
+#	&& make -j$(nproc) \
+#	&& make install \
+#	&& cd && rm $MAKEDIR -fR
 
 ### libCoin 3.1.4
 #-----------------

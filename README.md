@@ -219,4 +219,14 @@ cp /usr/bin/qemu-arm-static .
 ```
 docker build -t izone/freecad:armhf ./build/armhf/
 ```
+##### Save image
+```
+docker save izone/freecad:armhf > img-freecad-armhf.tar
+```
+##### Load Image
+```
+docker load < img-freecad-armhf.tar
+```
+
+
 
