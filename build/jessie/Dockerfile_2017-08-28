@@ -50,22 +50,9 @@ RUN \
 		$pack_build \
 		$pack_tools \
   # "cmake 3.3 or higher" required by VTK 8
-  # gmsh 2.11.0
 	&& apt-get -t jessie-backports install -y \
 		cmake \
 		gmsh
-#
-#RUN \
-#	cd \
-#	&& mkdir -p $FREECAD \
-#	&& apt-get update \
-#  # gmsh 2.8.5
-#	&& apt-get install -y \
-#		$pack_dev \
-#		$pack_build \
-#		$pack_tools \
-#		cmake \
-#		gmsh
 
 ### cmake 3.0.2
 #---------------
@@ -88,30 +75,30 @@ RUN \
 
 ### libBoost 1.55
 #-----------------
-RUN apt-get install -y \
-	libboost-filesystem1.55-dev \
-	libboost-program-options1.55-dev \
-	libboost-python1.55-dev \
-	libboost-regex1.55-dev \
-	libboost-signals1.55-dev \
-	libboost-system1.55-dev \
-	libboost-thread1.55-dev
+#RUN apt-get install -y \
+#	libboost-filesystem1.55-dev \
+#	libboost-program-options1.55-dev \
+#	libboost-python1.55-dev \
+#	libboost-regex1.55-dev \
+#	libboost-signals1.55-dev \
+#	libboost-system1.55-dev \
+#	libboost-thread1.55-dev
 #
 ### libBoost 1.65
 #-----------------
 # http://www.boost.org/doc/libs/1_64_0/more/getting_started/unix-variants.html
-#RUN \
-#	VERSION=65 && \
-#  \
-#	cd \
-#	&& wget https://downloads.sourceforge.net/project/boost/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.bz2 \
-#	&& tar jxf boost_1_${VERSION}_0.tar.bz2 \
-#	&& rm boost_1_${VERSION}_0.tar.bz2 \
-#	&& cd boost_1_${VERSION}_0/ \
-#  \
-#	&& ./bootstrap.sh --prefix=$FREECAD \
-#	&& ./b2 -j$(nproc) install \
-#	&& cd && rm boost_1_${VERSION}_0/ -fR
+RUN \
+	VERSION=65 && \
+  \
+	cd \
+	&& wget https://downloads.sourceforge.net/project/boost/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.bz2 \
+	&& tar jxf boost_1_${VERSION}_0.tar.bz2 \
+	&& rm boost_1_${VERSION}_0.tar.bz2 \
+	&& cd boost_1_${VERSION}_0/ \
+  \
+	&& ./bootstrap.sh --prefix=$FREECAD \
+	&& ./b2 -j$(nproc) install \
+	&& cd && rm boost_1_${VERSION}_0/ -fR
 
 ### libMED 3.0.6
 #----------------
@@ -209,6 +196,27 @@ RUN \
 #RUN apt-get install -y 	\
 #	libeigen3-dev
 #
+### Eigen 3.3.90 -> Bitbucket
+#-----------------------------
+# http://eigen.tuxfamily.org/index.php?title=Main_Page
+#RUN \
+#    cd \
+#    && mkdir eigen \
+#    && cd eigen \
+#    && apt-get install -y mercurial \
+#    && hg clone https://bitbucket.org/eigen/eigen \
+#    && mkdir build \
+#    && cd build \
+#  \
+#    && cmake ../eigen \
+#        -DCMAKE_INSTALL_PREFIX=$FREECAD \
+#        -DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
+#        -DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
+#        -DCMAKE_BUILD_TYPE=Release \
+#        -DCMAKE_VERBOSE_MAKEFILE=ON \
+#  \
+#    && make install
+#
 ### Eigen 3.3.4
 #---------------
 # http://eigen.tuxfamily.org/index.php?title=Main_Page
@@ -237,9 +245,9 @@ RUN \
 	&& cd && rm $MAKEDIR -fR
 
 
-### VTK 8.0.0
+### VTK 7.1.1
 #-------------
-# 7.1.1
+# 8.0.0
 RUN \
 	vtk_VERSION_MAJOR=8.0 && \
 	vtk_VERSION_MINOR=8.0.0 && \
@@ -302,20 +310,6 @@ RUN \
 	&& make install \
 	&& cd && rm FreeCAD/ build/ -fR
 
-#RUN \
-#	apt-get purge -y \
-#		$pack_build \
-#		$pack_tools \
-#		cmake \
-#	&& apt-get autoremove -y \
-#	&& apt-get install -y \
-#		libhdf5-8 \
-#	&& apt-get autoclean\
-#	&& rm /var/lib/apt/lists/* \
-#		/usr/share/doc/* \
-#		/usr/share/locale/* \
-#		/usr/share/man/* \
-#		/usr/share/info/* -fR
 
 ### Calculix 2.12 and CGX
 #-------------------------

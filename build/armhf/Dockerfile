@@ -3,51 +3,69 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 COPY qemu-arm-static /usr/bin/qemu-arm-static
 
 ENV FREECAD=/opt/FreeCAD
-RUN mkdir -p $FREECAD 
+ENV pack_dev=" doxygen \
+			   libpyside-dev \
+			   libqtcore4 \
+			   libfreetype6-dev \
+			   libshiboken-dev \
+			   libxerces-c-dev \
+			   libxmu-dev \
+			   libxmu-headers \
+			   libxmu6 \
+			   libxmuu-dev \
+			   libxmuu1 \
+			   pyside-tools \
+			   python-pivy \
+			   python-dev \
+			   python-pyside \
+			   python-matplotlib \
+			   libqtwebkit-dev \
+			   swig "
+ENV pack_build=" qt4-dev-tools \
+			     qt4-qmake \
+			     g++ \
+			     tcl8.5-dev \
+			     tk8.5-dev \
+			     automake \
+			     libhdf5-dev "
+ENV pack_tools=" dictionaries-common \
+				 wget \
+				 git "
 
-### Packages deps
-#-----------------
-RUN apt-get update \
-    && apt-get install -y \
-		doxygen \
-		libpyside-dev \
-		libqtcore4 \
-		libshiboken-dev \
-		libxerces-c-dev \
-		libxmu-dev \
-		libxmu-headers \
-		libxmu6 \
-		libxmuu-dev \
-		libxmuu1 \
-		pyside-tools \
-		python-dev \
-		python-pyside \
-		python-matplotlib \
-		qt4-dev-tools \
-		qt4-qmake \
-		libqtwebkit-dev \
-		swig
-
-### Packages build
-#------------------
-RUN apt-get install -y \
-		python-pivy \
-		g++ \
-		libfreetype6-dev \
-		tcl8.5-dev \
-		tk8.5-dev \
-		automake \
-		libhdf5-dev \
-	  \
-		dictionaries-common \
-		wget \
-		git \
+RUN \
+	cd \
+	&& mkdir -p $FREECAD \
+  # Enable backports (cmake 3.6.2)
+	&& echo 'deb http://deb.debian.org/debian jessie-backports main' \
+									>/etc/apt/sources.list.d/backports.list \
+	&& apt-get update \
+	&& apt-get install -y \
+		$pack_dev \
+		$pack_build \
+		$pack_tools \
+  # "cmake 3.3 or higher" required by VTK 8
+  # gmsh 2.11.0
+	&& apt-get -t jessie-backports install -y \
+		cmake \
 		gmsh
+#
+#RUN \
+#	cd \
+#	&& mkdir -p $FREECAD \
+#	&& apt-get update \
+#  # gmsh 2.8.5
+#	&& apt-get install -y \
+#		$pack_dev \
+#		$pack_build \
+#		$pack_tools \
+#		cmake \
+#		gmsh
 
 ### cmake 3.0.2
 #---------------
-RUN apt-get install -y \
-    cmake 
+#RUN apt-get install -y \
+#	cmake
+#
 ### cmake (Git)
 #---------------
 #RUN \
@@ -65,71 +83,136 @@ RUN apt-get install -y \
 ### libBoost 1.55
 #-----------------
 RUN apt-get install -y \
-		libboost1.55-dev \
-		libboost-filesystem1.55-dev \
-		libboost-program-options1.55-dev \
-		libboost-python1.55-dev \
-		libboost-regex1.55-dev \
-		libboost-signals1.55-dev \
-		libboost-system1.55-dev \
-		libboost-thread1.55-dev
-### libBoost 1.64 
+	libboost-filesystem1.55-dev \
+	libboost-program-options1.55-dev \
+	libboost-python1.55-dev \
+	libboost-regex1.55-dev \
+	libboost-signals1.55-dev \
+	libboost-system1.55-dev \
+	libboost-thread1.55-dev
+#
+### libBoost 1.65
 #-----------------
 # http://www.boost.org/doc/libs/1_64_0/more/getting_started/unix-variants.html
 #RUN \
-#    VERSION=64 && \
+#	VERSION=65 && \
 #  \
-#    cd \
-#    && wget https://downloads.sourceforge.net/project/boost/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.bz2 \
-#    && tar jxf boost_1_${VERSION}_0.tar.bz2 \
-#    && rm boost_1_${VERSION}_0.tar.bz2 \
-#    && cd boost_1_${VERSION}_0/ \
+#	cd \
+#	&& wget https://downloads.sourceforge.net/project/boost/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.bz2 \
+#	&& tar jxf boost_1_${VERSION}_0.tar.bz2 \
+#	&& rm boost_1_${VERSION}_0.tar.bz2 \
+#	&& cd boost_1_${VERSION}_0/ \
 #  \
-#    && ./bootstrap.sh --prefix=$FREECAD \
-#    && ./b2 -j$(nproc) install
+#	&& ./bootstrap.sh --prefix=$FREECAD \
+#	&& ./b2 -j$(nproc) install \
+#	&& cd && rm boost_1_${VERSION}_0/ -fR
 
 ### libMED 3.0.6
 #----------------
 RUN apt-get install -y \
-		libmed-dev \
-		libmedc-dev
+	libmed-dev \
+	libmedc-dev
+#
 ### libMED 3.2.0
-#-------------
+#----------------
 #RUN \
-#    cd \
-#    && mkdir med \
-#    && cd med \
-#    && git clone https://github.com/luvres/libMED.git \
+#	MAKEDIR=med && \
+#	cd \
+#	&& mkdir $MAKEDIR \
+#	&& cd $MAKEDIR \
+#	&& git clone https://github.com/luvres/libMED.git \
 #  \
 #  # building MED
-#    && mkdir build \
-#    && cd build \
+#	&& mkdir build \
+#	&& cd build \
 #  \
-#    && cmake ../libMED \
-#        -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+#	&& cmake ../libMED \
+#		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
 #  \
-#    && make -j$(nproc) \
-#    && make install
+#	&& make -j$(nproc) \
+#	&& make install \
+#	&& cd && rm $MAKEDIR -fR
 
 ### libCoin 3.1.4
 #-----------------
 RUN apt-get install -y \
-		libcoin80 \
-		libcoin80-dev 
+    libcoin80 \
+    libcoin80-dev
+
+### OCCT 7.1.0
+#--------------
+RUN \
+	apt-get install -y \
+		libfreeimage-dev \
+		libtbb-dev \
+	&& \
+	MAKEDIR=occt && \
+	cd \
+	&& mkdir $MAKEDIR \
+	&& cd $MAKEDIR \
+	&& git clone https://github.com/luvres/occt7.git \
+	&& mkdir build \
+	&& cd build \
+  \
+	&& cmake \
+		../occt7 \
+		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+		-DUSE_VTK:BOOL=OFF \
+		-DUSE_TBB:BOOL=ON \
+		-DUSE_FREEIMAGE:BOOL=ON \
+		-DCMAKE_BUILD_TYPE=Release \
+  \
+	&& make -j$(nproc) \
+	&& make install \
+	&& cd && rm $MAKEDIR -fR
+
+### Netgen 5.3.1
+#----------------
+RUN \
+	cd \
+	&& apt-get install -y \
+		openmpi-bin \
+		libopenmpi-dev \
+		libtogl-dev \
+	&& git clone https://github.com/luvres/netgen.git \
+	&& cd netgen \
+  \
+	# building Netgen
+	&& ./configure \
+			--prefix=$FREECAD \
+			--enable-occ \
+			--with-occ=$FREECAD \
+			--with-tcl=/usr/lib/tcl8.5 \
+			--with-tk=/usr/lib/tk8.5 \
+			--with-togl=/usr/lib/ \
+			--enable-shared \
+			--enable-nglib \
+			--disable-gui \
+			--disable-dependency-tracking \
+			CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
+  \
+	&& make -j$(nproc) \
+	&& make install \
+  \
+	&& cp -fR libsrc $FREECAD/libsrc \
+  \
+	&& cd && rm netgen -fR
 
 ### Eigen 3.2.2 - 3.3.0(backports)
 #----------------------------------
-RUN apt-get install -y \
-  	  libeigen3-dev 
+RUN apt-get install -y 	\
+	libeigen3-dev
+#
 ### Eigen 3.3.4
 #---------------
 # http://eigen.tuxfamily.org/index.php?title=Main_Page
 #RUN \
 #	eigen_VERSION=3.3.4 && \
 #  \
-#    cd \
-#    && mkdir eigen \
-#    && cd eigen \
+#	MAKEDIR=eigen && \
+#	cd \
+#	&& mkdir $MAKEDIR \
+#	&& cd $MAKEDIR \
 #    && wget -c http://bitbucket.org/eigen/eigen/get/${eigen_VERSION}.tar.gz \
 #	&& tar zxf ${eigen_VERSION}.tar.gz \
 #	&& rm ${eigen_VERSION}.tar.gz \
@@ -144,45 +227,21 @@ RUN apt-get install -y \
 #        -DCMAKE_BUILD_TYPE=Release \
 #        -DCMAKE_VERBOSE_MAKEFILE=ON \
 #  \
-#    && make install
+#    && make install \
+#	&& cd && rm $MAKEDIR -fR
 
-### OCCT 7.1.0
+
+### VTK 8.0.0
 #-------------
+# 7.1.1
 RUN \
-	apt-get install -y \
-		libfreeimage-dev \
-		libtbb-dev \
-	&& \
-    MAKEDIR=occt && \
-    cd \
-    && mkdir $MAKEDIR \
-    && cd $MAKEDIR \
-    && git clone https://github.com/luvres/occt7.git \
-    && mkdir build \
-    && cd build \
+	vtk_VERSION_MAJOR=8.0 && \
+	vtk_VERSION_MINOR=8.0.0 && \
   \
-    && cmake \
-		../occt7 \
-		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-		-DUSE_VTK:BOOL=OFF \
-		-DUSE_TBB:BOOL=ON \
-		-DUSE_FREEIMAGE:BOOL=ON \
-		-DCMAKE_BUILD_TYPE=Release \
-  \
-    && make -j$(nproc) \
-    && make install
-
-
-### VTK 7.1.1
-#-------------
-# 8.0.0
-RUN \
-	vtk_VERSION_MAJOR=7.1 && \
-	vtk_VERSION_MINOR=7.1.1 && \
-	\
+	MAKEDIR=vtk && \
 	cd \
-	&& mkdir vtk \
-	&& cd vtk \
+	&& mkdir $MAKEDIR \
+	&& cd $MAKEDIR \
 	&& wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
 	&& gunzip VTK-${vtk_VERSION_MINOR}.tar.gz \
 	&& tar xf VTK-${vtk_VERSION_MINOR}.tar \
@@ -198,154 +257,59 @@ RUN \
 			-DVTK_RENDERING_BACKEND=None \
   \
 	&& make -j$(nproc) \
-	&& make install
-#
-### VTK (Git)
-#-------------
-#RUN \
-#    cd \
-#    && mkdir vtk \
-#    && cd vtk \
-#    && git clone https://gitlab.kitware.com/vtk/vtk.git \
-#  # building VTK
-#    && mkdir build \
-#    && cd build \
-#  \
-#    && cmake ../vtk \
-#            -DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#            -DVTK_Group_Rendering:BOOL=OFF \
-#            -DVTK_Group_StandAlone:BOOL=ON \
-#            -DVTK_RENDERING_BACKEND=None \
-#  \
-#    && make -j$(nproc) \
-#    && make install
-
-
-### Netgen 5.3.1
-#----------------
-#RUN \
-#	apt-get install -y \
-#		liboce-ocaf-lite8 \
-#		liboce-ocaf8 \
-#		liboce-visualization8 \
-#		&& \
-#    netgen_VERSION=5.3.1 && \
-#    wget -c http://pi/FreeCAD/packages/netgen_${netgen_VERSION}-jessie_amd64.deb \
-#    && dpkg -i netgen_${netgen_VERSION}-jessie_amd64.deb \
-#    && rm netgen_${netgen_VERSION}-jessie_amd64.deb
-#
-#### Netgen 5.3.1
-##----------------
-#RUN \
-#    cd \
-#    && apt-get install -y \
-#		openmpi-bin \
-#		libopenmpi-dev \
-#		libtogl-dev \
-#    && git clone https://github.com/luvres/netgen.git \
-#    && cd netgen \
-#  \
-#  # building Netgen
-#    && ./configure \
-#            --prefix=/usr \
-#            --enable-occ \
-#            --with-occ=/usr \
-#            --with-tcl=/usr/lib/tcl8.5 \
-#            --with-tk=/usr/lib/tk8.5 \
-#            --with-togl=/usr/lib/ \
-#            --enable-shared \
-#            --enable-nglib \
-#            --disable-gui \
-#            --disable-dependency-tracking \
-#            CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
-#  \
-#    && make -j$(nproc) \
-#    && make install \
-#  \
-#    && cp -fR libsrc /usr/share/netgen 
-#  \
-#    && cd && rm netgen -fR 
-
-#### Netgen 5.3.1
-##----------------
-RUN \
-    cd \
-    && apt-get install -y curl \
-		openmpi-bin \
-		libopenmpi-dev \
-		libtogl-dev \
-    && wget https://sourceforge.net/projects/netgen-mesher/files/netgen-mesher/5.3/netgen-5.3.1.tar.gz \
-	&& tar zxf netgen-5.3.1.tar.gz \
-	&& rm netgen-5.3.1.tar.gz \
-    && cd netgen-5.3.1 \
-  \
-	&& curl -L https://git.launchpad.net/~freecad-maintainers/+git/netgen/plain/debian/patches/nglib-occt7.patch | patch -p1 \
-#	&& curl -L https://raw.githubusercontent.com/luvres/netgen/master/nglib-occt7.patch | patch -p1 
-  \
-#	&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure 
-#	&& sed -i '/DOCCGEOMETRY/s/inc/include/' configure 
-#	&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure.ac 
-#	&& sed -i '/DOCCGEOMETRY/s/inc/include/' configure.ac 
-  \
-  # building Netgen
-    && ./configure \
-            --prefix=/usr \
-            --enable-occ \
-            --with-occ=/usr \
-            --with-tcl=/usr/lib/tcl8.5 \
-            --with-tk=/usr/lib/tk8.5 \
-            --with-togl=/usr/lib/ \
-            --enable-shared \
-            --enable-nglib \
-            --disable-gui \
-            --disable-dependency-tracking \
-            CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
-  \
-    && make -j$(nproc) \
-    && make install \
-  \
-    && cp -fR libsrc /usr/share/netgen 
-
+	&& make install \
+	&& cd && rm $MAKEDIR -fR
 
 ### FreeCAD latest Github commit
 #--------------------------------
 # get FreeCAD
-#RUN \
-#    cd \
-#    && git clone https://github.com/FreeCAD/FreeCAD 
 RUN \
-    cd \
-	&& wget -c http://pi/FreeCAD/packages/master.tar.gz \
-	&& tar zxf master.tar.gz \
-	&& rm master.tar.gz
+	cd \
+	&& git clone https://github.com/FreeCAD/FreeCAD
 
 # building FreeCAD
 RUN \
-    cd \
-    && mkdir build \
-    && cd build \
+	cd \
+	&& mkdir build \
+	&& cd build \
   \
-    && cmake ../FreeCAD \
-            -DCMAKE_INSTALL_PREFIX:PATH=/usr \
-            -DBUILD_FEM_NETGEN=ON \
-            -DOCC_INCLUDE_DIR=/usr/include/opencascade 
-            #-DNETGEN_ROOT=/usr/share/netgen 
-            #-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
-            #-DFREECAD_USE_OCC_VARIANT="Official Version"  
-            #-DOCC_LIBRARY=/usr/lib/libTKernel.so 
-            #-DEIGEN3_INCLUDE_DIR=/usr/include/eigen3 
+	&& cmake ../FreeCAD \
+				-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+				-DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
+				-DNETGEN_ROOT=$FREECAD \
+				-DBUILD_FEM_NETGEN=ON 
+				#-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
+				#-DFREECAD_USE_OCC_VARIANT="Official Version"  
+				#-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
+				#-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
 
-### Make FreeCAD
+# Make FreeCAD
 RUN \
-    cd \
-    && cd build \
-    && make -j$(nproc) 
-    
-#    && make install \
-#  \
-#  # Clean
-#    && cd && rm FreeCAD/ build/ -fR 
- 
+	cd \
+	&& cd build \
+	&& make -j$(nproc)
+
+# Install
+RUN \
+	cd \
+	&& cd build \
+	&& make install \
+	&& cd && rm FreeCAD/ build/ -fR
+
+#RUN \
+#	apt-get purge -y \
+#		$pack_build \
+#		$pack_tools \
+#		cmake \
+#	&& apt-get autoremove -y \
+#	&& apt-get install -y \
+#		libhdf5-8 \
+#	&& apt-get autoclean\
+#	&& rm /var/lib/apt/lists/* \
+#		/usr/share/doc/* \
+#		/usr/share/locale/* \
+#		/usr/share/man/* \
+#		/usr/share/info/* -fR
 
 ### Calculix 2.12 and CGX
 #-------------------------
@@ -359,4 +323,3 @@ RUN \
 #	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
 #	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
 #	&& cd && rm CalculiX-${ccx_VERSION} calculix -fR
-
