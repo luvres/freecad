@@ -71,20 +71,6 @@ RUN \
 #---------------
 #RUN apt-get install -y \
 #	cmake
-#
-### cmake (Git)
-#---------------
-#RUN \
-#    cd \
-#    #&& apt-get install -y 
-#    #    git g++ make 
-#    && git clone https://gitlab.kitware.com/cmake/cmake.git \
-#    && cd cmake \
-#    && ./bootstrap --prefix=/usr \
-#    && make -j$(nproc) \
-#    #cp bin/cmake /usr/bin/
-#    #alias cmake='/root/cmake/bin/cmake'
-#    && make install
 
 ### libBoost 1.55
 #-----------------
@@ -96,22 +82,6 @@ RUN apt-get install -y \
 	libboost-signals1.55-dev \
 	libboost-system1.55-dev \
 	libboost-thread1.55-dev
-#
-### libBoost 1.65
-#-----------------
-# http://www.boost.org/doc/libs/1_64_0/more/getting_started/unix-variants.html
-#RUN \
-#	VERSION=65 && \
-#  \
-#	cd \
-#	&& wget https://downloads.sourceforge.net/project/boost/boost/1.${VERSION}.0/boost_1_${VERSION}_0.tar.bz2 \
-#	&& tar jxf boost_1_${VERSION}_0.tar.bz2 \
-#	&& rm boost_1_${VERSION}_0.tar.bz2 \
-#	&& cd boost_1_${VERSION}_0/ \
-#  \
-#	&& ./bootstrap.sh --prefix=$FREECAD \
-#	&& ./b2 -j$(nproc) install \
-#	&& cd && rm boost_1_${VERSION}_0/ -fR
 
 ### libMED 3.0.6
 #----------------
@@ -236,7 +206,6 @@ RUN \
     && make install \
 	&& cd && rm $MAKEDIR -fR
 
-
 ### VTK 8.0.0
 #-------------
 # 7.1.1
@@ -283,11 +252,7 @@ RUN \
 				-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
 				-DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
 				-DNETGEN_ROOT=$FREECAD \
-				-DBUILD_FEM_NETGEN=ON 
-				#-DCMAKE_CXX_FLAGS="-DNETGEN_V5" 
-				#-DFREECAD_USE_OCC_VARIANT="Official Version"  
-				#-DOCC_LIBRARY=$FREECAD/lib/libTKernel.so 
-				#-DEIGEN3_INCLUDE_DIR=$FREECAD/include/eigen3 
+				-DBUILD_FEM_NETGEN=ON
 
 # Make FreeCAD
 RUN \
