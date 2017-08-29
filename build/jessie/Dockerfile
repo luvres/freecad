@@ -8,92 +8,63 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 # https://aur.archlinux.org/packages
 # http://www.boost.org/doc/libs/1_64_0/more/getting_started/unix-variants.html
 
-ENV FREECAD=/opt/FreeCAD
-ENV pack_dev=" doxygen \
-			   libpyside-dev \
-			   libqtcore4 \
-			   libfreetype6-dev \
-			   libshiboken-dev \
-			   libxerces-c-dev \
-			   libxmu-dev \
-			   libxmu-headers \
-			   libxmu6 \
-			   libxmuu-dev \
-			   libxmuu1 \
-			   pyside-tools \
-			   python-pivy \
-			   python-dev \
-			   python-pyside \
-			   python-matplotlib \
-			   libqtwebkit-dev \
-			   swig "
-ENV pack_build=" qt4-dev-tools \
-			     qt4-qmake \
-			     g++ \
-			     tcl8.5-dev \
-			     tk8.5-dev \
-			     automake \
-			     libhdf5-dev "
-ENV pack_tools=" dictionaries-common \
-				 wget \
-				 git "
-
 RUN \
-	cd \
+	FREECAD=/opt/FreeCAD \
 	&& mkdir -p $FREECAD \
-  # Enable backports (cmake 3.6.2)
+  \
+  # Enable backports (cmake 3.6.2) "cmake 3.3 or higher" required by VTK 8
 	&& echo 'deb http://deb.debian.org/debian jessie-backports main' \
 									>/etc/apt/sources.list.d/backports.list \
 	&& apt-get update \
 	&& apt-get install -y \
-		$pack_dev \
-		$pack_build \
-		$pack_tools \
-  # "cmake 3.3 or higher" required by VTK 8
+		doxygen \
+		libpyside-dev \
+		libqtcore4 \
+		libfreetype6-dev \
+		libshiboken-dev \
+		libxerces-c-dev \
+		libxmu-dev \
+		libxmu-headers \
+		libxmu6 \
+		libxmuu-dev \
+		libxmuu1 \
+		pyside-tools \
+		python-pivy \
+		python-dev \
+		python-pyside \
+		python-matplotlib \
+		libqtwebkit-dev \
+		swig \
+		git \
+	  \
+		libboost-filesystem1.55-dev \
+		libboost-program-options1.55-dev \
+		libboost-python1.55-dev \
+		libboost-regex1.55-dev \
+		libboost-signals1.55-dev \
+		libboost-system1.55-dev \
+		libboost-thread1.55-dev \
+		libcoin80-dev \
+		dictionaries-common \
+		qt4-dev-tools \
+		qt4-qmake \
+		g++ \
+		tcl8.5-dev \
+		tk8.5-dev \
+		wget \
+		automake \
+		libhdf5-dev \
+  \
+	&& cd \
   # gmsh 2.11.0
 	&& apt-get -t jessie-backports install -y \
+		gmsh \
 		cmake \
-		gmsh
-#
-#RUN \
-#	cd \
-#	&& mkdir -p $FREECAD \
-#	&& apt-get update \
-#  # gmsh 2.8.5
-#	&& apt-get install -y \
-#		$pack_dev \
-#		$pack_build \
-#		$pack_tools \
-#		cmake \
-#		gmsh
-
-### cmake 3.0.2
-#---------------
-#RUN apt-get install -y \
-#	cmake
-
-### libBoost 1.55
-#-----------------
-RUN apt-get install -y \
-	libboost-filesystem1.55-dev \
-	libboost-program-options1.55-dev \
-	libboost-python1.55-dev \
-	libboost-regex1.55-dev \
-	libboost-signals1.55-dev \
-	libboost-system1.55-dev \
-	libboost-thread1.55-dev
-
-### libMED 3.0.6
-#----------------
-#RUN apt-get install -y \
-#	libmed-dev \
-#	libmedc-dev
-#
-### libMED 3.2.0
-#----------------
-RUN \
-	MAKEDIR=med && \
-	cd \
+  \
+  ### libMED 3.2.0
+  #----------------
+	&& MAKEDIR=med \
+	&& cd \
 	&& mkdir $MAKEDIR \
 	&& cd $MAKEDIR \
 	&& git clone https://github.com/luvres/libMED.git \
@@ -107,22 +78,15 @@ RUN \
   \
 	&& make -j$(nproc) \
 	&& make install \
-	&& cd && rm $MAKEDIR -fR
-
-### libCoin 3.1.4
-#-----------------
-RUN apt-get install -y \
-    libcoin80 \
-    libcoin80-dev
-
-### OCCT 7.1.0
-#--------------
-RUN \
-	apt-get install -y \
+  # Clean
+	&& cd && rm $MAKEDIR -fR \
+  \
+  ### OCCT 7.1.0 -> libfreeimage-dev libfreeimage3 libtbb-dev libtbb2
+  #--------------
+	&& apt-get install -y \
 		libfreeimage-dev \
 		libtbb-dev \
-	&& \
-	MAKEDIR=occt && \
+	&& MAKEDIR=occt && \
 	cd \
 	&& mkdir $MAKEDIR \
 	&& cd $MAKEDIR \
@@ -140,61 +104,58 @@ RUN \
   \
 	&& make -j$(nproc) \
 	&& make install \
-	&& cd && rm $MAKEDIR -fR
-
-### Netgen 5.3.1
-#----------------
-RUN \
-	cd \
+  \
+  # Clean
+	&& cd && rm $MAKEDIR -fR \
+  \
+  ### Netgen 5.3.1
+  #----------------
 	&& apt-get install -y \
 		openmpi-bin \
 		libopenmpi-dev \
 		libtogl-dev \
+  \
+	&& cd \
 	&& git clone https://github.com/luvres/netgen.git \
 	&& cd netgen \
   \
 	# building Netgen
 	&& ./configure \
-			--prefix=$FREECAD \
-			--enable-occ \
-			--with-occ=$FREECAD \
-			--with-tcl=/usr/lib/tcl8.5 \
-			--with-tk=/usr/lib/tk8.5 \
-			--with-togl=/usr/lib/ \
-			--enable-shared \
-			--enable-nglib \
-			--disable-gui \
-			--disable-dependency-tracking \
-			CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
+		--prefix=$FREECAD \
+		--enable-occ \
+		--with-occ=$FREECAD \
+		--with-tcl=/usr/lib/tcl8.5 \
+		--with-tk=/usr/lib/tk8.5 \
+		--with-togl=/usr/lib/ \
+		--enable-shared \
+		--enable-nglib \
+		--disable-gui \
+		--disable-dependency-tracking \
+		CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
   \
 	&& make -j$(nproc) \
 	&& make install \
   \
 	&& cp -fR libsrc $FREECAD/libsrc \
   \
-	&& cd && rm netgen -fR
-
-### Eigen 3.2.2 - 3.3.0(backports)
-#----------------------------------
-#RUN apt-get install -y 	\
-#	libeigen3-dev
-#
-### Eigen 3.3.4
-#---------------
-# http://eigen.tuxfamily.org/index.php?title=Main_Page
-RUN \
-	eigen_VERSION=3.3.4 && \
+  # Clean
+	&& cd && rm netgen -fR \
   \
-	MAKEDIR=eigen && \
-	cd \
+  ### Eigen 3.3.4
+  #---------------
+  # http://eigen.tuxfamily.org/index.php?title=Main_Page
+	&& eigen_VERSION=3.3.4 \
+  \
+	&& MAKEDIR=eigen \
+	&& cd \
 	&& mkdir $MAKEDIR \
 	&& cd $MAKEDIR \
-    && wget -c http://bitbucket.org/eigen/eigen/get/${eigen_VERSION}.tar.gz \
+	&& wget -c http://bitbucket.org/eigen/eigen/get/${eigen_VERSION}.tar.gz \
 	&& tar zxf ${eigen_VERSION}.tar.gz \
 	&& rm ${eigen_VERSION}.tar.gz \
 	&& mv eigen-* eigen-${eigen_VERSION} \
 	&& mkdir build \
-    && cd build \
+	&& cd build \
   \
     && cmake ../eigen-${eigen_VERSION} \
         -DCMAKE_INSTALL_PREFIX=$FREECAD \
@@ -204,17 +165,16 @@ RUN \
         -DCMAKE_VERBOSE_MAKEFILE=ON \
   \
     && make install \
-	&& cd && rm $MAKEDIR -fR
-
-### VTK 8.0.0
-#-------------
-# 7.1.1
-RUN \
-	vtk_VERSION_MAJOR=8.0 && \
-	vtk_VERSION_MINOR=8.0.0 && \
+  # Clean
+	&& cd && rm $MAKEDIR -fR \
   \
-	MAKEDIR=vtk && \
-	cd \
+  ### VTK 8.0.0
+  #-------------
+	&& vtk_VERSION_MAJOR=8.0 \
+	&& vtk_VERSION_MINOR=8.0.0 \
+  \
+	&& MAKEDIR=vtk \
+	&& cd \
 	&& mkdir $MAKEDIR \
 	&& cd $MAKEDIR \
 	&& wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
@@ -233,54 +193,78 @@ RUN \
   \
 	&& make -j$(nproc) \
 	&& make install \
-	&& cd && rm $MAKEDIR -fR
-
-### FreeCAD latest Github commit
-#--------------------------------
-# get FreeCAD
-RUN \
-	cd \
-	&& git clone https://github.com/FreeCAD/FreeCAD
-
-# building FreeCAD
-RUN \
-	cd \
+  # Clean
+	&& cd && rm $MAKEDIR -fR \
+  \
+  ### FreeCAD latest Github commit
+  #--------------------------------
+  # get FreeCAD
+	&& cd \
+	&& git clone https://github.com/FreeCAD/FreeCAD \
+  \
+  # building FreeCAD
+	&& cd \
 	&& mkdir build \
 	&& cd build \
   \
 	&& cmake ../FreeCAD \
-				-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-				-DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
-				-DNETGEN_ROOT=$FREECAD \
-				-DBUILD_FEM_NETGEN=ON
-
-# Make FreeCAD
-RUN \
-	cd \
+			-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+			-DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
+			-DNETGEN_ROOT=$FREECAD \
+			-DBUILD_FEM_NETGEN=ON \
+  \
+  # Make FreeCAD
+	&& cd \
 	&& cd build \
-	&& make -j$(nproc)
-
-# Install
-RUN \
-	cd \
+	&& make -j$(nproc) \
+  \
+  # Install FreeCAD
+	&& cd \
 	&& cd build \
 	&& make install \
-	&& cd && rm FreeCAD/ build/ -fR
+  \
+  # Clean
+	&& cd && rm FreeCAD/ build/ -fR \
+	&& apt-get remove -y \
+		dictionaries-common \
+		qt4-dev-tools \
+		qt4-qmake \
+		g++ \
+		tcl8.5-dev \
+		tk8.5-dev \
+		wget \
+		automake \
+		libhdf5-dev \
+	  \
+		libcoin80-dev \
+		libfreeimage-dev \
+		libtbb-dev \
+	  \
+		libboost-filesystem1.55-dev \
+		libboost-program-options1.55-dev \
+		libboost-python1.55-dev \
+		libboost-regex1.55-dev \
+		libboost-signals1.55-dev \
+		libboost-system1.55-dev \
+		libboost-thread1.55-dev \
+  \
+	&& apt-get autoremove -y \
+	&& apt-get install -y \
+		libfreeimage3 \
+		libtbb2 \
+		libboost-atomic1.55.0 \
+		libboost-chrono1.55.0 \
+		libboost-filesystem1.55.0 \
+		libboost-program-options1.55.0 \
+		libboost-python1.55.0 \
+		libboost-regex1.55.0 \
+		libboost-signals1.55.0 \
+		libboost-system1.55.0 \
+		libboost-thread1.55.0 \
+		libboost-date-time1.55.0 \
+		libboost-serialization1.55.0 \
+		libhdf5-8
 
-#RUN \
-#	apt-get purge -y \
-#		$pack_build \
-#		$pack_tools \
-#		cmake \
-#	&& apt-get autoremove -y \
-#	&& apt-get install -y \
-#		libhdf5-8 \
-#	&& apt-get autoclean\
-#	&& rm /var/lib/apt/lists/* \
-#		/usr/share/doc/* \
-#		/usr/share/locale/* \
-#		/usr/share/man/* \
-#		/usr/share/info/* -fR
 
 ### Calculix 2.12 and CGX
 #-------------------------
