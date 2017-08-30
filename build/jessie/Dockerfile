@@ -12,15 +12,10 @@ RUN \
 	FREECAD=/opt/FreeCAD \
 	&& mkdir -p $FREECAD \
   \
-  # Enable backports (cmake 3.6.2) "cmake 3.3 or higher" required by VTK 8
-	&& echo 'deb http://deb.debian.org/debian jessie-backports main' \
-									>/etc/apt/sources.list.d/backports.list \
-	&& apt-get update \
-	&& apt-get install -y \
+	&& pack_dev=" \
 		doxygen \
 		libpyside-dev \
 		libqtcore4 \
-		libfreetype6-dev \
 		libshiboken-dev \
 		libxerces-c-dev \
 		libxmu-dev \
@@ -28,38 +23,60 @@ RUN \
 		libxmu6 \
 		libxmuu-dev \
 		libxmuu1 \
+		libqtwebkit-dev \
 		pyside-tools \
 		python-pivy \
-		python-dev \
 		python-pyside \
 		python-matplotlib \
-		libqtwebkit-dev \
-		swig \
-		git \
-	  \
+		swig " \
+  \
+	&& libBoost_dev=" \
 		libboost-filesystem1.55-dev \
 		libboost-program-options1.55-dev \
 		libboost-python1.55-dev \
 		libboost-regex1.55-dev \
 		libboost-signals1.55-dev \
 		libboost-system1.55-dev \
-		libboost-thread1.55-dev \
-		libcoin80-dev \
+		libboost-thread1.55-dev " \
+  \
+	&& pack_tools=" \
+		automake \
 		dictionaries-common \
-		qt4-dev-tools \
-		qt4-qmake \
+		git \
+		wget \
 		g++ \
 		tcl8.5-dev \
 		tk8.5-dev \
-		wget \
-		automake \
+		libcoin80-dev \
 		libhdf5-dev \
+		libfreetype6-dev \
+		python-dev \
+		qt4-dev-tools \
+		qt4-qmake " \
+  \
+	&& pack_netgen=" \
+		openmpi-bin \
+		libopenmpi-dev \
+		libtogl-dev " \
+  \
+	&& pack_occt=" \
+		libfreeimage-dev \
+		libtbb-dev " \
+  \
+  # Enable backports (cmake 3.6.2) "cmake 3.3 or higher" required by VTK 8
+	&& echo 'deb http://deb.debian.org/debian jessie-backports main' \
+									>/etc/apt/sources.list.d/backports.list \
+	&& apt-get update \
+	&& apt-get install -y \
+		$pack_dev \
+		$libBoost_dev \
+		$pack_tools \
+		$pack_netgen \
+		$pack_occt \
   \
 	&& cd \
-  # gmsh 2.11.0
-	&& apt-get -t jessie-backports install -y \
-		gmsh \
-		cmake \
+  # cmake 3.6.2
+	&& apt-get -t jessie-backports install -y cmake \
   \
   ### libMED 3.2.0
   #----------------
@@ -83,11 +100,8 @@ RUN \
   \
   ### OCCT 7.1.0 -> libfreeimage-dev libfreeimage3 libtbb-dev libtbb2
   #--------------
-	&& apt-get install -y \
-		libfreeimage-dev \
-		libtbb-dev \
-	&& MAKEDIR=occt && \
-	cd \
+	&& MAKEDIR=occt \
+	&& cd \
 	&& mkdir $MAKEDIR \
 	&& cd $MAKEDIR \
 	&& git clone https://github.com/luvres/occt7.git \
@@ -110,11 +124,6 @@ RUN \
   \
   ### Netgen 5.3.1
   #----------------
-	&& apt-get install -y \
-		openmpi-bin \
-		libopenmpi-dev \
-		libtogl-dev \
-  \
 	&& cd \
 	&& git clone https://github.com/luvres/netgen.git \
 	&& cd netgen \
@@ -225,33 +234,25 @@ RUN \
   \
   # Clean
 	&& cd && rm FreeCAD/ build/ -fR \
+	&& rm $FREECAD/doc/* \
+	&& rm -fR $FREECAD/share/doc/* \
 	&& apt-get remove -y \
-		dictionaries-common \
-		qt4-dev-tools \
-		qt4-qmake \
-		g++ \
-		tcl8.5-dev \
-		tk8.5-dev \
-		wget \
-		automake \
-		libhdf5-dev \
-	  \
-		libcoin80-dev \
-		libfreeimage-dev \
-		libtbb-dev \
-	  \
-		libboost-filesystem1.55-dev \
-		libboost-program-options1.55-dev \
-		libboost-python1.55-dev \
-		libboost-regex1.55-dev \
-		libboost-signals1.55-dev \
-		libboost-system1.55-dev \
-		libboost-thread1.55-dev \
+		$libBoost_dev \
+		$pack_tools \
+		$pack_netgen \
+		$pack_occt \
+		cmake \
   \
 	&& apt-get autoremove -y \
+  \
 	&& apt-get install -y \
+	  \
 		libfreeimage3 \
 		libtbb2 \
+		libhdf5-8 \
+		libfreetype6 \
+		openssh-client \
+	  # libBoost-1.55
 		libboost-atomic1.55.0 \
 		libboost-chrono1.55.0 \
 		libboost-filesystem1.55.0 \
@@ -263,7 +264,11 @@ RUN \
 		libboost-thread1.55.0 \
 		libboost-date-time1.55.0 \
 		libboost-serialization1.55.0 \
-		libhdf5-8
+	  # libhdf5-dev
+		libhdf5-cpp-8 libjpeg-dev libjpeg62-turbo-dev zlib1g-dev \
+  \
+  # gmsh 2.11.0
+	&& apt-get -t jessie-backports install -y gmsh
 
 
 ### Calculix 2.12 and CGX

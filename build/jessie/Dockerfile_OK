@@ -261,7 +261,10 @@ RUN \
 		libboost-system1.55.0 \
 		libboost-thread1.55.0 \
 		libboost-date-time1.55.0 \
-		libboost-serialization1.55.0 
+		libboost-serialization1.55.0 \
+		libhdf5-8
+
+
 
 ### Calculix 2.12 and CGX
 #-------------------------
