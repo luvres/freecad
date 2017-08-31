@@ -4,7 +4,7 @@
 ### NVIDIA Docker and VirtualGL
 -----
 
-#### FreeCAD Latest - Build: 0.17R11659 (Git)
+#### FreeCAD Latest - Build: 0.17R11939 (Git)
 #### FEM - Netgen, Gmsh and Calculix 2.12
 ##### Pull image
 ```
@@ -150,9 +150,10 @@ docker build -t izone/freecad:0.17 ./0.17/
 -----
 #### Debian Jessie (8.9)
 ##### libMED 3.2.0
-##### VTK 7.1.1
 ##### OCCT 7.1.0p1
 ##### Netgen 5.3.1
+##### Eigen 3.3.4
+##### VTK 8.0.0
 ##### CalculiX 2.12
 ```
 docker build -t freecad:build-jessie ./build/jessie/
