@@ -78,11 +78,25 @@ RUN \
   # cmake 3.6.2
 	&& apt-get -t jessie-backports install -y cmake \
   \
-  ### libMED 3.0.6
+  ### libMED 3.2.0
   #----------------
-	&& apt-get install -y \
-		libmed-dev \
-		libmedc-dev \
+	&& MAKEDIR=med \
+	&& cd \
+	&& mkdir $MAKEDIR \
+	&& cd $MAKEDIR \
+	&& git clone https://github.com/luvres/libMED.git \
+  \
+  # building MED
+	&& mkdir build \
+	&& cd build \
+  \
+	&& cmake ../libMED \
+		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+  \
+	&& make -j$(nproc) \
+	&& make install \
+  # Clean
+	&& cd && rm $MAKEDIR -fR \
   \
   ### OCCT 7.1.0 -> libfreeimage-dev libfreeimage3 libtbb-dev libtbb2
   #--------------
@@ -136,15 +150,37 @@ RUN \
   # Clean
 	&& cd && rm netgen -fR \
   \
-  ### Eigen 3.3.0
+  ### Eigen 3.3.4
   #---------------
-	&& apt-get -t jessie-backports install -y \
-		libeigen3-dev \
+  # http://eigen.tuxfamily.org/index.php?title=Main_Page
+	&& eigen_VERSION=3.3.4 \
   \
-  ### VTK 7.1.1
+	&& MAKEDIR=eigen \
+	&& cd \
+	&& mkdir $MAKEDIR \
+	&& cd $MAKEDIR \
+	&& wget -c http://bitbucket.org/eigen/eigen/get/${eigen_VERSION}.tar.gz \
+	&& tar zxf ${eigen_VERSION}.tar.gz \
+	&& rm ${eigen_VERSION}.tar.gz \
+	&& mv eigen-* eigen-${eigen_VERSION} \
+	&& mkdir build \
+	&& cd build \
+  \
+    && cmake ../eigen-${eigen_VERSION} \
+        -DCMAKE_INSTALL_PREFIX=$FREECAD \
+        -DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
+        -DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_VERBOSE_MAKEFILE=ON \
+  \
+    && make install \
+  # Clean
+	&& cd && rm $MAKEDIR -fR \
+  \
+  ### VTK 8.0.0
   #-------------
-	&& vtk_VERSION_MAJOR=7.1 \
-	&& vtk_VERSION_MINOR=7.1.1 \
+	&& vtk_VERSION_MAJOR=8.0 \
+	&& vtk_VERSION_MINOR=8.0.0 \
   \
 	&& MAKEDIR=vtk \
 	&& cd \
