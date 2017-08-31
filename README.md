@@ -88,13 +88,10 @@ git clone https://github.com/luvres/freecad.git
 cd freecad
 ```
 ```
-```
-```
 docker build -t izone/freecad:nvidia-xenial ./nvidia/ && \
 docker build -t izone/freecad:nvidia-jessie ./nvidia/jessie/ && \
 docker build -t izone/freecad:nvidia-stretch ./nvidia/stretch/ && \
 docker build -t izone/freecad:nvidia-sid ./nvidia/sid/
-
 ```
 ```
 ```
@@ -111,7 +108,7 @@ docker build -t izone/freecad:0.17R11948 .
 ```
 #### FreeCAD Stable (0.16)
 ```
-docker build -t izone/freecad:stable /stable/
+docker build -t izone/freecad:stable ./stable/
 ```
 ```
 ```
@@ -156,7 +153,7 @@ sudo update-binfmts --display qemu-arm
 cp /usr/bin/qemu-arm-static .
 ```
 ```
-docker build -t izone/freecad:armhf ./build/armhf/
+docker build -t izone/freecad:armhf ./armhf/
 ```
 ##### Save image
 ```
