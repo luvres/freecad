@@ -136,8 +136,8 @@ RUN \
 		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
   \
 	&& make -j$(nproc) \
-	&& make install \
-	&& cd && rm $MAKEDIR -fR
+	&& make install 
+#	&& cd && rm $MAKEDIR -fR
 
 ### libCoin 3.1.4
 #-----------------
@@ -169,8 +169,8 @@ RUN \
 		-DCMAKE_BUILD_TYPE=Release \
   \
 	&& make -j$(nproc) \
-	&& make install \
-	&& cd && rm $MAKEDIR -fR
+	&& make install 
+#	&& cd && rm $MAKEDIR -fR
 
 ### Netgen 5.3.1
 #----------------
@@ -200,9 +200,8 @@ RUN \
 	&& make -j$(nproc) \
 	&& make install \
   \
-	&& cp -fR libsrc $FREECAD/libsrc \
-  \
-	&& cd && rm netgen -fR
+	&& cp -fR libsrc $FREECAD/libsrc 
+#	&& cd && rm netgen -fR
 
 ### Eigen 3.2.2 - 3.3.0(backports)
 #----------------------------------
@@ -233,8 +232,8 @@ RUN \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_VERBOSE_MAKEFILE=ON \
   \
-    && make install \
-	&& cd && rm $MAKEDIR -fR
+    && make install 
+#	&& cd && rm $MAKEDIR -fR
 
 
 ### VTK 8.0.0
@@ -263,8 +262,8 @@ RUN \
 			-DVTK_RENDERING_BACKEND=None \
   \
 	&& make -j$(nproc) \
-	&& make install \
-	&& cd && rm $MAKEDIR -fR
+	&& make install 
+#	&& cd && rm $MAKEDIR -fR
 
 ### FreeCAD latest Github commit
 #--------------------------------
@@ -299,8 +298,8 @@ RUN \
 RUN \
 	cd \
 	&& cd build \
-	&& make install \
-	&& cd && rm FreeCAD/ build/ -fR
+	&& make install 
+#	&& cd && rm FreeCAD/ build/ -fR
 
 #RUN \
 #	apt-get purge -y \
@@ -319,6 +318,21 @@ RUN \
 
 ### Calculix 2.12 and CGX
 #-------------------------
+apt-get install build-essential gfortran libarpack2-dev libspooles-dev git 
+git clone  https://github.com/luvres/calculix.git
+cd calculix
+mv Mackefile CalculiX/ccx_2.12/src/
+cd CalculiX/ccx_2.12/src/
+make
+
+
+apt-get install build-essential gfortran libarpack2-dev libspooles-dev wget
+wget http://www.dhondt.de/ccx_2.12.src.tar.bz2
+tar jxf ccx_2.12.src.tar.bz2
+cd CalculiX/ccx_2.12/src/
+wget -O Makefile http://wwwp.feb.unesp.br/paulo/calculix/212/Makefile
+make
+
 #RUN \
 #	ccx_VERSION=2.12 && \
 #	apt-get install -y gfortran cpio \
@@ -327,5 +341,5 @@ RUN \
 #	&& cd calculix/ \
 #	&& ./install \
 #	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-#	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+#	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx 
 #	&& cd && rm CalculiX-${ccx_VERSION} calculix -fR
