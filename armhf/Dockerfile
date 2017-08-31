@@ -65,6 +65,10 @@ RUN \
 		libfreeimage-dev \
 		libtbb-dev " \
   \
+	&& pack_calculix=" \
+		gfortran \
+		cpio " \
+  \
   # Enable backports (cmake 3.6.2) "cmake 3.3 or higher" required by VTK 8
 	&& echo 'deb http://deb.debian.org/debian jessie-backports main' \
 									>/etc/apt/sources.list.d/backports.list \
@@ -75,6 +79,7 @@ RUN \
 		$pack_tools \
 		$pack_netgen \
 		$pack_occt \
+		$pack_calculix \
   \
 	&& cd \
   # cmake 3.6.2
@@ -233,16 +238,35 @@ RUN \
 	&& cd \
 	&& cd build \
 	&& make install \
-  \
+	&& ln -s /opt/FreeCAD/bin/FreeCAD /usr/bin/freecad-git \
   # Clean
-	&& cd && rm FreeCAD/ build/ -fR \
-	&& rm $FREECAD/doc/* \
-	&& rm -fR $FREECAD/share/doc/* \
+	&& cd && rm -fR \
+		FreeCAD/ build/ \
+	  # 79M
+		$FREECAD/doc/* \
+	  # 128M
+		$FREECAD/share/doc/* \
+  \
+  ### Calculix 2.12 and CGX
+  #-------------------------
+	&& ccx_VERSION=2.12 \
+  \
+	&& cd \
+	&& git clone https://github.com/luvres/calculix.git \
+	&& cd calculix/ \
+	&& ./install \
+	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+  # Clean
+	&& cd && rm CalculiX-${ccx_VERSION} calculix -fR \
+  \
+  ## Clean All
 	&& apt-get remove -y \
 		$libBoost_dev \
 		$pack_tools \
 		$pack_netgen \
 		$pack_occt \
+		$pack_calculix \
 		cmake \
   \
 	&& apt-get autoremove -y \
@@ -270,18 +294,6 @@ RUN \
 		libhdf5-cpp-8 libjpeg-dev libjpeg62-turbo-dev zlib1g-dev \
   \
   # gmsh 2.11.0
-	&& apt-get -t jessie-backports install -y gmsh
+	&& apt-get -t jessie-backports install -y gmsh \
+	&& rm /usr/share/doc/* -fR
 
-
-### Calculix 2.12 and CGX
-#-------------------------
-#RUN \
-#	ccx_VERSION=2.12 && \
-#	apt-get install -y gfortran cpio \
-#	&& cd \
-#	&& git clone https://github.com/luvres/calculix.git \
-#	&& cd calculix/ \
-#	&& ./install \
-#	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-#	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
-#	&& cd && rm CalculiX-${ccx_VERSION} calculix -fR
