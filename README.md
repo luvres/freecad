@@ -1,11 +1,14 @@
 ## FreeCAD amd64 and armhf
-### FEM Module with Netgen and Calculix
+### FEM Module with Netgen, Gmsh and Calculix
 ### Docker image for any Linux
 ### NVIDIA Docker and VirtualGL
 -----
-
-#### FreeCAD Latest - Build: 0.17R11939 (Git)
-#### FEM - Netgen, Gmsh and Calculix 2.12
+#### FreeCAD Latest - Build: 0.17R11948 (Git)
+#### libMED 3.2.0
+#### OCCT 7.1.0p1
+#### Netgen 5.3.1
+#### VTK 8.0.0
+#### CalculiX 2.12
 ##### Pull image
 ```
 docker pull izone/freecad
@@ -27,7 +30,6 @@ izone/freecad freecad-git
 ##### Pull image
 ```
 docker pull izone/freecad:stable
-docker pull izone/freecad:0.16
 ```
 ```
 ```
@@ -39,25 +41,6 @@ docker run -ti --rm --name FreeCAD \
 -v /tmp/.X11-unix \
 -v $HOME/.Xauthority:/root/.Xauthority \
 izone/freecad:stable freecad
-```
-```
-```
-#### FreeCAD Daily (0.17)
-##### Pull image
-```
-docker pull izone/freecad:daily
-docker pull izone/freecad:0.17
-```
-```
-```
-##### Run
-```
-docker run -ti --rm --name FreeCAD \
---net=host \
--e DISPLAY=unix$DISPLAY \
--v /tmp/.X11-unix \
--v $HOME/.Xauthority:/root/.Xauthority \
-izone/freecad:daily freecad-daily
 ```
 ```
 ```
@@ -98,18 +81,6 @@ izone/freecad:stable freecad
 ```
 ```
 ```
-#### FreeCAD Daily (0.17)
-```
-nvidia-docker run -ti --rm --name FreeCAD \
---net=host \
--e DISPLAY=unix$DISPLAY \
--v /tmp/.X11-unix \
--v $HOME/.Xauthority:/root/.Xauthority \
-izone/freecad:daily freecad-daily
-```
-
-```
-```
 -----
 #### Building (https://hub.docker.com/r/plumbee/nvidia-virtualgl/)
 ```
@@ -127,58 +98,25 @@ docker build -t izone/freecad:nvidia-sid ./nvidia/sid/
 ```
 ```
 ```
+-----
+### Builds ..
 #### FreeCAD Latest (0.17 Git)
 ```
 docker build -t izone/freecad .
 ```
 ```
+docker build -t izone/freecad:0.17R11948 .
+```
+```
 ```
 #### FreeCAD Stable (0.16)
 ```
-docker build -t izone/freecad:stable ./0.16/ && \
-docker build -t izone/freecad:0.16 ./0.16/
-```
-```
-```
-#### FreeCAD Daily (0.17)
-```
-docker build -t izone/freecad:daily ./0.17/ && \
-docker build -t izone/freecad:0.17 ./0.17/
+docker build -t izone/freecad:stable /stable/
 ```
 ```
 ```
 -----
-#### Debian Jessie (8.9)
-##### libMED 3.2.0
-##### OCCT 7.1.0p1
-##### Netgen 5.3.1
-##### Eigen 3.3.4
-##### VTK 8.0.0
-##### CalculiX 2.12
-```
-docker build -t freecad:build-jessie ./build/jessie/
-```
-```
-```
-#### Ubuntu Xenial(16.04)
-##### libMED 3.2.0
-##### VTK 8.0.0
-##### OCCT 7.1.0p1
-##### Netgen 5.3.1
-##### CalculiX 2.12
-```
-docker build -t freecad:build-xenial ./build/xenial/
-```
-```
-```
-### Builds ..
-```
-docker build -t freecad:build-xenial ./build/xenial/
-
-docker build -t freecad:build-jessie ./build/jessie/
-```
------
-### Raspberry Pi 2
+### Raspberry Pi 3 (armhf)
 ##### Pull image
 ```
 docker pull izone/freecad:armhf
@@ -228,6 +166,3 @@ docker save izone/freecad:armhf > img-freecad-armhf.tar
 ```
 docker load < img-freecad-armhf.tar
 ```
-
-
-
