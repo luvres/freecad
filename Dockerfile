@@ -296,4 +296,3 @@ RUN \
 	&& rm /usr/share/doc/* -fR
 
 WORKDIR /root
-

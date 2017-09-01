@@ -82,6 +82,39 @@ izone/freecad:stable freecad
 ```
 ```
 -----
+#### FreeCAD-addons (https://github.com/FreeCAD/FreeCAD-addons)
+##### Some:
+```
+mkdir $HOME/Mod
+```
+```
+git clone https://github.com/hamish2014/FreeCAD_assembly2.git $HOME/Mod/Assembly2
+```
+```
+git clone https://github.com/microelly2/Animation.git $HOME/Mod/Animation
+```
+```
+git clone https://github.com/DeepSOIC/Lattice2.git $HOME/Mod/Lattice2
+```
+```
+git clone https://github.com/JMG1/FreeCAD_ExplodedAssemblyAnimationWorkbench.git $HOME/Mod/Exploded
+```
+```
+```
+##### Run
+```
+docker run -ti --rm --name FreeCAD \
+--net=host \
+-e DISPLAY=unix$DISPLAY \
+-v /tmp/.X11-unix \
+-v $HOME/.Xauthority:/root/.Xauthority \
+-v $HOME/Mod/Assembly2:/opt/FreeCAD/Mod/Assembly2 \
+-v $HOME/Mod/Animation:/opt/FreeCAD/Mod/Animation \
+-v $HOME/Mod/Lattice2:/opt/FreeCAD/Mod/Lattice2 \
+-v $HOME/Mod/ExplodedAssemblyAnimation:/opt/FreeCAD/Mod/Exploded \
+izone/freecad freecad-git
+```
+-----
 #### Building (https://hub.docker.com/r/plumbee/nvidia-virtualgl/)
 ```
 git clone https://github.com/luvres/freecad.git
