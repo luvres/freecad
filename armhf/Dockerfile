@@ -12,7 +12,7 @@ COPY qemu-arm-static /usr/bin/qemu-arm-static
 
 ENV FREECAD=/opt/FreeCAD
 RUN \
-	&& mkdir -p $FREECAD \
+	mkdir -p $FREECAD \
   \
 	&& pack_dev=" \
 		doxygen \

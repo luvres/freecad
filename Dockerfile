@@ -10,7 +10,7 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 ENV FREECAD=/opt/FreeCAD
 RUN \
-	&& mkdir -p $FREECAD \
+	mkdir -p $FREECAD \
   \
 	&& pack_dev=" \
 		doxygen \
