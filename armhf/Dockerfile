@@ -184,10 +184,10 @@ RUN \
   # Clean
 	&& cd && rm $MAKEDIR -fR \
   \
-  ### VTK 8.0.0
+  ### VTK 8.0.1
   #-------------
 	&& vtk_VERSION_MAJOR=8.0 \
-	&& vtk_VERSION_MINOR=8.0.0 \
+	&& vtk_VERSION_MINOR=8.0.1 \
   \
 	&& MAKEDIR=vtk \
 	&& cd \
