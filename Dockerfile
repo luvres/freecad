@@ -11,7 +11,6 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 RUN \
 	FREECAD=/opt/FreeCAD \
 	&& mkdir -p $FREECAD \
-  \
 	&& pack_dev=" \
 		doxygen \
 		libpyside-dev \
@@ -29,7 +28,6 @@ RUN \
 		python-pyside \
 		python-matplotlib \
 		swig " \
-  \
 	&& libBoost_dev=" \
 		libboost-filesystem1.55-dev \
 		libboost-program-options1.55-dev \
@@ -38,7 +36,6 @@ RUN \
 		libboost-signals1.55-dev \
 		libboost-system1.55-dev \
 		libboost-thread1.55-dev " \
-  \
 	&& pack_tools=" \
 		automake \
 		dictionaries-common \
@@ -53,20 +50,16 @@ RUN \
 		python-dev \
 		qt4-dev-tools \
 		qt4-qmake " \
-  \
 	&& pack_netgen=" \
 		openmpi-bin \
 		libopenmpi-dev \
 		libtogl-dev " \
-  \
 	&& pack_occt=" \
 		libfreeimage-dev \
 		libtbb-dev " \
-  \
 	&& pack_calculix=" \
 		gfortran \
 		cpio " \
-  \
   # Enable backports (cmake 3.6.2) "cmake 3.3 or higher" required by VTK 8
 	&& echo 'deb http://deb.debian.org/debian jessie-backports main' \
 									>/etc/apt/sources.list.d/backports.list \
@@ -78,11 +71,9 @@ RUN \
 		$pack_netgen \
 		$pack_occt \
 		$pack_calculix \
-  \
 	&& cd \
   # cmake 3.6.2
 	&& apt-get -t jessie-backports install -y cmake \
-  \
   ### libMED 3.2.0
   #----------------
 	&& MAKEDIR=med \
@@ -90,19 +81,15 @@ RUN \
 	&& mkdir $MAKEDIR \
 	&& cd $MAKEDIR \
 	&& git clone https://github.com/luvres/libMED.git \
-  \
   # building MED
 	&& mkdir build \
 	&& cd build \
-  \
 	&& cmake ../libMED \
 		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-  \
 	&& make -j$(nproc) \
 	&& make install \
   # Clean
 	&& cd && rm $MAKEDIR -fR \
-  \
   ### OCCT 7.1.0 -> libfreeimage-dev libfreeimage3 libtbb-dev libtbb2
   #--------------
 	&& MAKEDIR=occt \
@@ -112,7 +99,6 @@ RUN \
 	&& git clone https://github.com/luvres/occt7.git \
 	&& mkdir build \
 	&& cd build \
-  \
 	&& cmake \
 		../occt7 \
 		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
@@ -120,19 +106,15 @@ RUN \
 		-DUSE_TBB:BOOL=ON \
 		-DUSE_FREEIMAGE:BOOL=ON \
 		-DCMAKE_BUILD_TYPE=Release \
-  \
 	&& make -j$(nproc) \
 	&& make install \
-  \
   # Clean
 	&& cd && rm $MAKEDIR -fR \
-  \
   ### Netgen 5.3.1
   #----------------
 	&& cd \
 	&& git clone https://github.com/luvres/netgen.git \
 	&& cd netgen \
-  \
 	# building Netgen
 	&& ./configure \
 		--prefix=$FREECAD \
@@ -146,20 +128,15 @@ RUN \
 		--disable-gui \
 		--disable-dependency-tracking \
 		CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
-  \
 	&& make -j$(nproc) \
 	&& make install \
-  \
 	&& cp -fR libsrc $FREECAD/libsrc \
-  \
   # Clean
 	&& cd && rm netgen -fR \
-  \
   ### Eigen 3.3.4
   #---------------
   # http://eigen.tuxfamily.org/index.php?title=Main_Page
 	&& eigen_VERSION=3.3.4 \
-  \
 	&& MAKEDIR=eigen \
 	&& cd \
 	&& mkdir $MAKEDIR \
@@ -170,23 +147,19 @@ RUN \
 	&& mv eigen-* eigen-${eigen_VERSION} \
 	&& mkdir build \
 	&& cd build \
-  \
     && cmake ../eigen-${eigen_VERSION} \
         -DCMAKE_INSTALL_PREFIX=$FREECAD \
         -DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
         -DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_VERBOSE_MAKEFILE=ON \
-  \
     && make install \
   # Clean
 	&& cd && rm $MAKEDIR -fR \
-  \
   ### VTK 8.0.0
   #-------------
 	&& vtk_VERSION_MAJOR=8.0 \
 	&& vtk_VERSION_MINOR=8.0.0 \
-  \
 	&& MAKEDIR=vtk \
 	&& cd \
 	&& mkdir $MAKEDIR \
@@ -198,40 +171,33 @@ RUN \
   # building VTK
 	&& mkdir build \
 	&& cd build \
-  \
 	&& cmake ../VTK-${vtk_VERSION_MINOR} \
 			-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
 			-DVTK_Group_Rendering:BOOL=OFF \
 			-DVTK_Group_StandAlone:BOOL=ON \
 			-DVTK_RENDERING_BACKEND=None \
-  \
 	&& make -j$(nproc) \
 	&& make install \
   # Clean
 	&& cd && rm $MAKEDIR -fR \
-  \
   ### FreeCAD latest Github commit
   #--------------------------------
   # get FreeCAD
 	&& cd \
 	&& git clone https://github.com/FreeCAD/FreeCAD \
-  \
   # building FreeCAD
 	&& cd \
 	&& mkdir build \
 	&& cd build \
-  \
 	&& cmake ../FreeCAD \
 			-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
 			-DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
 			-DNETGEN_ROOT=$FREECAD \
 			-DBUILD_FEM_NETGEN=ON \
-  \
   # Make FreeCAD
 	&& cd \
 	&& cd build \
 	&& make -j$(nproc) \
-  \
   # Install FreeCAD
 	&& cd \
 	&& cd build \
@@ -244,11 +210,9 @@ RUN \
 		$FREECAD/doc/* \
 	  # 128M
 		$FREECAD/share/doc/* \
-  \
   ### Calculix 2.12 and CGX
   #-------------------------
 	&& ccx_VERSION=2.12 \
-  \
 	&& cd \
 	&& git clone https://github.com/luvres/calculix.git \
 	&& cd calculix/ \
@@ -257,7 +221,6 @@ RUN \
 	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
   # Clean
 	&& cd && rm CalculiX-${ccx_VERSION} calculix -fR \
-  \
   ## Clean All
 	&& apt-get remove -y \
 		$libBoost_dev \
@@ -266,11 +229,8 @@ RUN \
 		$pack_occt \
 		$pack_calculix \
 		cmake \
-  \
 	&& apt-get autoremove -y \
-  \
 	&& apt-get install -y \
-	  \
 		libfreeimage3 \
 		libtbb2 \
 		libhdf5-8 \
@@ -290,7 +250,6 @@ RUN \
 		libboost-serialization1.55.0 \
 	  # libhdf5-dev
 		libhdf5-cpp-8 libjpeg-dev libjpeg62-turbo-dev zlib1g-dev \
-  \
   # gmsh 2.11.0
 	&& apt-get -t jessie-backports install -y gmsh \
 	&& rm /usr/share/doc/* -fR
