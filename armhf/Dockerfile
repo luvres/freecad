@@ -10,8 +10,8 @@ COPY qemu-arm-static /usr/bin/qemu-arm-static
 # http://www.boost.org/doc/libs/1_64_0/more/getting_started/unix-variants.html
 # https://matchboxdorry.gitbooks.io/matchboxblog/content/blogs/build_and_run_arm_images.html
 
+ENV FREECAD=/opt/FreeCAD
 RUN \
-	FREECAD=/opt/FreeCAD \
 	&& mkdir -p $FREECAD \
   \
 	&& pack_dev=" \

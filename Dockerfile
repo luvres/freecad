@@ -8,8 +8,8 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 # https://aur.archlinux.org/packages
 # http://www.boost.org/doc/libs/1_64_0/more/getting_started/unix-variants.html
 
+ENV FREECAD=/opt/FreeCAD
 RUN \
-	FREECAD=/opt/FreeCAD \
 	&& mkdir -p $FREECAD \
   \
 	&& pack_dev=" \
