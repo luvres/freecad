@@ -3,7 +3,7 @@
 ### Docker image for any Linux
 ### NVIDIA Docker and VirtualGL
 -----
-### FreeCAD Latest - Build:0.17R11949 (Git commit 5d2b22c)
+#### FreeCAD Latest - Build:0.17R11949 (Git commit 5d2b22c)
 #### libMED 3.2.0
 #### OCCT 7.1.0p1
 #### Netgen 5.3.1
@@ -85,18 +85,24 @@ izone/freecad:stable freecad
 #### Building (https://hub.docker.com/r/plumbee/nvidia-virtualgl/)
 ```
 git clone https://github.com/luvres/freecad.git
+```
+```
 cd freecad
 ```
 ```
 docker build -t izone/freecad:nvidia-xenial ./nvidia/ && \
+```
+```
 docker build -t izone/freecad:nvidia-jessie ./nvidia/jessie/ && \
+```
+```
 docker build -t izone/freecad:nvidia-stretch ./nvidia/stretch/ && \
+```
+```
 docker build -t izone/freecad:nvidia-sid ./nvidia/sid/
 ```
 ```
 ```
------
-### Builds ..
 #### FreeCAD Latest (0.17 Git)
 ```
 docker build -t izone/freecad .
@@ -130,8 +136,10 @@ docker run -ti --rm --name FreeCAD \
 -v $HOME/.Xauthority:/root/.Xauthority \
 izone/freecad:armhf freecad
 ```
-
-### Run Docker QEMU (armhf in amd64)
+```
+```
+### Docker QEMU (armhf in amd64)
+#### Run 
 ```
 sudo apt-get install qemu-user-static
 ```
@@ -144,17 +152,25 @@ docker run -ti --rm --name FreeCAD \
 -v $HOME/.Xauthority:/root/.Xauthority \
 izone/freecad:armhf freecad
 ```
-
-### Build Docker QEMU (armhf in amd64)
+```
+```
+#### Build
 ```
 sudo apt-get install qemu-user-static binfmt-support
+```
+```
 sudo update-binfmts --enable qemu-arm
+```
+```
 sudo update-binfmts --display qemu-arm 
+```
+```
 cp /usr/bin/qemu-arm-static .
 ```
 ```
 docker build -t izone/freecad:armhf ./armhf/
 ```
+-----
 ##### Save image
 ```
 docker save izone/freecad:armhf > img-freecad-armhf.tar
