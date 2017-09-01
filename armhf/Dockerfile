@@ -254,6 +254,7 @@ RUN \
 	&& cd \
 	&& git clone https://github.com/luvres/calculix.git \
 	&& cd calculix/ \
+	&& sed -i 's/ -m64 $(OPTIONS)//' CalculiX/ccx_2.12/src/Makefile \
 	&& ./install \
 	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
 	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
