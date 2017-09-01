@@ -295,3 +295,5 @@ RUN \
 	&& apt-get -t jessie-backports install -y gmsh \
 	&& rm /usr/share/doc/* -fR
 
+WORKDIR /root
+
