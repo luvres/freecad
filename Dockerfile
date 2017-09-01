@@ -114,7 +114,7 @@ RUN \
 	&& cd build \
   \
 	&& cmake \
-		../occt7 \
+		../occt72 \
 		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
 		-DUSE_VTK:BOOL=OFF \
 		-DUSE_TBB:BOOL=ON \
