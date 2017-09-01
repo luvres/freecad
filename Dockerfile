@@ -103,13 +103,13 @@ RUN \
   # Clean
 	&& cd && rm $MAKEDIR -fR \
   \
-  ### OCCT 7.1.0 -> libfreeimage-dev libfreeimage3 libtbb-dev libtbb2
+  ### OCCT 7.2.0 -> libfreeimage-dev libfreeimage3 libtbb-dev libtbb2
   #--------------
 	&& MAKEDIR=occt \
 	&& cd \
 	&& mkdir $MAKEDIR \
 	&& cd $MAKEDIR \
-	&& git clone https://github.com/luvres/occt7.git \
+	&& git clone https://github.com/luvres/occt72.git \
 	&& mkdir build \
 	&& cd build \
   \
