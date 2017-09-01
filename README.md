@@ -108,10 +108,10 @@ docker run -ti --rm --name FreeCAD \
 -e DISPLAY=unix$DISPLAY \
 -v /tmp/.X11-unix \
 -v $HOME/.Xauthority:/root/.Xauthority \
--v $HOME/Mod/Assembly2:/opt/FreeCAD/Mod/Assembly2 \
--v $HOME/Mod/Animation:/opt/FreeCAD/Mod/Animation \
--v $HOME/Mod/Lattice2:/opt/FreeCAD/Mod/Lattice2 \
--v $HOME/Mod/ExplodedAssemblyAnimation:/opt/FreeCAD/Mod/Exploded \
+-v $HOME/Mod/Assembly2:$FREECAD/Mod/Assembly2 \
+-v $HOME/Mod/Animation:$FREECAD/Mod/Animation \
+-v $HOME/Mod/Lattice2:$FREECAD/Mod/Lattice2 \
+-v $HOME/Mod/ExplodedAssemblyAnimation:$FREECAD/Mod/Exploded \
 izone/freecad freecad-git
 ```
 -----
