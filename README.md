@@ -141,7 +141,7 @@ docker build -t izone/freecad:nvidia-sid ./nvidia/sid/
 docker build -t izone/freecad .
 ```
 ```
-docker build -t izone/freecad:0.17R11949 .
+docker build -t izone/freecad:0.17R11955 .
 ```
 ```
 ```
