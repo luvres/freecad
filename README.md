@@ -1,4 +1,4 @@
-## FreeCAD amd64 and armhf
+## FreeCAD amd64, armhf and aarch64
 ### FEM Module with Netgen, Gmsh and Calculix
 ### Docker image for any Linux
 ### NVIDIA Docker and VirtualGL
@@ -152,15 +152,13 @@ docker build -t izone/freecad:stable ./stable/
 ```
 ```
 -----
-### Raspberry Pi 3 (armhf)
+### Raspberry Pi 3
+#### armhf
 ##### Pull image
 ```
 docker pull izone/freecad:armhf
 ```
 ##### Run in Raspberry Pi
-```
-docker pull izone/freecad:armhf
-```
 ```
 docker run -ti --rm --name FreeCAD \
 --net=host \
@@ -171,11 +169,28 @@ izone/freecad:armhf freecad-git
 ```
 ```
 ```
-### Docker QEMU (armhf in amd64)
-#### Run 
+#### aarch64
+##### Pull image
+```
+docker pull izone/freecad:aarch64
+```
+##### Run in Raspberry Pi
+```
+docker run -ti --rm --name FreeCAD \
+--net=host \
+-e DISPLAY=unix$DISPLAY \
+-v /tmp/.X11-unix \
+-v $HOME/.Xauthority:/root/.Xauthority \
+izone/freecad:aarch64 freecad-git
+```
+```
+```
+### Docker QEMU
+#### armhf in amd64
 ```
 sudo apt-get install qemu-user-static
 ```
+#### Run
 ```
 docker run -ti --rm --name FreeCAD \
 --net=host \
@@ -184,8 +199,6 @@ docker run -ti --rm --name FreeCAD \
 -v /tmp/.X11-unix \
 -v $HOME/.Xauthority:/root/.Xauthority \
 izone/freecad:armhf freecad-git
-```
-```
 ```
 #### Build
 ```
@@ -203,12 +216,51 @@ cp /usr/bin/qemu-arm-static .
 ```
 docker build -t izone/freecad:armhf ./armhf/
 ```
+```
+```
+#### aarch64 in amd64
+```
+sudo apt-get install qemu-aarch64-static
+```
+#### Run
+```
+docker run -ti --rm --name FreeCAD \
+--net=host \
+-e DISPLAY=unix$DISPLAY \
+-v /usr/bin/qemu-aarch64-static:/usr/bin/qemu-aarch64-static \
+-v /tmp/.X11-unix \
+-v $HOME/.Xauthority:/root/.Xauthority \
+izone/freecad:aarch64 freecad-git
+```
+#### Build
+```
+sudo apt-get install qemu-user-static binfmt-support
+```
+```
+sudo update-binfmts --enable qemu-arm
+```
+```
+sudo update-binfmts --display qemu-arm 
+```
+```
+cp /usr/bin/qemu-aarch64-static .
+```
+```
+docker build -t izone/freecad:aarch64 ./aarch64/
+```
+
 -----
-##### Save image
+#### Save image
 ```
 docker save izone/freecad:armhf > img-freecad-armhf.tar
 ```
-##### Load Image
+```
+docker save izone/freecad:aarch64 > img-freecad-aarch64.tar
+```
+#### Load Image
 ```
 docker load < img-freecad-armhf.tar
+```
+```
+docker load < img-freecad-aarch64.tar
 ```

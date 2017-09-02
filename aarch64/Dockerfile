@@ -1,11 +1,11 @@
-FROM arm32v7/debian:jessie-slim
+FROM arm64v8/debian:jessie-slim
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 # sudo apt-get install qemu-user-static binfmt-support
 # sudo update-binfmts --enable qemu-arm
 # sudo update-binfmts --display qemu-arm 
-# cp /usr/bin/qemu-arm-static .
-COPY qemu-arm-static /usr/bin/qemu-arm-static
+# cp /usr/bin/qemu-aarch64-static .
+COPY qemu-aarch64-static /usr/bin/qemu-aarch64-static
 
 ## References:
 # https://gist.github.com/berndhahnebach/38d5bfe73134928c0a1ad001a94df05f
