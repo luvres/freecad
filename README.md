@@ -167,7 +167,7 @@ docker run -ti --rm --name FreeCAD \
 -e DISPLAY=unix$DISPLAY \
 -v /tmp/.X11-unix \
 -v $HOME/.Xauthority:/root/.Xauthority \
-izone/freecad:armhf freecad
+izone/freecad:armhf freecad-git
 ```
 ```
 ```
@@ -183,7 +183,7 @@ docker run -ti --rm --name FreeCAD \
 -v /usr/bin/qemu-arm-static:/usr/bin/qemu-arm-static \
 -v /tmp/.X11-unix \
 -v $HOME/.Xauthority:/root/.Xauthority \
-izone/freecad:armhf freecad
+izone/freecad:armhf freecad-git
 ```
 ```
 ```
