@@ -3,7 +3,7 @@
 ### Docker image for any Linux
 ### NVIDIA Docker and VirtualGL
 -----
-#### FreeCAD Latest - Build:0.17R11962 (Git commit 4cde30c)
+#### FreeCAD Latest - Build:0.17R11964 (Git commit 2b461e9)
 #### libMED 3.2.0
 #### OCCT 7.1.0p1
 #### Netgen 5.3.1
@@ -159,7 +159,7 @@ docker build -t izone/freecad:nvidia-sid ./nvidia/sid/
 docker build -t izone/freecad .
 ```
 ```
-docker build -t izone/freecad:0.17R11962 .
+docker build -t izone/freecad:0.17R11964 .
 ```
 ```
 ```
