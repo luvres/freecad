@@ -129,34 +129,62 @@ RUN \
 		-DCMAKE_BUILD_TYPE=Release \
   \
 	&& make -j$(nproc) \
-	&& make install 
+	&& make install \
   # Clean
 	&& cd && rm $MAKEDIR -fR 
 
+### Netgen 5.3.1
+#----------------
+RUN \
+	cd \
+	&& git clone https://github.com/luvres/netgen.git \
+	&& cd netgen \
+  \
+  # building Netgen
+	&& ./configure \
+		--prefix=$FREECAD \
+		--enable-occ \
+		--with-occ=$FREECAD \
+		--with-tcl=/usr/lib/tcl8.5 \
+		--with-tk=/usr/lib/tk8.5 \
+		--with-togl=/usr/lib/ \
+		--enable-shared \
+		--enable-nglib \
+		--disable-gui \
+		--disable-dependency-tracking \
+		CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
+  \
+	&& make -j$(nproc) \
+	&& make install \
+  \
+	&& cp -fR libsrc $FREECAD/libsrc 
+#  # Clean
+#	&& cd && rm netgen -fR 
+
 ### OCCT 7.2.0 -> libfreeimage-dev libfreeimage3 libtbb-dev libtbb2
 #--------------
-#RUN \
-#	MAKEDIR=occt \
-#  \
-#	&& cd \
-#	&& mkdir $MAKEDIR \
-#	&& cd $MAKEDIR \
-#	&& git clone https://github.com/luvres/occt72.git \
-#	&& mkdir build \
-#	&& cd build \
-#  \
-#	&& cmake \
-#		../occt72 \
-#		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#		-DUSE_VTK:BOOL=OFF \
-#		-DUSE_TBB:BOOL=ON \
-#		-DUSE_FREEIMAGE:BOOL=ON \
-#		-DCMAKE_BUILD_TYPE=Release \
-#	\
-#	&& make -j$(nproc) \
-#	&& make install 
-##  # Clean
-##	&& cd && rm $MAKEDIR -fR
+RUN \
+	MAKEDIR=occt \
+  \
+	&& cd \
+	&& mkdir $MAKEDIR \
+	&& cd $MAKEDIR \
+	&& git clone https://github.com/luvres/occt72.git \
+	&& mkdir build \
+	&& cd build \
+  \
+	&& cmake \
+		../occt72 \
+		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+		-DUSE_VTK:BOOL=OFF \
+		-DUSE_TBB:BOOL=ON \
+		-DUSE_FREEIMAGE:BOOL=ON \
+		-DCMAKE_BUILD_TYPE=Release \
+	\
+	&& make -j$(nproc) \
+	&& make install 
+#  # Clean
+#	&& cd && rm $MAKEDIR -fR
 
 ### Netgen 5.3.1
 #----------------
@@ -183,8 +211,8 @@ RUN \
 #	&& make install \
 #  \
 #	&& cp -fR libsrc $FREECAD/libsrc 
-##  # Clean
-##	&& cd && rm netgen -fR 
+#  # Clean
+#	&& cd && rm netgen -fR 
 
 ### Netgen 5.3.1
 #----------------
@@ -229,86 +257,86 @@ RUN \
 ### Eigen 3.3.4
 #---------------
 # http://eigen.tuxfamily.org/index.php?title=Main_Page
-#RUN \
-#	eigen_VERSION=3.3.4 \
-#  \
-#	&& MAKEDIR=eigen \
-#	&& cd \
-#	&& mkdir $MAKEDIR \
-#	&& cd $MAKEDIR \
-#	&& wget -c http://bitbucket.org/eigen/eigen/get/${eigen_VERSION}.tar.gz \
-#	&& tar zxf ${eigen_VERSION}.tar.gz \
-#	&& rm ${eigen_VERSION}.tar.gz \
-#	&& mv eigen-* eigen-${eigen_VERSION} \
-#	&& mkdir build \
-#	&& cd build \
-#  \
-#	&& cmake ../eigen-${eigen_VERSION} \
-#			-DCMAKE_INSTALL_PREFIX=$FREECAD \
-#			-DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
-#			-DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
-#			-DCMAKE_BUILD_TYPE=Release \
-#			-DCMAKE_VERBOSE_MAKEFILE=ON \
-#  \
-#	&& make install 
-##  # Clean
-##	&& cd && rm $MAKEDIR -fR 
+RUN \
+	eigen_VERSION=3.3.4 \
+  \
+	&& MAKEDIR=eigen \
+	&& cd \
+	&& mkdir $MAKEDIR \
+	&& cd $MAKEDIR \
+	&& wget -c http://bitbucket.org/eigen/eigen/get/${eigen_VERSION}.tar.gz \
+	&& tar zxf ${eigen_VERSION}.tar.gz \
+	&& rm ${eigen_VERSION}.tar.gz \
+	&& mv eigen-* eigen-${eigen_VERSION} \
+	&& mkdir build \
+	&& cd build \
+  \
+	&& cmake ../eigen-${eigen_VERSION} \
+			-DCMAKE_INSTALL_PREFIX=$FREECAD \
+			-DCMAKE_C_FLAGS_RELEASE=-DNDEBUG \
+			-DCMAKE_CXX_FLAGS_RELEASE=-DNDEBUG \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DCMAKE_VERBOSE_MAKEFILE=ON \
+  \
+	&& make install 
+#  # Clean
+#	&& cd && rm $MAKEDIR -fR 
 
 
 ### VTK 8.0.1
 #-------------
-#RUN \
-#	vtk_VERSION_MAJOR=8.0 \
-#	&& vtk_VERSION_MINOR=8.0.1 \
-#  \
-#	&& MAKEDIR=vtk \
-#	&& cd \
-#	&& mkdir $MAKEDIR \
-#	&& cd $MAKEDIR \
-#	&& wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
-#	&& gunzip VTK-${vtk_VERSION_MINOR}.tar.gz \
-#	&& tar xf VTK-${vtk_VERSION_MINOR}.tar \
-#	&& rm VTK-${vtk_VERSION_MINOR}.tar \
-#  # building VTK
-#	&& mkdir build \
-#	&& cd build \
-#  \
-#	&& cmake ../VTK-${vtk_VERSION_MINOR} \
-#			-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#			-DVTK_Group_Rendering:BOOL=OFF \
-#			-DVTK_Group_StandAlone:BOOL=ON \
-#			-DVTK_RENDERING_BACKEND=None \
-#  \
-#	&& make -j$(nproc) \
-#	&& make install 
-##  # Clean
-##	&& cd && rm $MAKEDIR -fR 
+RUN \
+	vtk_VERSION_MAJOR=8.0 \
+	&& vtk_VERSION_MINOR=8.0.1 \
+  \
+	&& MAKEDIR=vtk \
+	&& cd \
+	&& mkdir $MAKEDIR \
+	&& cd $MAKEDIR \
+	&& wget http://www.vtk.org/files/release/${vtk_VERSION_MAJOR}/VTK-${vtk_VERSION_MINOR}.tar.gz \
+	&& gunzip VTK-${vtk_VERSION_MINOR}.tar.gz \
+	&& tar xf VTK-${vtk_VERSION_MINOR}.tar \
+	&& rm VTK-${vtk_VERSION_MINOR}.tar \
+  # building VTK
+	&& mkdir build \
+	&& cd build \
+  \
+	&& cmake ../VTK-${vtk_VERSION_MINOR} \
+			-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+			-DVTK_Group_Rendering:BOOL=OFF \
+			-DVTK_Group_StandAlone:BOOL=ON \
+			-DVTK_RENDERING_BACKEND=None \
+  \
+	&& make -j$(nproc) \
+	&& make install 
+#  # Clean
+#	&& cd && rm $MAKEDIR -fR 
 
 
 ### FreeCAD latest Github commit
 #--------------------------------
 # get FreeCAD
-#RUN \
-#	cd \
-#	&& git clone https://github.com/FreeCAD/FreeCAD 
+RUN \
+	cd \
+	&& git clone https://github.com/FreeCAD/FreeCAD 
 
 ## building FreeCAD
-#RUN \
-#	cd \
-#	&& mkdir build \
-#	&& cd build \
-#  \
-#	&& cmake ../FreeCAD \
-#		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#		-DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
-#		-DNETGEN_ROOT=$FREECAD \
-#		-DBUILD_FEM_NETGEN=ON 
+RUN \
+	cd \
+	&& mkdir build \
+	&& cd build \
+  \
+	&& cmake ../FreeCAD \
+		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+		-DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
+		-DNETGEN_ROOT=$FREECAD \
+		-DBUILD_FEM_NETGEN=ON 
 
-## Make FreeCAD
-#RUN \
-#	cd \
-#	&& cd build \
-#	&& make -j$(nproc) 
+# Make FreeCAD
+RUN \
+	cd \
+	&& cd build \
+	&& make -j$(nproc) 
 
 
 # Install FreeCAD

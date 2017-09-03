@@ -116,12 +116,12 @@ RUN \
 	&& cd \
 	&& mkdir $MAKEDIR \
 	&& cd $MAKEDIR \
-	&& git clone https://github.com/luvres/occt7.git \
+	&& git clone https://github.com/luvres/occt71.git \
 	&& mkdir build \
 	&& cd build \
   \
 	&& cmake \
-		../occt7 \
+		../occt71 \
 		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
 		-DUSE_VTK:BOOL=OFF \
 		-DUSE_TBB:BOOL=ON \
