@@ -17,11 +17,16 @@ docker pull izone/freecad
 ```
 ##### Run
 ```
+mkdir $HOME/freecad-workspace
+```
+```
 docker run -ti --rm --name FreeCAD \
 --net=host \
 -e DISPLAY=unix$DISPLAY \
 -v /tmp/.X11-unix \
 -v $HOME/.Xauthority:/root/.Xauthority \
+-v $HOME/freecad-workspace:/mnt \
+-w /mnt \
 izone/freecad freecad-git
 ```
 ```
@@ -40,6 +45,7 @@ docker run -ti --rm --name FreeCAD \
 -e DISPLAY=unix$DISPLAY \
 -v /tmp/.X11-unix \
 -v $HOME/.Xauthority:/root/.Xauthority \
+-v $HOME/freecad-workspace:/root \
 izone/freecad:stable freecad
 ```
 ```
@@ -61,11 +67,16 @@ nvidia-docker run --rm nvidia/cuda nvidia-smi
 ```
 #### FreeCAD Latest (Build 0.17 Git)
 ```
+mkdir $HOME/freecad-workspace
+```
+```
 nvidia-docker run -ti --rm --name FreeCAD \
 --net=host \
 -e DISPLAY=unix$DISPLAY \
 -v /tmp/.X11-unix \
 -v $HOME/.Xauthority:/root/.Xauthority \
+-v $HOME/freecad-workspace:/mnt \
+-w /mnt \
 izone/freecad freecad-git
 ```
 ```
@@ -77,6 +88,7 @@ nvidia-docker run -ti --rm --name FreeCAD \
 -e DISPLAY=unix$DISPLAY \
 -v /tmp/.X11-unix \
 -v $HOME/.Xauthority:/root/.Xauthority \
+-v $HOME/freecad-workspace:/root \
 izone/freecad:stable freecad
 ```
 ```
@@ -111,7 +123,9 @@ docker run -ti --rm --name FreeCAD \
 -v $HOME/Mod/Assembly2:$FREECAD/Mod/Assembly2 \
 -v $HOME/Mod/Animation:$FREECAD/Mod/Animation \
 -v $HOME/Mod/Lattice2:$FREECAD/Mod/Lattice2 \
--v $HOME/Mod/ExplodedAssemblyAnimation:$FREECAD/Mod/Exploded \
+-v $HOME/Mod/Exploded:$FREECAD/Mod/Exploded \
+-v $HOME/freecad-workspace:/mnt \
+-w /mnt \
 izone/freecad freecad-git
 ```
 -----

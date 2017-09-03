@@ -8,8 +8,8 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 # https://aur.archlinux.org/packages
 # http://www.boost.org/doc/libs/1_64_0/more/getting_started/unix-variants.html
 
-ENV FREECAD=/usr
-#ENV FREECAD=/opt/FreeCAD
+#ENV FREECAD=/usr
+ENV FREECAD=/opt/FreeCAD
 RUN \
 	mkdir -p $FREECAD \
   \
@@ -109,54 +109,54 @@ RUN \
 #	&& cd && rm $MAKEDIR -fR 
 
 
-### OCCT 7.1.0 -> libfreeimage-dev libfreeimage3 libtbb-dev libtbb2
-#--------------
-#RUN \
-#	MAKEDIR=occt \
-#	&& cd \
-#	&& mkdir $MAKEDIR \
-#	&& cd $MAKEDIR \
-#	&& git clone https://github.com/luvres/occt7.git \
-#	&& mkdir build \
-#	&& cd build \
-#  \
-#	&& cmake \
-#		../occt7 \
-#		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
-#		-DUSE_VTK:BOOL=OFF \
-#		-DUSE_TBB:BOOL=ON \
-#		-DUSE_FREEIMAGE:BOOL=ON \
-#		-DCMAKE_BUILD_TYPE=Release \
-#  \
-#	&& make -j$(nproc) \
-#	&& make install 
-#  # Clean
-#	&& cd && rm $MAKEDIR -fR 
-
-### OCCT 7.2.0 -> libfreeimage-dev libfreeimage3 libtbb-dev libtbb2
-#--------------
+### OCCT 7.1.0p1 -> libfreeimage-dev libfreeimage3 libtbb-dev libtbb2
+#----------------
 RUN \
 	MAKEDIR=occt \
-  \
 	&& cd \
 	&& mkdir $MAKEDIR \
 	&& cd $MAKEDIR \
-	&& git clone https://github.com/luvres/occt72.git \
+	&& git clone https://github.com/luvres/occt71.git \
 	&& mkdir build \
 	&& cd build \
   \
 	&& cmake \
-		../occt72 \
+		../occt71 \
 		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
 		-DUSE_VTK:BOOL=OFF \
 		-DUSE_TBB:BOOL=ON \
 		-DUSE_FREEIMAGE:BOOL=ON \
 		-DCMAKE_BUILD_TYPE=Release \
-	\
+  \
 	&& make -j$(nproc) \
 	&& make install 
-#  # Clean
-#	&& cd && rm $MAKEDIR -fR
+  # Clean
+	&& cd && rm $MAKEDIR -fR 
+
+### OCCT 7.2.0 -> libfreeimage-dev libfreeimage3 libtbb-dev libtbb2
+#--------------
+#RUN \
+#	MAKEDIR=occt \
+#  \
+#	&& cd \
+#	&& mkdir $MAKEDIR \
+#	&& cd $MAKEDIR \
+#	&& git clone https://github.com/luvres/occt72.git \
+#	&& mkdir build \
+#	&& cd build \
+#  \
+#	&& cmake \
+#		../occt72 \
+#		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
+#		-DUSE_VTK:BOOL=OFF \
+#		-DUSE_TBB:BOOL=ON \
+#		-DUSE_FREEIMAGE:BOOL=ON \
+#		-DCMAKE_BUILD_TYPE=Release \
+#	\
+#	&& make -j$(nproc) \
+#	&& make install 
+##  # Clean
+##	&& cd && rm $MAKEDIR -fR
 
 ### Netgen 5.3.1
 #----------------
@@ -188,40 +188,40 @@ RUN \
 
 ### Netgen 5.3.1
 #----------------
-RUN \
-	cd \
-	&& wget https://sourceforge.net/projects/netgen-mesher/files/netgen-mesher/5.3/netgen-5.3.1.tar.gz \
-	&& tar xvzf netgen-5.3.1.tar.gz \
-	&& cd netgen-5.3.1 \
-  \
-	&& wget https://raw.githubusercontent.com/luvres/netgen/master/nglib-occt7.patch \
-	&& patch -p1 < nglib-occt7.patch \
+#RUN \
+#	cd \
+#	&& wget https://sourceforge.net/projects/netgen-mesher/files/netgen-mesher/5.3/netgen-5.3.1.tar.gz \
+#	&& tar xvzf netgen-5.3.1.tar.gz \
+#	&& cd netgen-5.3.1 \
 #  \
-#	&& sed -i 's/#include "StlTransfer.hxx"//' libsrc/occ/occgeom.cpp \
+#	&& wget https://raw.githubusercontent.com/luvres/netgen/master/nglib-occt7.patch \
+#	&& patch -p1 < nglib-occt7.patch \
+##  \
+##	&& sed -i 's/#include "StlTransfer.hxx"//' libsrc/occ/occgeom.cpp \
+##  \
+##	&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure \
+##	&& sed -i '/DOCCGEOMETRY/s/inc/include/' configure \
+##	&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure.ac \
+##	&& sed -i '/DOCCGEOMETRY/s/inc/include/' configure.ac \
 #  \
-#	&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure \
-#	&& sed -i '/DOCCGEOMETRY/s/inc/include/' configure \
-#	&& sed -i '/DOCCGEOMETRY/s/\/usr/$occdir/' configure.ac \
-#	&& sed -i '/DOCCGEOMETRY/s/inc/include/' configure.ac \
-  \
-  # building Netgen
-	&& ./configure \
-		--prefix=$FREECAD \
-		--enable-occ \
-		--with-occ=$FREECAD \
-		--with-tcl=/usr/lib/tcl8.5 \
-		--with-tk=/usr/lib/tk8.5 \
-		--with-togl=/usr/lib/ \
-		--enable-shared \
-		--enable-nglib \
-		--disable-gui \
-		--disable-dependency-tracking \
-		CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
-  \
-	&& make -j$(nproc) \
-	&& make install \
-  \
-	&& cp -fR libsrc $FREECAD/libsrc 
+#  # building Netgen
+#	&& ./configure \
+#		--prefix=$FREECAD \
+#		--enable-occ \
+#		--with-occ=$FREECAD \
+#		--with-tcl=/usr/lib/tcl8.5 \
+#		--with-tk=/usr/lib/tk8.5 \
+#		--with-togl=/usr/lib/ \
+#		--enable-shared \
+#		--enable-nglib \
+#		--disable-gui \
+#		--disable-dependency-tracking \
+#		CXXFLAGS="-DNGLIB_EXPORTS -std=gnu++11" \
+#  \
+#	&& make -j$(nproc) \
+#	&& make install \
+#  \
+#	&& cp -fR libsrc $FREECAD/libsrc 
 #  # Clean
 #	&&
 
