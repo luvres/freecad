@@ -20,6 +20,8 @@ docker pull izone/freecad
 mkdir $HOME/freecad-workspace
 ```
 ```
+```
+```
 docker run -ti --rm --name FreeCAD \
 --net=host \
 -e DISPLAY=unix$DISPLAY \
@@ -68,6 +70,8 @@ nvidia-docker run --rm nvidia/cuda nvidia-smi
 #### FreeCAD Latest (Build 0.17 Git)
 ```
 mkdir $HOME/freecad-workspace
+```
+```
 ```
 ```
 nvidia-docker run -ti --rm --name FreeCAD \
