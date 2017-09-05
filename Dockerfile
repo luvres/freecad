@@ -259,6 +259,9 @@ RUN \
 	&& cd && rm CalculiX-${ccx_VERSION} calculix -fR \
   \
   ## Clean All
+	&& strip $FREECAD/lib/*.? \
+	&& strip $FREECAD/lib/*.so \
+  \
 	&& apt-get remove -y \
 		$libBoost_dev \
 		$pack_tools \
@@ -293,6 +296,7 @@ RUN \
   \
   # gmsh 2.11.0
 	&& apt-get -t jessie-backports install -y gmsh \
+  \
 	&& rm /usr/share/doc/* -fR
 
 WORKDIR /root

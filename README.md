@@ -3,7 +3,7 @@
 ### Docker image for any Linux
 ### NVIDIA Docker and VirtualGL
 -----
-#### FreeCAD Latest - Build:0.17R11966 (Git commit 98470fe)
+#### FreeCAD Latest - Build:0.17R11967 (Git commit  d0c5865)
 #### libMED 3.2.0
 #### OCCT 7.1.0p1
 #### Netgen 5.3.1
