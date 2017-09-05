@@ -7,6 +7,7 @@
 #### libMED 3.2.0
 #### OCCT 7.1.0p1
 #### Netgen 5.3.1
+#### Eigen 3.3.4
 #### VTK 8.0.1
 #### CalculiX 2.12
 ##### Pull image
