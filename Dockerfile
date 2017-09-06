@@ -259,8 +259,10 @@ RUN \
 	&& cd && rm CalculiX-${ccx_VERSION} calculix -fR \
   \
   ## Clean All
-	&& strip $FREECAD/lib/*.? \
-	&& strip $FREECAD/lib/*.so \
+	&& strip \
+		$FREECAD/lib/*.? \
+		$FREECAD/lib/*.so \
+		/usr/bin/ccx /usr/bin/cgx \
   \
 	&& apt-get remove -y \
 		$libBoost_dev \
