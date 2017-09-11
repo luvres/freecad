@@ -79,7 +79,6 @@ RUN \
 		$pack_occt \
 		$pack_calculix \
   \
-	&& cd \
   # cmake 3.6.2
 	&& apt-get -t jessie-backports install -y cmake \
   \

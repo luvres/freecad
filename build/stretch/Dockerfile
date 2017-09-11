@@ -1,11 +1,5 @@
-FROM arm32v7/debian:jessie-slim
+FROM izone/freecad:nvidia-stretch
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
-
-# sudo apt-get install qemu-user-static binfmt-support
-# sudo update-binfmts --enable qemu-arm
-# sudo update-binfmts --display qemu-arm 
-# cp /usr/bin/qemu-arm-static .
-COPY qemu-arm-static /usr/bin/qemu-arm-static
 
 ## References:
 # https://gist.github.com/berndhahnebach/38d5bfe73134928c0a1ad001a94df05f
@@ -13,7 +7,6 @@ COPY qemu-arm-static /usr/bin/qemu-arm-static
 # https://sourceforge.net/p/netgen-mesher/wiki/Home/
 # https://aur.archlinux.org/packages
 # http://www.boost.org/doc/libs/1_64_0/more/getting_started/unix-variants.html
-# https://matchboxdorry.gitbooks.io/matchboxblog/content/blogs/build_and_run_arm_images.html
 
 ENV FREECAD=/opt/FreeCAD
 RUN \
@@ -38,13 +31,13 @@ RUN \
 		swig " \
   \
 	&& libBoost_dev=" \
-		libboost-filesystem1.55-dev \
-		libboost-program-options1.55-dev \
-		libboost-python1.55-dev \
-		libboost-regex1.55-dev \
-		libboost-signals1.55-dev \
-		libboost-system1.55-dev \
-		libboost-thread1.55-dev " \
+		libboost-filesystem1.62-dev \
+		libboost-program-options1.62-dev \
+		libboost-python1.62-dev \
+		libboost-regex1.62-dev \
+		libboost-signals1.62-dev \
+		libboost-system1.62-dev \
+		libboost-thread1.62-dev " \
   \
 	&& pack_tools=" \
 		automake \
@@ -74,9 +67,6 @@ RUN \
 		gfortran \
 		cpio " \
   \
-  # Enable backports (cmake 3.6.2) "cmake 3.3 or higher" required by VTK 8
-	&& echo 'deb http://deb.debian.org/debian jessie-backports main' \
-									>/etc/apt/sources.list.d/backports.list \
 	&& apt-get update \
 	&& apt-get install -y \
 		$pack_dev \
@@ -85,9 +75,7 @@ RUN \
 		$pack_netgen \
 		$pack_occt \
 		$pack_calculix \
-  \
-  # cmake 3.6.2
-	&& apt-get -t jessie-backports install -y cmake \
+		cmake \
   \
   ### libMED 3.2.0
   #----------------
@@ -251,25 +239,24 @@ RUN \
 	  # 128M
 		$FREECAD/share/doc/* \
   \
-  ### Calculix 2.12 and CGX
-  #-------------------------
-	&& ccx_VERSION=2.12 \
-  \
-	&& cd \
-	&& git clone https://github.com/luvres/calculix.git \
-	&& cd calculix/ \
-	&& sed -i 's/ -m64 $(OPTIONS)//' CalculiX/ccx_2.12/src/Makefile \
-	&& ./install \
-	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
-	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
-  # Clean
-	&& cd && rm CalculiX-${ccx_VERSION} calculix -fR \
+#  ### Calculix 2.12 and CGX
+#  #-------------------------
+#	&& ccx_VERSION=2.12 \
+#  \
+#	&& cd \
+#	&& git clone https://github.com/luvres/calculix.git \
+#	&& cd calculix/ \
+#	&& ./install \
+#	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
+#	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
+#  # Clean
+#	&& cd && rm CalculiX-${ccx_VERSION} calculix -fR \
   \
   ## Clean All
 	&& strip \
 		$FREECAD/lib/*.? \
 		$FREECAD/lib/*.so \
-		/usr/bin/ccx /usr/bin/cgx \
+#		/usr/bin/ccx /usr/bin/cgx \
   \
 	&& apt-get remove -y \
 		$libBoost_dev \
@@ -285,26 +272,30 @@ RUN \
 	  \
 		libfreeimage3 \
 		libtbb2 \
-		libhdf5-8 \
+		libhdf5-100 \
 		libfreetype6 \
 		openssh-client \
-	  # libBoost-1.55
-		libboost-atomic1.55.0 \
-		libboost-chrono1.55.0 \
-		libboost-filesystem1.55.0 \
-		libboost-program-options1.55.0 \
-		libboost-python1.55.0 \
-		libboost-regex1.55.0 \
-		libboost-signals1.55.0 \
-		libboost-system1.55.0 \
-		libboost-thread1.55.0 \
-		libboost-date-time1.55.0 \
-		libboost-serialization1.55.0 \
+	  # libBoost-1.62
+		libboost-atomic1.62.0 \
+		libboost-chrono1.62.0 \
+		libboost-filesystem1.62.0 \
+		libboost-program-options1.62.0 \
+		libboost-python1.62.0 \
+		libboost-regex1.62.0 \
+		libboost-signals1.62.0 \
+		libboost-system1.62.0 \
+		libboost-thread1.62.0 \
+		libboost-date-time1.62.0 \
+		libboost-serialization1.62.0 \
 	  # libhdf5-dev
-		libhdf5-cpp-8 libjpeg-dev libjpeg62-turbo-dev zlib1g-dev \
+		libhdf5-cpp-100 libjpeg-dev libjpeg62-turbo-dev zlib1g-dev \
   \
-  # gmsh 2.11.0
-	&& apt-get -t jessie-backports install -y gmsh \
+  # gmsh 2.15.0
+	&& apt-get install -y gmsh \
+  \
+  # Calculix 2.11
+	&& apt-get install -y calculix-ccx \
+  \
 	&& rm /usr/share/doc/* -fR
 
 WORKDIR /root

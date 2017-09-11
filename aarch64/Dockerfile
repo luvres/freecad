@@ -86,7 +86,6 @@ RUN \
 		$pack_occt \
 		$pack_calculix \
   \
-	&& cd \
   # cmake 3.6.2
 	&& apt-get -t jessie-backports install -y cmake \
   \
@@ -110,8 +109,8 @@ RUN \
   # Clean
 	&& cd && rm $MAKEDIR -fR \
   \
-  ### OCCT 7.1.0 -> libfreeimage-dev libfreeimage3 libtbb-dev libtbb2
-  #--------------
+  ### OCCT 7.1.0p1 -> libfreeimage-dev libfreeimage3 libtbb-dev libtbb2
+  #----------------
 	&& MAKEDIR=occt \
 	&& cd \
 	&& mkdir $MAKEDIR \
