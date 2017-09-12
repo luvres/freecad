@@ -229,7 +229,6 @@ cp /usr/bin/qemu-arm-static .
 ```
 ```
 docker build -t izone/freecad:armhf ./armhf/
-docker build -t izone/freecad:armhf-xenial ./armhf/xenial-slim/
 ```
 ```
 ```
