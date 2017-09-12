@@ -142,7 +142,8 @@ git clone https://github.com/luvres/freecad.git
 cd freecad
 ```
 ```
-docker build -t izone/freecad:nvidia-xenial ./nvidia/ && \
+docker build -t izone/freecad:nvidia-xenial ./nvidia/xenial && \
+docker build -t izone/freecad:nvidia-xenial-slim ./nvidia/xenial-slim && \
 docker build -t izone/freecad:nvidia-jessie ./nvidia/jessie/ && \
 docker build -t izone/freecad:nvidia-stretch ./nvidia/stretch/ && \
 docker build -t izone/freecad:nvidia-sid ./nvidia/sid/
