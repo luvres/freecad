@@ -3,7 +3,7 @@
 ### Docker image for any Linux
 ### NVIDIA Docker and VirtualGL
 -----
-#### FreeCAD Latest - Build:0.17R12090 (Git commit da6976c)
+#### FreeCAD Latest - Build:0.17R12097 (Git commit eaf04d5)
 #### libMED 3.2.0
 #### OCCT 7.1.0p1
 #### Netgen 5.3.1
@@ -142,8 +142,8 @@ git clone https://github.com/luvres/freecad.git
 cd freecad
 ```
 ```
-docker build -t izone/freecad:nvidia-xenial ./nvidia/xenial && \
-docker build -t izone/freecad:nvidia-xenial-slim ./nvidia/xenial-slim && \
+docker build -t izone/freecad:nvidia-xenial ./nvidia/xenial/ && \
+docker build -t izone/freecad:nvidia-xenial-slim ./nvidia/xenial-slim/ && \
 docker build -t izone/freecad:nvidia-jessie ./nvidia/jessie/ && \
 docker build -t izone/freecad:nvidia-stretch ./nvidia/stretch/ && \
 docker build -t izone/freecad:nvidia-sid ./nvidia/sid/
@@ -155,7 +155,11 @@ docker build -t izone/freecad:nvidia-sid ./nvidia/sid/
 docker build -t izone/freecad .
 ```
 ```
-docker build -t izone/freecad:0.17R12090 .
+docker build -t izone/freecad:0.17R12097 .
+```
+##### Xenial
+```
+docker build -t izone/freecad:xenial ./xenial-slim/
 ```
 ```
 ```
