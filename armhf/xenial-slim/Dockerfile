@@ -1,4 +1,4 @@
-FROM izone/arm32v7:ubuntu-xenial-slim
+FROM izone/arm32v7:xenial-slim
 MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 # sudo apt-get install qemu-user-static binfmt-support
