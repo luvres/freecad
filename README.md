@@ -217,18 +217,13 @@ izone/freecad:armhf freecad-git
 #### Build
 ```
 sudo apt-get install qemu-user-static binfmt-support
-```
-```
 sudo update-binfmts --enable qemu-arm
-```
-```
 sudo update-binfmts --display qemu-arm 
-```
-```
 cp /usr/bin/qemu-arm-static .
 ```
 ```
 docker build -t izone/freecad:armhf ./armhf/
+docker build -t izone/freecad:armhf-xenial ./armhf/xenial-slim/
 ```
 ```
 ```
