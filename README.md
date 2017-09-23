@@ -249,14 +249,8 @@ izone/freecad:aarch64 freecad-git
 #### Build
 ```
 sudo apt-get install qemu-user-static binfmt-support
-```
-```
 sudo update-binfmts --enable qemu-arm
-```
-```
 sudo update-binfmts --display qemu-arm 
-```
-```
 cp /usr/bin/qemu-aarch64-static .
 ```
 ```
