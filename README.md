@@ -233,7 +233,6 @@ docker build -t izone/freecad:armhf ./armhf/
 ```
 ```
 #### aarch64 in amd64
-
 ```
 sudo apt-get install qemu-aarch64-static
 ```
