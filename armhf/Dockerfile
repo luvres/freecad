@@ -188,10 +188,10 @@ RUN \
   # Clean
 	&& cd && rm $MAKEDIR -fR \
   \
-  ### VTK 8.0.1
+  ### VTK 8.1.0
   #-------------
-	&& vtk_VERSION_MAJOR=8.0 \
-	&& vtk_VERSION_MINOR=8.0.1 \
+	&& vtk_VERSION_MAJOR=8.1 \
+	&& vtk_VERSION_MINOR=8.1.0 \
   \
 	&& MAKEDIR=vtk \
 	&& cd \
@@ -251,14 +251,14 @@ RUN \
 	  # 128M
 		$FREECAD/share/doc/* \
   \
-  ### Calculix 2.12 and CGX
+  ### Calculix 2.13 and CGX
   #-------------------------
-	&& ccx_VERSION=2.12 \
+	&& ccx_VERSION=2.13 \
   \
 	&& cd \
 	&& git clone https://github.com/luvres/calculix.git \
 	&& cd calculix/ \
-	&& sed -i 's/ -m64 $(OPTIONS)//' CalculiX/ccx_2.12/src/Makefile \
+	&& sed -i 's/ -m64 $(OPTIONS)//' CalculiX/ccx_2.13/src/Makefile \
 	&& ./install \
 	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
 	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
