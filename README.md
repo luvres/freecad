@@ -3,7 +3,7 @@
 ### Docker image for any Linux
 ### NVIDIA Docker and VirtualGL
 -----
-#### FreeCAD Latest - Build:0.17R13065 (Git)
+#### FreeCAD Latest - Build:0.17R13165 (Git)
 #### libMED 3.2.0
 #### OCCT 7.1.0p1
 #### Netgen 5.3.1
@@ -117,11 +117,7 @@ git clone https://github.com/DeepSOIC/Lattice2.git $HOME/Mod/Lattice2
 git clone https://github.com/JMG1/FreeCAD_ExplodedAssemblyAnimationWorkbench.git $HOME/Mod/Exploded
 ```
 ```
-git clone https://github.com/FreeCAD/FreeCAD-render.git $HOME/Mod/Render
 ```
-```
-```
-
 ##### Run
 ```
 docker run -ti --rm --name FreeCAD \
@@ -133,7 +129,6 @@ docker run -ti --rm --name FreeCAD \
 -v $HOME/Mod/Animation:$FREECAD/Mod/Animation \
 -v $HOME/Mod/Lattice2:$FREECAD/Mod/Lattice2 \
 -v $HOME/Mod/Exploded:$FREECAD/Mod/Exploded \
--v $HOME/Mod/Render:$FREECAD/Mod/Render \
 -v $HOME/freecad-workspace:/mnt \
 -w /mnt \
 izone/freecad freecad-git
@@ -160,7 +155,7 @@ docker build -t izone/freecad:nvidia-sid ./nvidia/sid/
 docker build -t izone/freecad .
 ```
 ```
-docker build -t izone/freecad:0.17R12872 .
+docker build -t izone/freecad:0.17R13165 .
 ```
 ##### Jessie
 ```
