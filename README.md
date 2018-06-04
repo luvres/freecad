@@ -3,12 +3,12 @@
 ### Docker image for any Linux
 ### NVIDIA Docker and VirtualGL
 -----
-#### FreeCAD Latest - Build:0.17R13165 (Git)
+#### FreeCAD Latest - Build:0.18R13892 (Git)
 #### libMED 3.2.0
 #### OCCT 7.1.0p1
 #### Netgen 5.3.1
 #### Eigen 3.3.4
-#### VTK 8.1.0
+#### VTK 8.1.1
 #### CalculiX 2.13
 ##### Pull image
 ```
@@ -68,7 +68,7 @@ nvidia-docker run --rm nvidia/cuda nvidia-smi
 ```
 ```
 ```
-#### FreeCAD Latest (Build 0.17 Git)
+#### FreeCAD Latest (Build 0.18 Git)
 ```
 mkdir $HOME/freecad-workspace
 ```
@@ -150,12 +150,12 @@ docker build -t izone/freecad:nvidia-sid ./nvidia/sid/
 ```
 ```
 ```
-#### FreeCAD Latest (0.17 Git)
+#### FreeCAD Latest (0.18 Git)
 ```
 docker build -t izone/freecad .
 ```
 ```
-docker build -t izone/freecad:0.17R13165 .
+docker build -t izone/freecad:0.18R13892 .
 ```
 ##### Jessie
 ```
