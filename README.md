@@ -9,7 +9,7 @@
 #### Netgen 5.3.1
 #### Eigen 3.3.4
 #### VTK 8.1.1
-#### CalculiX 2.13
+#### CalculiX 2.14
 ##### Pull image
 ```
 docker pull izone/freecad

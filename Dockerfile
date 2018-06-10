@@ -239,9 +239,9 @@ RUN \
 	  # 128M
 		$FREECAD/share/doc/* \
   \
-  ### Calculix 2.13 and CGX
+  ### Calculix 2.14 and CGX
   #-------------------------
-	&& ccx_VERSION=2.13 \
+	&& ccx_VERSION=2.14 \
   \
 	&& cd \
 	&& git clone https://github.com/luvres/calculix.git \
