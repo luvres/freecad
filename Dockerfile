@@ -149,10 +149,10 @@ RUN \
   # Clean
 	&& cd && rm netgen -fR \
   \
-  ### Eigen 3.3.4
+  ### Eigen 3.3.5
   #---------------
   # http://eigen.tuxfamily.org/index.php?title=Main_Page
-	&& eigen_VERSION=3.3.4 \
+	&& eigen_VERSION=3.3.5 \
   \
 	&& MAKEDIR=eigen \
 	&& cd \
