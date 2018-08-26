@@ -38,7 +38,7 @@ docker run -ti --rm --name FreeCAD \
 -v $HOME/.Xauthority:/root/.Xauthority \
 -v $HOME/freecad-workspace:/mnt \
 -w /mnt \
-izone/freecad:daily freecad
+izone/freecad:daily freecad-daily
 ```
 ```
 ```
@@ -49,7 +49,6 @@ docker pull izone/freecad:stable
 ```
 ```
 ```
-##### Run
 ```
 docker run -ti --rm --name FreeCAD \
 --net=host \
@@ -87,12 +86,13 @@ mkdir $HOME/freecad-workspace
 ```
 nvidia-docker run -ti --rm --name FreeCAD \
 --net=host \
+--device /dev/dri \
 -e DISPLAY=unix$DISPLAY \
 -v /tmp/.X11-unix \
 -v $HOME/.Xauthority:/root/.Xauthority \
 -v $HOME/freecad-workspace:/mnt \
 -w /mnt \
-izone/freecad-git freecad-git
+izone/freecad freecad-git
 ```
 ```
 ```
@@ -121,6 +121,7 @@ git clone https://github.com/JMG1/FreeCAD_ExplodedAssemblyAnimationWorkbench.git
 docker run -ti --rm --name FreeCAD \
 --net=host \
 -e DISPLAY=unix$DISPLAY \
+--device /dev/dri \
 -v /tmp/.X11-unix \
 -v $HOME/.Xauthority:/root/.Xauthority \
 -v $HOME/Mod/Assembly2:$FREECAD/Mod/Assembly2 \
@@ -129,7 +130,7 @@ docker run -ti --rm --name FreeCAD \
 -v $HOME/Mod/Exploded:$FREECAD/Mod/Exploded \
 -v $HOME/freecad-workspace:/mnt \
 -w /mnt \
-izone/freecad:daily freecad
+izone/freecad freecad-git
 ```
 -----
 #### Building (https://hub.docker.com/r/plumbee/nvidia-virtualgl/)
@@ -148,10 +149,13 @@ docker build -t izone/freecad:nvidia-sid ./nvidia/sid/
 ```
 ```
 ```
+#### FreeCAD Git (0.18)
+```
+docker build -t izone/freecad .
+```
+```
+```
 #### FreeCAD Latest (0.18 Daily)
-```
-docker build -t izone/freecad ./daily/
-```
 ```
 docker build -t izone/freecad:daily ./daily/
 ```
@@ -160,12 +164,6 @@ docker build -t izone/freecad:daily ./daily/
 #### FreeCAD Stable (0.16)
 ```
 docker build -t izone/freecad:stable ./stable/
-```
-```
-```
-#### FreeCAD Git (0.18)
-```
-docker build -t izone/freecad:git .
 ```
 ```
 ```

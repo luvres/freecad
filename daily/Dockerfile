@@ -6,7 +6,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends software-properties-common \
     && add-apt-repository -y ppa:freecad-maintainers/freecad-daily \
     && apt-get update \
-    && apt-get install -y freecad-daily gmsh \
+    && apt-get install -y freecad-daily netgen gmsh \
   \
     && apt-get clean \
     && rm /var/lib/apt/lists/* \
