@@ -3,7 +3,7 @@
 ### Docker image for any Linux
 ### NVIDIA Docker and VirtualGL
 -----
-#### FreeCAD Latest - Build:0.18R14282 (Git)
+#### FreeCAD Git - Build:0.18R14446 (Git)
 #### libMED 3.2.0
 #### OCCT 7.1.0p1
 #### Netgen 5.3.1
@@ -22,19 +22,27 @@ mkdir $HOME/freecad-workspace
 ```
 ```
 ```
+#### FreeCAD Daily (0.18)
+##### Pull image
+```
+docker pull izone/freecad:daily
+```
+```
+```
 ```
 docker run -ti --rm --name FreeCAD \
 --net=host \
+--device /dev/dri \
 -e DISPLAY=unix$DISPLAY \
 -v /tmp/.X11-unix \
 -v $HOME/.Xauthority:/root/.Xauthority \
 -v $HOME/freecad-workspace:/mnt \
 -w /mnt \
-izone/freecad freecad-git
+izone/freecad:daily freecad
 ```
 ```
 ```
-#### FreeCAD Stable (0.16)
+#### FreeCAD Stable (0.17)
 ##### Pull image
 ```
 docker pull izone/freecad:stable
@@ -45,10 +53,12 @@ docker pull izone/freecad:stable
 ```
 docker run -ti --rm --name FreeCAD \
 --net=host \
+--device /dev/dri \
 -e DISPLAY=unix$DISPLAY \
 -v /tmp/.X11-unix \
 -v $HOME/.Xauthority:/root/.Xauthority \
--v $HOME/freecad-workspace:/root \
+-v $HOME/freecad-workspace:/mnt \
+-w /mnt \
 izone/freecad:stable freecad
 ```
 ```
@@ -82,19 +92,7 @@ nvidia-docker run -ti --rm --name FreeCAD \
 -v $HOME/.Xauthority:/root/.Xauthority \
 -v $HOME/freecad-workspace:/mnt \
 -w /mnt \
-izone/freecad freecad-git
-```
-```
-```
-#### FreeCAD Stable (0.16)
-```
-nvidia-docker run -ti --rm --name FreeCAD \
---net=host \
--e DISPLAY=unix$DISPLAY \
--v /tmp/.X11-unix \
--v $HOME/.Xauthority:/root/.Xauthority \
--v $HOME/freecad-workspace:/root \
-izone/freecad:stable freecad
+izone/freecad-git freecad-git
 ```
 ```
 ```
@@ -131,7 +129,7 @@ docker run -ti --rm --name FreeCAD \
 -v $HOME/Mod/Exploded:$FREECAD/Mod/Exploded \
 -v $HOME/freecad-workspace:/mnt \
 -w /mnt \
-izone/freecad freecad-git
+izone/freecad:daily freecad
 ```
 -----
 #### Building (https://hub.docker.com/r/plumbee/nvidia-virtualgl/)
@@ -150,22 +148,30 @@ docker build -t izone/freecad:nvidia-sid ./nvidia/sid/
 ```
 ```
 ```
-#### FreeCAD Latest (0.18 Git)
+#### FreeCAD Latest (0.18 Daily)
 ```
-docker build -t izone/freecad .
+docker build -t izone/freecad ./daily/
 ```
 ```
-docker build -t izone/freecad:0.18R14282 .
-```
-##### Jessie
-```
-docker build -t izone/freecad:jessie ./jessie/
+docker build -t izone/freecad:daily ./daily/
 ```
 ```
 ```
 #### FreeCAD Stable (0.16)
 ```
 docker build -t izone/freecad:stable ./stable/
+```
+```
+```
+#### FreeCAD Git (0.18)
+```
+docker build -t izone/freecad:git .
+```
+```
+```
+##### Jessie
+```
+docker build -t izone/freecad:jessie ./jessie/
 ```
 ```
 ```
