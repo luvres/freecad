@@ -104,9 +104,9 @@ RUN \
 	-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
   \
 	&& make -j$(nproc) \
-	&& make install 
+	&& make install
 #  # Clean
-#	&& cd && rm $MAKEDIR -fR 
+#	&& cd && rm $MAKEDIR -fR
 
 
 ### OCCT 7.1.0p1 -> libfreeimage-dev libfreeimage3 libtbb-dev libtbb2
@@ -131,7 +131,7 @@ RUN \
 	&& make -j$(nproc) \
 	&& make install \
   # Clean
-	&& cd && rm $MAKEDIR -fR 
+	&& cd && rm $MAKEDIR -fR
 
 ### Netgen 5.3.1
 #----------------
@@ -157,9 +157,9 @@ RUN \
 	&& make -j$(nproc) \
 	&& make install \
   \
-	&& cp -fR libsrc $FREECAD/libsrc 
+	&& cp -fR libsrc $FREECAD/libsrc
 #  # Clean
-#	&& cd && rm netgen -fR 
+#	&& cd && rm netgen -fR
 
 ### OCCT 7.2.0 -> libfreeimage-dev libfreeimage3 libtbb-dev libtbb2
 #--------------
@@ -182,7 +182,7 @@ RUN \
 		-DCMAKE_BUILD_TYPE=Release \
 	\
 	&& make -j$(nproc) \
-	&& make install 
+	&& make install
 #  # Clean
 #	&& cd && rm $MAKEDIR -fR
 
@@ -210,9 +210,9 @@ RUN \
 #	&& make -j$(nproc) \
 #	&& make install \
 #  \
-#	&& cp -fR libsrc $FREECAD/libsrc 
+#	&& cp -fR libsrc $FREECAD/libsrc
 #  # Clean
-#	&& cd && rm netgen -fR 
+#	&& cd && rm netgen -fR
 
 ### Netgen 5.3.1
 #----------------
@@ -249,7 +249,7 @@ RUN \
 #	&& make -j$(nproc) \
 #	&& make install \
 #  \
-#	&& cp -fR libsrc $FREECAD/libsrc 
+#	&& cp -fR libsrc $FREECAD/libsrc
 #  # Clean
 #	&&
 
@@ -278,9 +278,9 @@ RUN \
 			-DCMAKE_BUILD_TYPE=Release \
 			-DCMAKE_VERBOSE_MAKEFILE=ON \
   \
-	&& make install 
+	&& make install
 #  # Clean
-#	&& cd && rm $MAKEDIR -fR 
+#	&& cd && rm $MAKEDIR -fR
 
 
 ### VTK 8.0.1
@@ -308,9 +308,9 @@ RUN \
 			-DVTK_RENDERING_BACKEND=None \
   \
 	&& make -j$(nproc) \
-	&& make install 
+	&& make install
 #  # Clean
-#	&& cd && rm $MAKEDIR -fR 
+#	&& cd && rm $MAKEDIR -fR
 
 
 ### FreeCAD latest Github commit
@@ -318,7 +318,7 @@ RUN \
 # get FreeCAD
 RUN \
 	cd \
-	&& git clone https://github.com/FreeCAD/FreeCAD 
+	&& git clone https://github.com/FreeCAD/FreeCAD
 
 ## building FreeCAD
 RUN \
@@ -330,13 +330,13 @@ RUN \
 		-DCMAKE_INSTALL_PREFIX:PATH=$FREECAD \
 		-DOCC_INCLUDE_DIR=$FREECAD/include/opencascade \
 		-DNETGEN_ROOT=$FREECAD \
-		-DBUILD_FEM_NETGEN=ON 
+		-DBUILD_FEM_NETGEN=ON
 
 # Make FreeCAD
 RUN \
 	cd \
 	&& cd build \
-	&& make -j$(nproc) 
+	&& make -j$(nproc)
 
 
 # Install FreeCAD
@@ -344,7 +344,7 @@ RUN \
 #	cd \
 #	&& cd build \
 #	&& make install \
-#	&& ln -s /opt/FreeCAD/bin/FreeCAD /usr/bin/freecad-git 
+#	&& ln -s /opt/FreeCAD/bin/FreeCAD /usr/bin/freecad-git
 
 # Clean
 #RUN \
@@ -353,17 +353,16 @@ RUN \
 #		# 79M
 #		$FREECAD/doc/* \
 #		# 128M
-#		$FREECAD/share/doc/* 
+#		$FREECAD/share/doc/*
 
 
-### Calculix 2.12 and CGX
+### Calculix and CGX
 #-------------------------
 #RUN \
-#	ccx_VERSION=2.12 \
-#  \
-#	&& cd \
+#	cd \
 #	&& git clone https://github.com/luvres/calculix.git \
 #	&& cd calculix/ \
+#    && ccx_VERSION=$(cat ./install | grep "export PROGSDIR=" | sed 's/^.*CalculiX-//') \
 #	&& ./install \
 #	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
 #	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
@@ -381,7 +380,7 @@ RUN \
 #		$pack_calculix \
 #		cmake \
 #  \#  # gmsh 2.11.0
-#	&& apt-get -t jessie-backports install -y gmsh 
+#	&& apt-get -t jessie-backports install -y gmsh
 #	&& apt-get autoremove -y \
 #  \
 #	&& apt-get install -y \

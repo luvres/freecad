@@ -3,7 +3,7 @@ MAINTAINER Leonardo Loures <luvres@hotmail.com>
 
 # sudo apt-get install qemu-user-static binfmt-support
 # sudo update-binfmts --enable qemu-arm
-# sudo update-binfmts --display qemu-arm 
+# sudo update-binfmts --display qemu-arm
 # cp /usr/bin/qemu-arm-static .
 COPY qemu-arm-static /usr/bin/qemu-arm-static
 
@@ -247,13 +247,12 @@ RUN \
 	  # 128M
 		$FREECAD/share/doc/* \
   \
-  ### Calculix 2.12 and CGX
+  ### Calculix and CGX
   #-------------------------
-	&& ccx_VERSION=2.12 \
-  \
 	&& cd \
 	&& git clone https://github.com/luvres/calculix.git \
 	&& cd calculix/ \
+    && ccx_VERSION=$(cat ./install | grep "export PROGSDIR=" | sed 's/^.*CalculiX-//') \
 	&& ./install \
 	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
 	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \

@@ -239,13 +239,12 @@ RUN \
 	  # 128M
 		$FREECAD/share/doc/* \
   \
-  ### Calculix 2.14 and CGX
+  ### Calculix and CGX
   #-------------------------
-	&& ccx_VERSION=2.14 \
-  \
 	&& cd \
 	&& git clone https://github.com/luvres/calculix.git \
 	&& cd calculix/ \
+    && ccx_VERSION=$(cat ./install | grep "export PROGSDIR=" | sed 's/^.*CalculiX-//') \
 	&& ./install \
 	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/ccx_${ccx_VERSION} /usr/bin/ccx \
 	&& cp $HOME/CalculiX-${ccx_VERSION}/bin/cgx /usr/bin/cgx \
